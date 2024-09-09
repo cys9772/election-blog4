@@ -1,5 +1,5 @@
 ---
-title: 'Blog Post 1: Setting the State'
+title: 'Blog Post 1: Setting the Stage'
 author: Chris S
 date: '2024-09-08'
 slug: blog-post-1-a-dive-into-detailed-visualizations
@@ -49,7 +49,7 @@ d_popvote |>
 
 Looking at the graph above, note that the Republican vote share is the **exact inverse** of the Democratic vote share. This makes sense since we're analyzing *two-party* vote share: Republican (R) + Democrat (D) = 1, meaning R = 1 - D. Mathematically, we can verify the visualization.
 
-Next, we observe substantial volatility from the 1960s to the 1980s, portrayed by sharp increases and decreases by both party graph lines. Historically, this was a period of great change and turmoil in American history. For example, the Civil Rights Movement, the Vietnam War, and the Watergate scandal had dramatic influences on electoral shifts and popular vote decisions. Entering the 1990s and beyond saw periods of stability and a narrowing of political polarization. More importantly, the **economy and global economic conditions** played greater roles in determining voter trends. Entering the 21st century, such as the 2004 and 2016 elections, saw an increased emphasis on economic dynamics [(Fair 2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm). Further analysis of economic influence will be discussed in later blog posts, so stay tuned!
+Next, we observe substantial volatility from the 1960s to the 1980s, portrayed by sharp increases and decreases by both party graph lines. Historically, this was a period of great change and turmoil in American history. For example, the Civil Rights Movement, the Vietnam War, and the Watergate scandal had dramatic influences on electoral shifts and popular vote decisions. Entering the 1990s and beyond saw periods of stability and a narrowing of political polarization. More importantly, the **economy and global economic conditions** played greater roles in determining voter trends. For example, in the 21st century, such as the 2004 and 2016 elections, saw an increased emphasis on economic dynamics [(Fair 2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm). Variables such as the growth rate of real GDP per capita, inflation, and the number of strong growth quarters played significant roles in determining voter behavior. Further analysis of economic influence will be discussed in later blog posts, so stay tuned!
 
 ## Geographical Additions
 
@@ -152,7 +152,7 @@ Looking at the simple forecasting model above, we can see how swing states (near
 
 ## Now What?
 
-Overall, we've understand which states vote blue/red over time and how the presidential elections remain extremely competitive with candidates vying to win over swing states, new young voters, and shifting demographics. With an extensive understanding of the historical two-party presidential vote share and geographic voting data, we can now begin diving deeper into more fundamental influences that shape elections, now and in the future.
+Overall, we've understood which states vote blue/red over time and how the presidential elections remain extremely competitive with candidates vying to win over swing states, new young voters, and shifting urban demographics. With an extensive understanding of the historical two-party presidential vote share and geographic voting data, we can now begin diving deeper into more fundamental influences that shape elections, now and in the future.
 
 ## Data Sources:
 
