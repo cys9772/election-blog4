@@ -33,11 +33,17 @@ Next, we observe substantial volatility from the 1960s to the 1980s, portrayed b
 </div>
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
-From the second visualization, we observe that some states **consistently vote for one party**, indicating strong partisanship and party loyalty. More specifically, western coastal states like California, Oregon, and Washington and northeastern states, such as New York and Massachusetts, have consistently voted Democratic (blue). In contrast, the south and midwest states like Texas, Oklahoma, and Alabama have stuck with Republican candidates. Research suggests factors like demographics, geography, cultural values, and economic conditions play key roles in these consistent states. For example, states with large urban populations with greater racial and ethnic diversity historically lean left compared to more white, working-class voters. Traditionally Christian communities in Alabama, Mississippi, and Oklahoma remain stiff on social issues that align more closely with the right. These are just a few significant identifiers among these states in a larger tug-of-war between blue and red.
+From the second visualization, we observe that some states **consistently vote for one party**, indicating strong partisanship and party loyalty. More specifically, western coastal states like California, Oregon, and Washington and northeastern states, such as New York and Massachusetts, have consistently voted Democratic (blue). In contrast, the south and midwest states like Texas, Oklahoma, and Alabama have stuck with Republican candidates. 
+
+Research suggests factors like demographics, geography, cultural values, and economic conditions play key roles in these consistent states. For example, states with large urban populations with greater racial and ethnic diversity historically lean left compared to more white, working-class voters. Traditionally Christian communities in Alabama, Mississippi, and Oklahoma remain stiff on social issues that align more closely with the right. These are just a few significant identifiers among these states in a larger tug-of-war between blue and red.
 
 Interestingly, we also see clear **swing states** among such regional loyalty like Florida, Ohio, and Pennsylvania with far more partisan variability over time. Some battlegrounds (eg. Texas) even include many large urban centers, such as Austin and Houston, that lean left but remain overshadowed by the strength of suburban conservative voters. These will likely be key battleground areas that can shift the direction for both parties, amplifying the competitiveness of an already tense election.
 
 ## A Simple Model
+
+The [Helmut Norpoth Primary Model](http://primarymodel.com/) uses a weight average of the two-party vote share from previous election data to predict future election results. For our purposes, we will use a simplified version of the model as shown below:
+
+`\(Y_{2024} = 0.75 \times Y_{2020\_voteshare_i} + 0.25 \times Y_{2016\_voteshare_i}\)`
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 
@@ -49,7 +55,7 @@ Interestingly, we also see clear **swing states** among such regional loyalty li
 ## 2 R                  262
 ```
 
-Looking at the simple forecasting model above, we can see how swing states (nearly white, meaning zero or very small win margin) continue to be up for grabs, while consistently red and blue states still show similar patterns. The model also predicts southwest and sunbelt states, such as Nevada and Arizona, will also be contentious, particularly with shifting political attitudes and younger Latino voters [(Kim 2022)](https://link.springer.com/article/10.1007/s11109-022-09816-z) becoming more involved. These changes will only heighten the competitive nature of this year's election, making the challenge of predicting the election ever more interesting.
+Looking at the simple forecasting model above, we can see how swing states (nearly white, **meaning zero or very small win margin**) continue to be up for grabs, while consistently red and blue states still show similar patterns. The model predicts **Harris winning the electoral college**, but southwest and sunbelt states, such as Nevada and Arizona, will continue to be contentious, particularly with shifting political attitudes and younger Latino voters [(Kim 2022)](https://link.springer.com/article/10.1007/s11109-022-09816-z) becoming more involved. These changes will only heighten the competitive nature of this year's election, making the challenge of predicting the election ever more interesting.
 
 ## Now What?
 
@@ -57,4 +63,4 @@ Overall, we've understood which states vote blue/red over time and how the presi
 
 ## Data Sources:
 
-Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4).
+Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
