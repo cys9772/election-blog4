@@ -6,8 +6,15 @@
     <description>Recent content in Home on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 1: A Dive Into Detailed Visualizations</title>
+      <link>https://example.org/post/2024/09/08/blog-post-1-a-dive-into-detailed-visualizations/</link>
+      <pubDate>Sun, 08 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://example.org/post/2024/09/08/blog-post-1-a-dive-into-detailed-visualizations/</guid>
+      <description>library(ggplot2) library(maps) library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr 1.1.4 ✔ readr 2.1.5 ## ✔ forcats 1.0.0 ✔ stringr 1.5.1 ## ✔ lubridate 1.9.3 ✔ tibble 3.2.1 ## ✔ purrr 1.0.2 ✔ tidyr 1.3.1 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() ## ✖ purrr::map() masks maps::map() ## ℹ Use the conflicted package (&amp;lt;http://conflicted.r-lib.org/&amp;gt;) to force all conflicts to become errors library(dplyr) d_popvote &amp;lt;- read.</description>
+    </item>
     <item>
       <title>Election Blog -- Test Post</title>
       <link>https://example.org/post/2024/09/03/election-blog-test-post/</link>

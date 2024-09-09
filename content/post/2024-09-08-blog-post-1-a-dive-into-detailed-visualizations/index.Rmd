@@ -1,0 +1,93 @@
+---
+title: 'Blog Post 1: A Dive Into Detailed Visualizations'
+author: Chris S
+date: '2024-09-08'
+slug: blog-post-1-a-dive-into-detailed-visualizations
+categories: []
+tags: []
+---
+
+```{r}
+library(ggplot2)
+library(maps)
+library(tidyverse)
+library(dplyr)
+d_popvote <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+```
+
+
+```{r}
+my_custom_theme <- 
+  theme_bw() + 
+  theme(panel.border = element_blank(),
+        plot.title = element_text(size = 15, hjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text = element_text(size = 12),
+        strip.text = element_text(size = 18),
+        axis.line = element_line(colour = "black"),
+        legend.position = "right",
+        legend.text = element_text(size = 12))
+
+d_popvote |> 
+  ggplot(aes(x = year, y = pv2p, color = party)) + 
+  geom_line() + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) + 
+  my_custom_theme + 
+  labs(
+    title = "Visualize the Two-Party Presidential Popular Over Time"
+  )
+```
+
+```{r}
+states_map <- map_data("state")
+
+# Reading the dataset
+d_pvstate_wide <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/clean_wide_state_2pv_1948_2020.csv")
+
+# Merge d_pvstate_wide with state_map.
+d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
+
+pv_map <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  left_join(states_map, by = "region")
+
+# Make map grid of state winners for each election year 
+pv_win_map <- pv_map |> 
+  mutate(winner = ifelse(R_pv2p > D_pv2p, "republican", "democrat"))
+
+# Create state labels (centered)
+state_centroids <- data.frame(state = tolower(state.name), 
+                              long = state.center$x, 
+                              lat = state.center$y, 
+                              abb = state.abb)
+
+# Plot the map with state labels in the center
+pv_win_map |> 
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = winner)) + 
+  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
+  geom_text(data = state_centroids, aes(x = long, y = lat, label = abb), 
+            color = "white", size = 3, inherit.aes = FALSE) + 
+  theme_void() +
+  theme(panel.background = element_rect(fill = "lightgrey", color = NA), 
+        plot.background = element_rect(fill = "lightgrey", color = NA))
+
+```
+
+```{r}
+d_pvstate_wide |> 
+  filter(year >= 1980) |> 
+  left_join(states_map, by = "region") |> 
+  mutate(winner = ifelse(R_pv2p > D_pv2p, "republican", "democrat")) |> 
+  ggplot(aes(long, lat, group = group)) +
+  facet_wrap(facets = year ~.) + 
+  geom_polygon(aes(fill = winner), color = "white") + 
+  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) + 
+  theme_void() + 
+  ggtitle("Presidential Vote Share (1980-2020)") + 
+  theme(strip.text = element_text(size = 12), 
+        aspect.ratio = 1) +
+  theme(panel.background = element_rect(fill = "lightgrey", color = NA), 
+        plot.background = element_rect(fill = "lightgrey", color = NA))
+```
+
