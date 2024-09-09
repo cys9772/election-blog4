@@ -43,9 +43,7 @@ Interestingly, we also see clear **swing states** among such regional loyalty li
 
 The [Helmut Norpoth Primary Model](http://primarymodel.com/) uses a weight average of the two-party vote share from previous election data to predict future election results. For our purposes, we will use a simplified version of the model as shown below:
 
-$$
-Y_{2024_i} = 0.75 \times Y_{2020\text{_voteshare}_i} + 0.25 \times Y_{2016\text{_voteshare}_i}
-$$
+`\(Y_{2024_i} = 0.75 \times Y_{2020\text{_voteshare}_i} + 0.25 \times Y_{2016\text{_voteshare}_i}\)`
 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
