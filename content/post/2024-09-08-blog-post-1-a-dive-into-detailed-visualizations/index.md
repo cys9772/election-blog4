@@ -1,5 +1,5 @@
 ---
-title: 'Blog Post 1: A Dive Into Detailed Visualizations'
+title: 'Blog Post 1: Setting the State'
 author: Chris S
 date: '2024-09-08'
 slug: blog-post-1-a-dive-into-detailed-visualizations
@@ -8,20 +8,8 @@ tags: []
 ---
 
 
-```
-## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
-## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ purrr::map()    masks maps::map()
-## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
 
-*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor Ryan Enos. It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
+*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
 
 ## Introduction -- How competitive are presidential elections in the United States? Which states vote blue/red and how consistently?
 
@@ -61,11 +49,11 @@ Interestingly, we also see clear **swing states** among such regional loyalty li
 ## 2 R                  262
 ```
 
-Looking at the simple forecasting model above, we can see how swing states (nearly white, meaning zero or very small win margin) continue to be up for grabs, while consistently red and blue states still show similar patterns. The model also predicts southwest and sunbelt states, such as Nevada and Arizona, will also be contentious, particularly as shifting political attitudes and younger Latino voters [(Kim 2022)](https://link.springer.com/article/10.1007/s11109-022-09816-z) become more involved. These changes will only heighten the competitive nature of this year's election, making the challenge of predicting the election ever more interesting.
+Looking at the simple forecasting model above, we can see how swing states (nearly white, meaning zero or very small win margin) continue to be up for grabs, while consistently red and blue states still show similar patterns. The model also predicts southwest and sunbelt states, such as Nevada and Arizona, will also be contentious, particularly with shifting political attitudes and younger Latino voters [(Kim 2022)](https://link.springer.com/article/10.1007/s11109-022-09816-z) becoming more involved. These changes will only heighten the competitive nature of this year's election, making the challenge of predicting the election ever more interesting.
 
 ## Now What?
 
-With an extensive understanding of the historical two-party presidential vote share and geographic voting trends, we can now begin diving deeper into more fundamental influences that shape elections, now and in the future.
+Overall, we've understand which states vote blue/red over time and how the presidential elections remain extremely competitive with candidates vying to win over swing states, new young voters, and shifting demographics. With an extensive understanding of the historical two-party presidential vote share and geographic voting data, we can now begin diving deeper into more fundamental influences that shape elections, now and in the future.
 
 ## Data Sources:
 
