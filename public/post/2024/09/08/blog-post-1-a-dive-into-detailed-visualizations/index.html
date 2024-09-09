@@ -47,53 +47,29 @@
 </code></pre>
 <p><em>This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor Ryan Enos. It will be updated weekly and culminate in a predictive model of the 2024 presidential election.</em></p>
 <h2 id="introduction----how-competitive-are-presidential-elections-in-the-united-states-which-states-vote-bluered-and-how-consistently">Introduction &ndash; How competitive are presidential elections in the United States? Which states vote blue/red and how consistently?</h2>
-<p>As data analysts and political scientists get geared up for an exciting <strong>2024 Presidential Election</strong> between Kamala Harris (Democrat) and Donald Trump (Republican), we must first build an understanding of the landscape from historical data. This will give us the context necessary to build a substantial model that will hopefully predict the winner within reasonable margins.</p>
+<p>As data analysts and political scientists get geared up for an exciting <strong>2024 Presidential Election</strong> between Kamala Harris (Democrat) and Donald Trump (Republican), we must first understand the landscape from historical data. This will give us the context necessary to build a substantial model that will hopefully predict the winner within reasonable margins.</p>
 <h2 id="a-starting-point">A Starting Point</h2>
-<p>To begin, let&rsquo;s start by examining the <strong>two-party presidential popular vote</strong> over time in the US from 1948 to 2020. The following is a line plot that depicts the how each political party&rsquo;s presidential popular vote has fluctuated over the decades indicated above.</p>
+<p>To begin, let&rsquo;s start by examining the <strong>two-party presidential popular vote</strong> over time in the US from 1948 to 2020. The following is a line plot depicting how each political party&rsquo;s presidential popular vote has fluctuated over the decades indicated above.</p>
 <img src="https://example.org/post/2024/09/08/blog-post-1-a-dive-into-detailed-visualizations/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
-Looking at the graph above, note that the Republican vote share is the **exact inverse** of the Democratic vote share. This makes sense since we're analyzing *two-party* vote share: Republican (R) + Democrat (D) = 1, meaning R = 1 - D. Mathematically, we can verify the visualization.
-<p>Next, we observe substantial volatility in from the 1960s to the 1980s, portrayed by sharp increases and decreases by both party graph lines. Historically, this was a period of great change and turmoil in American history. For example, the Civil Rights Movement, Vietnam War, and the Watergate scandal had dramatic influences on electoral shifts and popular vote decisions. Entering the 1990s and beyond saw periods of stability and narrowing of political polarization. More importantly, the <strong>economy and global economic conditions</strong> played greater roles in determining voter trends. Entering the 21st-century, such as the 2004 and 2016 elections, saw increased emphasis on economic dynamics <a href="https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm">Fair 2018</a>. Further analysis of economic influence will be discussed in later blog posts, so stay tuned!</p>
+<p>Looking at the graph above, note that the Republican vote share is the <strong>exact inverse</strong> of the Democratic vote share. This makes sense since we&rsquo;re analyzing <em>two-party</em> vote share: Republican (R) + Democrat (D) = 1, meaning R = 1 - D. Mathematically, we can verify the visualization.</p>
+<p>Next, we observe substantial volatility from the 1960s to the 1980s, portrayed by sharp increases and decreases by both party graph lines. Historically, this was a period of great change and turmoil in American history. For example, the Civil Rights Movement, the Vietnam War, and the Watergate scandal had dramatic influences on electoral shifts and popular vote decisions. Entering the 1990s and beyond saw periods of stability and a narrowing of political polarization. More importantly, the <strong>economy and global economic conditions</strong> played greater roles in determining voter trends. Entering the 21st century, such as the 2004 and 2016 elections, saw an increased emphasis on economic dynamics <a href="https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm">(Fair 2018)</a>. Further analysis of economic influence will be discussed in later blog posts, so stay tuned!</p>
 <h2 id="geographical-additions">Geographical Additions</h2>
-<pre><code>## Rows: 959 Columns: 14
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (1): state
-## dbl (13): year, D_pv, R_pv, D_pv2p, R_pv2p, D_pv_lag1, R_pv_lag1, D_pv2p_lag...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
 <div class="figure">
 <img src="https://example.org/post/2024/09/08/blog-post-1-a-dive-into-detailed-visualizations/index_files/figure-html/unnamed-chunk-3-1.png" alt="Added state abbreviations and custom theme as part of possible blog extension" width="672" />
 <p class="caption"><span id="fig:unnamed-chunk-3"></span>Figure 1: Added state abbreviations and custom theme as part of possible blog extension</p>
 </div>
-<pre><code>## Warning in left_join(filter(d_pvstate_wide, year &gt;= 1980), states_map, by = &quot;region&quot;): Detected an unexpected many-to-many relationship between `x` and `y`.
-## ℹ Row 1 of `x` matches multiple rows in `y`.
-## ℹ Row 1 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship =
-##   &quot;many-to-many&quot;` to silence this warning.
-</code></pre>
 <img src="https://example.org/post/2024/09/08/blog-post-1-a-dive-into-detailed-visualizations/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-From second visualization, we can see that some states **consistently vote for one party**, indicating strong partisanship and party loyalty. More specifically, western coastal states like California, Oregon, and Washington and northeastern states such as New York and Massachusetts have consistently voted Democratic (blue). In contrast, the south and midwest states like Texas, Oklahoma, and Alabama have stuck with republican candidates. Research suggests factors including demographics, geography, cultural values, and economic conditions play key roles in these consistent states. For example, states with large urban populations with greater racial and ethnic diversity historically lean left compared to more white, working-class voters. Traditionally Christian communities in Alabama, Mississippi, and Oklahoma remain stiff on social issues that align more closely with the right. These are just a few significant identifiers among these states in a larger tug-of-war between blue and red.
-<p>Interestingly, we also see clear <strong>swing states</strong> among such regional loyalty like Florida, Ohio, and Pennsylvania with far more partisan variability over time. Within battlegrounds (eg. Texas) include many large urban centers, such as Austin and Houston, that lean left but remain overshadowed by the strength of suburban conservative voters. These will likely be key battleground areas that can shift the direction for both parties, amplifying the competitiveness of an already tense election.</p>
+<p>From the second visualization, we observe that some states <strong>consistently vote for one party</strong>, indicating strong partisanship and party loyalty. More specifically, western coastal states like California, Oregon, and Washington and northeastern states, such as New York and Massachusetts, have consistently voted Democratic (blue). In contrast, the south and midwest states like Texas, Oklahoma, and Alabama have stuck with Republican candidates. Research suggests factors like demographics, geography, cultural values, and economic conditions play key roles in these consistent states. For example, states with large urban populations with greater racial and ethnic diversity historically lean left compared to more white, working-class voters. Traditionally Christian communities in Alabama, Mississippi, and Oklahoma remain stiff on social issues that align more closely with the right. These are just a few significant identifiers among these states in a larger tug-of-war between blue and red.</p>
+<p>Interestingly, we also see clear <strong>swing states</strong> among such regional loyalty like Florida, Ohio, and Pennsylvania with far more partisan variability over time. Some battlegrounds (eg. Texas) even include many large urban centers, such as Austin and Houston, that lean left but remain overshadowed by the strength of suburban conservative voters. These will likely be key battleground areas that can shift the direction for both parties, amplifying the competitiveness of an already tense election.</p>
 <h2 id="a-simple-model">A Simple Model</h2>
 <img src="https://example.org/post/2024/09/08/blog-post-1-a-dive-into-detailed-visualizations/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-<pre><code>## Rows: 936 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): state
-## dbl (2): electors, year
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   winner electoral_votes
 ##   &lt;chr&gt;            &lt;dbl&gt;
 ## 1 D                  276
 ## 2 R                  262
 </code></pre>
-<p>Looking at the simple forecasting model above, we can see how swing states (nearly white, meaning zero or very small win margin) continue to be up for grabs, while consistently red and blue states still show similar patterns. The model also predicts southwest and sun belt states, such as Nevada and Arizona, will also be contentious, particularly as shifting political attitudes and younger Latino voters <a href="https://link.springer.com/article/10.1007/s11109-022-09816-z">Kim 2022</a> become more involved. These changes will only heighten the competitive nature of this year&rsquo;s election, making the challenge of predicting the election ever-more interesting.</p>
+<p>Looking at the simple forecasting model above, we can see how swing states (nearly white, meaning zero or very small win margin) continue to be up for grabs, while consistently red and blue states still show similar patterns. The model also predicts southwest and sunbelt states, such as Nevada and Arizona, will also be contentious, particularly as shifting political attitudes and younger Latino voters <a href="https://link.springer.com/article/10.1007/s11109-022-09816-z">(Kim 2022)</a> become more involved. These changes will only heighten the competitive nature of this year&rsquo;s election, making the challenge of predicting the election ever more interesting.</p>
 <h2 id="now-what">Now What?</h2>
 <p>With an extensive understanding of the historical two-party presidential vote share and geographic voting trends, we can now begin diving deeper into more fundamental influences that shape elections, now and in the future.</p>
 <h2 id="data-sources">Data Sources:</h2>
