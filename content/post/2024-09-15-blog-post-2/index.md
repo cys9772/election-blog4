@@ -118,11 +118,28 @@ Table: <span id="tab:unnamed-chunk-7"></span>Table 2: Predicted Vote Share for 2
 |DPI Model       |             51.98460|
 |GDP + DPI Model |             52.11903|
 
-Unsurprisingly, there is **little difference** between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let's test each model's sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. After generating predictions for each model, we can visualize each model's performance below:
+Unsurprisingly, there is **little difference** between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let's test each model's sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. First, let's do a **cross-validation test**, in which we hold hold out some years and train the model on the remaining data:
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
-Both red (GDP + DPI) and blue (GDP only) show **relative stability in their predictions** and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model **struggles significantly** to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we found above.
+```
+## Out-of-sample error for GDP Model:  -1.443742
+```
+
+```
+## Out-of-sample error for DPI Model:  -1.458842
+```
+
+```
+## Out-of-sample error for GDP + DPI Model:  -1.242682
+```
+
+The model has **similar out-of-sample errors** for GDP and DPI, which indicates that both provide roughly comparable predictive power for our data. The best seems to be the combination of GDP + DPI, which while not perfect, suggest that the models are **reasonably good** at predicting election outcomes based on our economic data.
+
+We can also visualize each model's performance below based on changes in economic measures to see how sensitive it is:
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+
+Both red (GDP + DPI) and blue (GDP only) show **relative stability in their predictions** and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model **struggles significantly** to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we previously found.
 
 ## Now What?
 

@@ -139,9 +139,17 @@
 </tr>
 </tbody>
 </table>
-<p>Unsurprisingly, there is <strong>little difference</strong> between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let&rsquo;s test each model&rsquo;s sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. After generating predictions for each model, we can visualize each model&rsquo;s performance below:</p>
-<img src="https://example.org/post/2024/09/15/blog-post-2/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-<p>Both red (GDP + DPI) and blue (GDP only) show <strong>relative stability in their predictions</strong> and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model <strong>struggles significantly</strong> to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we found above.</p>
+<p>Unsurprisingly, there is <strong>little difference</strong> between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let&rsquo;s test each model&rsquo;s sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. First, let&rsquo;s do a <strong>cross-validation test</strong>, in which we hold hold out some years and train the model on the remaining data:</p>
+<pre><code>## Out-of-sample error for GDP Model:  -1.443742
+</code></pre>
+<pre><code>## Out-of-sample error for DPI Model:  -1.458842
+</code></pre>
+<pre><code>## Out-of-sample error for GDP + DPI Model:  -1.242682
+</code></pre>
+<p>The model has <strong>similar out-of-sample errors</strong> for GDP and DPI, which indicates that both provide roughly comparable predictive power for our data. The best seems to be the combination of GDP + DPI, which while not perfect, suggest that the models are <strong>reasonably good</strong> at predicting election outcomes based on our economic data.</p>
+<p>We can also visualize each model&rsquo;s performance below based on changes in economic measures to see how sensitive it is:</p>
+<img src="https://example.org/post/2024/09/15/blog-post-2/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<p>Both red (GDP + DPI) and blue (GDP only) show <strong>relative stability in their predictions</strong> and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model <strong>struggles significantly</strong> to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we previously found.</p>
 <h2 id="now-what">Now What?</h2>
 <p>Overall, we&rsquo;ve understood how fundamental economic factors influence election outcomes and voter behavior. Literature has shown a relationship between the two, highlight how strong economic performance tends to favor the party in power, while economic downturns can jeopardize their chances. However, this relationship <strong>isn&rsquo;t an end-all-be-all</strong> as our data and models show relatively <strong>low correlation and R-squared values</strong>. Further, economic factors like DPI seemed to perform worse compared to standard models at fitting and predicting future election outcomes. All in all, this exploration has showed that the economy does have <strong>some influence</strong> on voter behavior and excites me to add additional non-economic variables to improve my model, such as demographic data, media/advertising, and policy initiatives.</p>
 <p>Also, with 2020 being such an outlier, is it even worth keeping in our models&hellip;? Stay tuned!</p>

@@ -166,7 +166,44 @@ predictions <- data.frame(
 kable(predictions, caption = "Predicted Vote Share for 2024 based on Different Models", booktabs = TRUE)
 ```
 
-Unsurprisingly, there is **little difference** between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let's test each model's sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. After generating predictions for each model, we can visualize each model's performance below:
+Unsurprisingly, there is **little difference** between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let's test each model's sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. First, let's do a **cross-validation test**, in which we hold hold out some years and train the model on the remaining data:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Set a seed for reproducibility
+set.seed(123)
+
+# Sample 9 random years to hold out as test data
+years_out_samp <- sample(d_inc_econ_2$year, 9)
+
+# Cross-validation for GDP model
+mod_gdp <- lm(pv2p ~ GDP_growth_quarterly, 
+              data = d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+out_samp_pred_gdp <- predict(mod_gdp, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+out_samp_truth_gdp <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+gdp_error <- mean(out_samp_pred_gdp - out_samp_truth_gdp)
+
+# Cross-validation for DPI model
+mod_dpi <- lm(pv2p ~ dpi, 
+              data = d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+out_samp_pred_dpi <- predict(mod_dpi, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+out_samp_truth_dpi <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+dpi_error <- mean(out_samp_pred_dpi - out_samp_truth_dpi)
+
+# Cross-validation for GDP + DPI model
+mod_gdp_dpi <- lm(pv2p ~ GDP_growth_quarterly + dpi, 
+                  data = d_inc_econ_2[!(d_inc_econ_2$year %in% years_out_samp),])
+out_samp_pred_gdp_dpi <- predict(mod_gdp_dpi, d_inc_econ_2[d_inc_econ_2$year %in% years_out_samp,])
+out_samp_truth_gdp_dpi <- d_inc_econ_2$pv2p[d_inc_econ_2$year %in% years_out_samp]
+gdp_dpi_error <- mean(out_samp_pred_gdp_dpi - out_samp_truth_gdp_dpi)
+
+cat("Out-of-sample error for GDP Model: ", gdp_error, "\n")
+cat("Out-of-sample error for DPI Model: ", dpi_error, "\n")
+cat("Out-of-sample error for GDP + DPI Model: ", gdp_dpi_error, "\n")
+```
+
+The model has **similar out-of-sample errors** for GDP and DPI, which indicates that both provide roughly comparable predictive power for our data. The best seems to be the combination of GDP + DPI, which while not perfect, suggest that the models are **reasonably good** at predicting election outcomes based on our economic data.
+
+We can also visualize each model's performance below based on changes in economic measures to see how sensitive it is:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Check sensitivity of predictions to changes in economic measures
@@ -198,7 +235,7 @@ ggplot(d_inc_econ_2024_scenarios, aes(x = GDP_growth_quarterly)) +
   scale_color_manual(values = c("GDP Model" = "blue2", "DPI Model" = "darkgreen", "GDP + DPI Model" = "red3"))
 ```
 
-Both red (GDP + DPI) and blue (GDP only) show **relative stability in their predictions** and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model **struggles significantly** to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we found above.
+Both red (GDP + DPI) and blue (GDP only) show **relative stability in their predictions** and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model **struggles significantly** to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we previously found.
 
 ## Now What?
 
