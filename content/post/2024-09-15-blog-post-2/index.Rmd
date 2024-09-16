@@ -69,6 +69,7 @@ d_inc_econ |>
   theme_bw() + 
   theme(plot.title = element_text(size = 18))
 ```
+
 There are a few important things to notice. Overall, there seems to be some slight **positive relationship** between second-quarter GDP growth and the incumbent party’s share of the popular vote. Specifically, as GDP growth increases, the incumbent party tends to receive a higher vote share. However, the shading around the regression line reveals a fair amount of uncertainty in the prediction, especially for lower levels of GDP growth. From our summary statistics panel, we also see that the coefficient for GDP growth has a **p-value of 0.0636**, which is above the standard 0.05 threshold for statistical significance. This means there is some evidence of a relationship between GDP growth and vote share, but it’s not statistically significant, indicating that while economic conditions matter, there may be other factors at play. The **low R-squared value of 0.1881** and **high residual standard error of 4.834** suggest that economic performance alone is not powerful enough to capture elections and voter behavior.
 
 We can also observe that 2020 represents a significant outlier, with a much lower vote share than the model predicts based on GDP growth alone. This is evidence that external factors, including public health crises like COVID-19 can play a major role in an election, even overriding the typical relationship we observe between economic performance and electoral success. It's possible that many voters focused on how the incumbent handled the public health event, placing less emphaisis on other fundamental indicators like GDP.
@@ -78,6 +79,10 @@ Let's take a look and see what our model would look like with **2020 removed**:
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_inc_econ_2 <- d_inc_econ |>
   filter(year != 2020)
+
+reg_econ_2 <- lm(pv2p ~ GDP_growth_quarterly, 
+                         data = d_inc_econ_2)
+reg_econ_2 |> summary()
 
 d_inc_econ_2 |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
@@ -90,10 +95,6 @@ d_inc_econ_2 |>
        title = "Y = 49.38 + 0.737 * X") + 
   theme_bw() + 
   theme(plot.title = element_text(size = 18))
-
-reg_econ_2 <- lm(pv2p ~ GDP_growth_quarterly, 
-                         data = d_inc_econ_2)
-reg_econ_2 |> summary()
 ```
 Besides the similar trends previously observed, with the 2020 data point removed, the R-squared value alone **(0.3248)** already shows us that the model fits the data better. The shading around the regression line is narrower, indicating a **more consistent relationship** between GDP growth and vote share. The p-value for GDP growth is now **0.0135**, which is below the 0.05 threshold and therefore statistically significant. In general, we can see how much of an outlier 2020 was. Compared to before, it likely pulled down the slope and increased the uncertainty, as the incumbent party's vote share was much lower than expected based on GDP growth. 
 
@@ -108,7 +109,7 @@ cor_results <- data.frame(
   Correlation = c(cor1, cor2)
 )
 
-kable(cor_results, caption = "Correlation between GDP Growth and Incumbent Vote Share")
+kable(cor_results, caption = "Correlation between GDP Growth and Incumbent Vote Share", booktabs = TRUE)
 ```
 
 ## GDP, DPI, and Both
@@ -161,8 +162,9 @@ predictions <- data.frame(
   Predicted_Vote_Share = c(pred_gdp, pred_dpi, pred_gdp_dpi)
 )
 
-kable(predictions, caption = "Predicted Vote Share for 2024 based on Different Models")
+kable(predictions, caption = "Predicted Vote Share for 2024 based on Different Models", booktabs = TRUE)
 ```
+
 Unsurprisingly, there is **little difference** between the three models on their predictions, with the DPI-only model predicting the lowest vote share. More importantly, let's test each model's sensitivity to changes in measurement for GDP, DPI, and the economy as a whole. After generating predictions for each model, we can visualize each model's performance below:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -194,11 +196,14 @@ ggplot(d_inc_econ_2024_scenarios, aes(x = GDP_growth_quarterly)) +
   theme_bw() +
   scale_color_manual(values = c("GDP Model" = "blue2", "DPI Model" = "darkgreen", "GDP + DPI Model" = "red3"))
 ```
-Both red (GDP + DPI) and blue (GDP only) show relative stability in their predictions and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model **struggles significantly** to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we found above.
+
+Both red (GDP + DPI) and blue (GDP only) show **relative stability in their predictions** and a reasonable increase in incumbent party vote share with each respective increase in quarterly GDP growth. However, we can see that the DPI-only model **struggles significantly** to produce a meaningful prediction as economic measures change. This makes logical sense as we consider the extremely low R-squared value we found above.
 
 ## Now What?
 
-Overall, we've understood how fundamental economic factors influence election outcomes and voter behavior. Literature has shown a relationship between the two, highlight how strong economic performance tends to favor the party in power, while economic downturns can jeopardize their chances. However, this relationship **isn't an end-all-be-all** as our data and models show relatively **low correlation and R-squared values**. Further, economic factors like DPI seemed to perform worse compared to standard models at fitting and predicting future election outcomes. All in all, this exploration has showed that the economy does have **some** influence on voter behavior and excites me to add additional non-economic variables to improve my model, such as demographic data, media/advertising, and policy initiatives. Also, with 2020 being such an outlier, is it even worth keeping in our models? Stay tuned!
+Overall, we've understood how fundamental economic factors influence election outcomes and voter behavior. Literature has shown a relationship between the two, highlight how strong economic performance tends to favor the party in power, while economic downturns can jeopardize their chances. However, this relationship **isn't an end-all-be-all** as our data and models show relatively **low correlation and R-squared values**. Further, economic factors like DPI seemed to perform worse compared to standard models at fitting and predicting future election outcomes. All in all, this exploration has showed that the economy does have **some influence** on voter behavior and excites me to add additional non-economic variables to improve my model, such as demographic data, media/advertising, and policy initiatives. 
+
+Also, with 2020 being such an outlier, is it even worth keeping in our models...? Stay tuned!
 
 ## Data Sources:
 
