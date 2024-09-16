@@ -1,5 +1,5 @@
 ---
-title: Blog Post 2 -- Election and the Economy
+title: Blog Post 2 -- Elections and the Economy
 author: Chris S
 date: '2024-09-15'
 slug: blog-post-2
@@ -15,7 +15,7 @@ tags: []
 
 ## Introduction -- Can we predict election outcomes using *only* the state of the economy? If so, how well?
 
-In our previous blog, we established some fundamental understanding and visualizations regarding vote share and geographic distributions. Now, we begin examining how fundamental variables influence elections -- namely, the economy. Political and data scientists have commented on the economy's ability to influence elections and election forecasts. For example, if the economy were the experience modest growth, the equations predicted that the Republican candidate would likely win the election[(Fair 2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm). Additional research also showed that the state of the economy has a non-negligible ability to mobilize and persuade voters. [(Sides and Vavreck 2013)](https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_jstor_books_j_ctt7ztpn1&context=PC&vid=HVD2&search_scope=everything&tab=everything&lang=en_US).
+In our previous blog, we established some fundamental understanding and visualizations regarding vote share and geographic distributions. Now, we begin examining how fundamental variables influence elections -- **namely, the economy**. Political and data scientists have commented on the economy's ability to **influence elections and election forecasts**. For example, if the economy were the experience modest growth, the equations predicted that the Republican candidate would likely win the election [(Fair 2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm). Additional research also showed that the state of the economy has a non-negligible ability to mobilize and persuade voters. [(Sides and Vavreck 2013)](https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_jstor_books_j_ctt7ztpn1&context=PC&vid=HVD2&search_scope=everything&tab=everything&lang=en_US).
 
 All in all, the economy clearly has *some* impact on voter behavior and predicting election outcomes. How much or how little is a trickier question. Hopefully this blog will illuminate further aspects and allow us to improve our models down the road. Let's take a closer look!
 
@@ -91,7 +91,7 @@ Table: <span id="tab:unnamed-chunk-5"></span>Table 1: Correlation between GDP Gr
 
 ## GDP, DPI, and Both
 
-As an extension to our models, let's examine other economic factors and provide side-by-side comparisons of each to discover prediction outcomes and sensitivity robustness. For our purposes, we will use **disposable personal income (DPI)** as our independent variable. Similar to GDP, research has found that voters who experience a rise in disposable income are more likely to support the incumbent, whereas those experiencing a decline might vote for the opposition [(Healy 2017)](https://www.cambridge.org/core/journals/american-political-science-review/article/digging-into-the-pocketbook-evidence-on-economic-voting-from-income-registry-data-matched-to-a-voter-survey/7FF7E7FFFDCA634B79D2289C6880CF3D). As DPI increases, voters may feel more economically secure, which can result in greater support for the incumbent party. However, nuances and changes related to income inequality can play significant roles in how voters perceive DPI and their voting behavior as candidates explore redistribution initiatives [(Zivkovic 2021)](https://link.springer.com/article/10.1057/s41295-021-00249-2). 
+As an extension to our models, let's examine other economic factors and provide side-by-side comparisons of each to discover prediction outcomes and sensitivity robustness. For our purposes, we will use **disposable personal income (DPI)** as our independent variable. Similar to GDP, research has found that voters who experience a rise in disposable income are more likely to support the incumbent, whereas those experiencing a decline might vote for the opposition [(Healy 2017)](https://www.cambridge.org/core/journals/american-political-science-review/article/digging-into-the-pocketbook-evidence-on-economic-voting-from-income-registry-data-matched-to-a-voter-survey/7FF7E7FFFDCA634B79D2289C6880CF3D). As DPI increases, voters may feel more economically secure, **which can result in greater support for the incumbent party**. However, nuances and changes related to income inequality can play significant roles in how voters perceive DPI and their voting behavior as candidates explore redistribution initiatives [(Zivkovic 2021)](https://link.springer.com/article/10.1057/s41295-021-00249-2). 
 
 To investigate this further, I created 3 models based on 3 different factors -- GDP, DPI, and GDP + DPI. Below we can see a comparison between their R-squared values, AIC (Akaike Information Criterion), and BIC (Bayesian Information Criterion). 
 
@@ -105,7 +105,7 @@ To investigate this further, I created 3 models based on 3 different factors -- 
 ## 3 GDP + DPI Model    0.193        0.0922   120.  123.
 ```
 
-At first glance, we can see that the the addition of DPI to GDP does not greatly increase the R-squared value (increased from 0.1881 to 0.1930), which is possibly due to **multi-co linearity**, in which GDP and DPI are both highly related to one another and can be seen as redundant. However, when DPI was used on its own, we see a sharp drop in the R-squared value, indicating that DPI does not provide a strong explanation for voter behavior and election outcomes. Of course, we have to keep in mind that this is **with the 2020 data point included**, which we've already observed to have weakening impact on our models from before.
+At first glance, we can see that the the addition of DPI to GDP does not greatly increase the R-squared value (**increased from 0.1881 to 0.193**0), which is possibly due to **multi-co linearity**, in which GDP and DPI are both highly related to one another and can be seen as redundant. However, when DPI was used on its own, we see a sharp drop in the R-squared value, indicating that DPI does not provide a strong explanation for voter behavior and election outcomes. Of course, we have to keep in mind that this is **with the 2020 data point included**, which we've already observed to have weakening impact on our models from before.
 
 Now that we have 3 models, we can predict the vote share for 2024 and compare them side-by-side:
 
