@@ -76,6 +76,7 @@ Let's take a look and see what our model would look like with **2020 removed**:
 ```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
 Besides the similar trends previously observed, with the 2020 data point removed, the R-squared value alone **(0.3248)** already shows us that the model fits the data better. The shading around the regression line is narrower, indicating a **more consistent relationship** between GDP growth and vote share. The p-value for GDP growth is now **0.0135**, which is below the 0.05 threshold and therefore statistically significant. In general, we can see how much of an outlier 2020 was. Compared to before, it likely pulled down the slope and increased the uncertainty, as the incumbent party's vote share was much lower than expected based on GDP growth. 
 
 A correlation calculation further supports the observations above. The first value is with 2020 and the second value is without.
