@@ -146,43 +146,6 @@ To better understand what we're doing, let's visualize our ridge regression:
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
-```
-## 32 x 1 sparse Matrix of class "dgCMatrix"
-##                              s1
-## (Intercept)        29.951147799
-## poll_weeks_left_0   0.032163983
-## poll_weeks_left_1   0.025440084
-## poll_weeks_left_2   0.024404320
-## poll_weeks_left_3   0.024688870
-## poll_weeks_left_4   0.024695646
-## poll_weeks_left_5   0.024725772
-## poll_weeks_left_6   0.024080438
-## poll_weeks_left_7   0.023636908
-## poll_weeks_left_8   0.024487501
-## poll_weeks_left_9   0.026498950
-## poll_weeks_left_10  0.025642838
-## poll_weeks_left_11  0.021361476
-## poll_weeks_left_12  0.017386999
-## poll_weeks_left_13  0.013378030
-## poll_weeks_left_14  0.010078675
-## poll_weeks_left_15  0.007248494
-## poll_weeks_left_16  0.012943440
-## poll_weeks_left_17  0.012879654
-## poll_weeks_left_18  0.011157452
-## poll_weeks_left_19  0.008302783
-## poll_weeks_left_20  0.004012987
-## poll_weeks_left_21  0.003350434
-## poll_weeks_left_22  0.004458406
-## poll_weeks_left_23  0.001019583
-## poll_weeks_left_24 -0.002711193
-## poll_weeks_left_25 -0.002447895
-## poll_weeks_left_26  0.001121142
-## poll_weeks_left_27  0.005975853
-## poll_weeks_left_28  0.011623984
-## poll_weeks_left_29  0.013833925
-## poll_weeks_left_30  0.018964139
-```
-
 We can clearly see **lambda** acting as the regularization parameter here, adding **more penalty to the coefficients** and shrinking them **towards zero** to fight the multicolinearity and overfitting. This **prevents any single variable from dominating the model**, which is particularly important when dealing with models containing lots of correlated variables. Of course, there are many other regularization methods, including *Lasso and Elastic Net*, each with their own attributes. 
 
 For the purposes of this blog, we will dive straight into a comparison between all three and draw conclusions, instead of an in-depth examination of each method:
@@ -209,7 +172,7 @@ To extend our knowledge of polling, let's take a look at **two different approac
 
 In contrast, [Morris](https://abcnews.go.com/538/538s-2024-presidential-election-forecast-works/story?id=110867585) takes on a far more **nuanced view of the 2024 model**, completely rebuilding it and incorporating a **more holistic integration of polling and fundamentals**, such as the economy. His model combines historical voting patterns with demographic data and geographic proximity. By using fundamental indicators, like GDP growth, employment, and political factors (incumbency, presidential approval ratings) he can support a more **dynamic relationship between variables in his model**. His use of extensive correlation matrices also helps project state-level polling movement and adds to the **flexibility and responsiveness of the model**.
 
-Overall, I prefer **538's model** as it integrates a wide range of indicators to produce a **more nuanced and comprehensive understanding of the electoral dynamics at play**. Especially considering an election with so many changes and polarization, these fluctuations will be important factors to consider when building a model. This holistic approach to combine fundamentals and historical election data helps to handle uncertainty and **provide a more robust prediction of the election**. Further, it's ability to update in **real-tim*e** with new polling and fundamental data allows viewers to observe the most current state of the race. Most importantly, he accounts for polling errors and state similarities which can provide a **balanced view that adapts to recent trends without extensive overfitting**.
+Overall, I prefer **538's model** as it integrates a wide range of indicators to produce a **more nuanced and comprehensive understanding of the electoral dynamics at play**. Especially considering an election with so many changes and polarization, these fluctuations will be important factors to consider when building a model. This holistic approach to combine fundamentals and historical election data helps to handle uncertainty and **provide a more robust prediction of the election**. Further, it's ability to update in **real-time** with new polling and fundamental data allows viewers to observe the most current state of the race. Most importantly, he accounts for polling errors and state similarities which can provide a **balanced view that adapts to recent trends without extensive overfitting**.
 
 ## Data Sources:
 
