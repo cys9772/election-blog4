@@ -34,190 +34,18 @@
 </div>
 
 <main>
-<pre><code class="language-r">library(ggplot2)
-library(maps)
-library(knitr)
-library(tidyverse)
-</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
-## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ purrr::map()    masks maps::map()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-</code></pre>
-<pre><code class="language-r">library(dplyr)
-library(broom)
-library(car)
-</code></pre>
-<pre><code>## Loading required package: carData
-## 
-## Attaching package: 'car'
-## 
-## The following object is masked from 'package:dplyr':
-## 
-##     recode
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     some
-</code></pre>
-<pre><code class="language-r">library(caret)
-</code></pre>
-<pre><code>## Loading required package: lattice
-## 
-## Attaching package: 'caret'
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     lift
-</code></pre>
-<pre><code class="language-r">library(tidyverse)
-library(glmnet)
-</code></pre>
-<pre><code>## Loading required package: Matrix
-## 
-## Attaching package: 'Matrix'
-## 
-## The following objects are masked from 'package:tidyr':
-## 
-##     expand, pack, unpack
-## 
-## Loaded glmnet 4.1-8
-</code></pre>
-<pre><code class="language-r">d_pollav_natl &lt;- read_csv(&quot;/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 7378 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (3): state, party, candidate
-## dbl  (4): year, weeks_left, days_left, poll_support
-## lgl  (1): before_convention
-## date (1): poll_date
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r">d_pollav_state &lt;- read_csv(&quot;/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_polls_1968-2024.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 204564 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (3): state, party, candidate
-## dbl  (4): year, weeks_left, days_left, poll_support
-## lgl  (1): before_convention
-## date (1): poll_date
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r">d_vote &lt;- read_csv(&quot;/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 38 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (2): party, candidate
-## dbl (3): year, pv, pv2p
-## lgl (4): winner, incumbent, incumbent_party, prev_admin
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r">d_vote$party[d_vote$party == &quot;democrat&quot;] &lt;- &quot;DEM&quot;
-d_vote$party[d_vote$party == &quot;republican&quot;] &lt;- &quot;REP&quot;
-d_poll_weeks &lt;- d_pollav_natl |&gt; 
-  group_by(year, party, weeks_left) |&gt;
-  summarize(mean_poll_week = mean(poll_support)) |&gt; 
-  filter(weeks_left &lt;= 30) |&gt; 
-  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |&gt; 
-  left_join(d_vote, by = c(&quot;year&quot;, &quot;party&quot;))
-</code></pre>
-<pre><code>## `summarise()` has grouped output by 'year', 'party'. You can override using the
-## `.groups` argument.
-</code></pre>
 <p><em>This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor <a href="https://www.ryandenos.com/">Ryan Enos</a>. It will be updated weekly and culminate in a predictive model of the 2024 presidential election.</em></p>
 <h2 id="introduction----how-can-we-best-use-polls-to-predict-election-outcomes">Introduction &ndash; How can we best use <strong>polls</strong> to predict <strong>election outcomes?</strong></h2>
 <p>What&rsquo;s the first thing you hear when you flick on news channels covering any election? They talk about polls. We&rsquo;ve done hundreds of them ourselves in our lifetime, from restaurant surveys to product reviews and presidential candidates. These quick little quizzes help provide direct insights from the public about various issues, including voting intensions, candidate favoriability, and more. More generally, they serve as feedback loops, allowing parties and campaigns to adjust their strategies based on how the public responds during an election cycle. Breaking these statistics down by demographic categories allow these candidates to further tailer their messaging to specific audiences.</p>
 <p>However, there are common pitfalls related to polling, including sampling bias, nonresponse bias, timing, and more. It&rsquo;s our job to figure out what matters and what doesn&rsquo;t. More importantly, can we use them to help predict election outcomes,  or will they simply lead us astray? Let&rsquo;s dive in!</p>
 <h2 id="2020-polling----a-detailed-analysis">2020 Polling &ndash; A Detailed Analysis</h2>
-<pre><code class="language-r">d_pollav_natl |&gt; 
-  filter(year == 2020) |&gt; 
-  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
-  geom_rect(xmin = as.Date(&quot;2020-08-17&quot;), xmax = as.Date(&quot;2020-08-20&quot;), ymin = 47.5, ymax = 100, alpha = 0.1, color = NA, fill = &quot;grey&quot;) + 
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-08-07&quot;), y = 51.5, label = &quot;DNC&quot;, size = 4) +
-  geom_rect(xmin = as.Date(&quot;2020-08-24&quot;), xmax = as.Date(&quot;2020-08-27&quot;), ymin = 0, ymax = 47.2, alpha = 0.1, color = NA, fill = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-09-04&quot;), y = 45, label = &quot;RNC&quot;, size = 4) +
-  geom_rect(xmin = as.Date(&quot;2020-10-02&quot;), xmax = as.Date(&quot;2020-10-12&quot;), ymin = 0, ymax = 42.7, alpha = 0.05, color = NA, fill = &quot;grey&quot;) +
-  
-  geom_point(size = 1) + 
-  geom_line() + 
-  
-  geom_segment(x = as.Date(&quot;2020-03-12&quot;), xend = as.Date(&quot;2020-03-12&quot;), y = 0, yend = 44.8, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-03-12&quot;), y = 42.5, label = &quot;COVID \n Market Crash&quot;, size = 3) +
-  geom_segment(x = as.Date(&quot;2020-04-08&quot;), xend = as.Date(&quot;2020-04-08&quot;), y = 49, yend = 100, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-03-25&quot;), y = 51.3, label = &quot;Bernie Ends Run&quot;, size = 3) +
-  geom_segment(x = as.Date(&quot;2020-04-16&quot;), xend = as.Date(&quot;2020-04-16&quot;), y = 0, yend = 44, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-04-16&quot;), y = 44.7, label = &quot;22 mil \n Unemployment&quot;, size = 3) +
-  geom_segment(x = as.Date(&quot;2020-05-27&quot;), xend = as.Date(&quot;2020-05-27&quot;), y = 0, yend = 43, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-06-05&quot;), y = 44, label = &quot;100k COVID Dead, \n George Floyd&quot;, size = 3) +
-  
-  geom_segment(x = as.Date(&quot;2020-07-14&quot;), xend = as.Date(&quot;2020-07-14&quot;), y = 0, yend = 50.3, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-06-19&quot;), y = 47.5, label = &quot;Moderna Announces&quot;, size = 3) +
-  
-  geom_segment(x = as.Date(&quot;2020-09-29&quot;), xend = as.Date(&quot;2020-09-29&quot;), y = 50, yend = 100, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-9-12&quot;), y = 49.5, label = &quot;Pres. Debate&quot;, size = 3) +
-  geom_segment(x = as.Date(&quot;2020-10-07&quot;), xend = as.Date(&quot;2020-10-07&quot;), y = 51.7, yend = 100, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-10-17&quot;), y = 50.3, label = &quot;VP Debate&quot;, size = 3) +
-  geom_segment(x = as.Date(&quot;2020-10-22&quot;), xend = as.Date(&quot;2020-10-22&quot;), y = 52, yend = 100, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-10-30&quot;), y = 51.5, label = &quot;Pres. Debate&quot;, size = 3) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-10-15&quot;), y = 43.7, label = &quot;Trump Has COVID&quot;, size = 3) +
-  geom_segment(x = as.Date(&quot;2020-09-18&quot;), xend = as.Date(&quot;2020-09-18&quot;), y = 50, yend = 100, linetype = &quot;dashed&quot;, alpha = 0.4, color = &quot;grey&quot;) +
-  annotate(&quot;text&quot;, x = as.Date(&quot;2020-09-03&quot;), y = 51.5, label = &quot;RBG Passes&quot;, size = 3) +
-  
-  scale_x_date(date_labels = &quot;%b %d&quot;) + 
-  scale_color_manual(values = c(&quot;dodgerblue4&quot;, &quot;firebrick1&quot;)) +
-  labs(x = &quot;Date&quot;,
-       y = &quot;Average Poll Approval&quot;, 
-       title = &quot;Polling Averages by Date, 2020 (with Game Changers)&quot;) + 
-  theme_classic()
-</code></pre>
 <img src="https://example.org/post/2024/09/22/blog-post-3-polling/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 <p>Immediately, we can notice some interesting trends. First, before COVID_19 hit, both democratic and republican polling averages were roughly stable. However, once COVID-19 was in full swing, we see a significant decline in Republican approval, likely due to the public&rsquo;s perception of how the Trump was handling the pandemic, on both the healthcare and economic fronts. With George Floyd&rsquo;s death, we see a sharp decline in Republican approval, especially when faced with handling racial justice issues and social upheaval. Both the RNC and DNCs showed a bump in approval allowing parties to get in front of viewers, increase media coverage, and consolidating support.</p>
-<pre><code class="language-r">d_pollav_natl |&gt; 
-  filter(year == 2024) |&gt; 
-  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
-  geom_point(size = 1) + 
-  geom_line() + 
-  scale_x_date(date_labels = &quot;%b %d&quot;) + 
-  scale_color_manual(values = c(&quot;dodgerblue4&quot;, &quot;firebrick1&quot;)) +
-  labs(x = &quot;Date&quot;,
-       y = &quot;Average Poll Approval&quot;, 
-       title = &quot;Polling Averages by Date, 2024&quot;) + 
-  theme_classic()
-</code></pre>
 <img src="https://example.org/post/2024/09/22/blog-post-3-polling/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 <p>Looking at 2024 polling averages, we see a general candidate disapproval trend for both parties. Particularly for the Biden administration, the democratic party was struggling to gain ground as the November election quickly approached. The sharp increase we observe for the democrats has to do with Biden&rsquo;s decision to drop out of the race and endorse Kamala Harris as the democratic presidential candidate. Moreover, her strong performance in the recent debate proved her capabilities as a leader and vision for the future which many American seemed to resonate with.</p>
 <p>Altogether, we can see the influence of major political, social, and health-related events on candidate approval, which can be captured by polling averages. Now the question is, do these polling behaviors provide any predictive power. Let&rsquo;s find out!</p>
 <h2 id="polls-and-predictions----how-about-november">Polls and Predictions &ndash; How about November?</h2>
 <p>Before we look into 2024, let&rsquo;s examine how powerful November polling averages can be at predicting election outcomes for the democratic party in 2020:</p>
-<pre><code class="language-r">d_poll_nov &lt;- d_vote |&gt; 
-  left_join(d_pollav_natl |&gt; 
-              group_by(year, party) |&gt; 
-              top_n(1, poll_date) |&gt; 
-              select(-candidate), 
-            by = c(&quot;year&quot;, &quot;party&quot;)) |&gt; 
-  rename(nov_poll = poll_support) |&gt; 
-  filter(year &lt;= 2020) |&gt; 
-  drop_na()
-
-ols.nov.1 &lt;- lm(pv2p ~ nov_poll, 
-                data = subset(d_poll_nov, party == &quot;DEM&quot;))
-summary(ols.nov.1)
-</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = pv2p ~ nov_poll, data = subset(d_poll_nov, party == 
@@ -240,10 +68,6 @@ summary(ols.nov.1)
 </code></pre>
 <p>There are a few critical results to note about the model above. First, the coefficient for <strong>nov_poll</strong> (0.7856) means that for each 1-point increase in November polling support, the predicted vote share increases by 0.79. Moreover, the p-value is extremely small (0.000376), indicating that the <strong>nov_poll</strong> variable is a statistically significant predictor of pv2p. What&rsquo;s more impressive is the multiple R-squared value of 0.66554 (closer to 1 is better), showing us that the model provides a reasonably good fit and reliability. In the context of the 2020 election results, we can see that polling support in November was a strong indicator of electoral success. With it&rsquo;s proximity to election day, polls can capture the most recent public opinion, particularly since voters will have likely made up their minds by now. As we&rsquo;ve seen before, major campaign events have great influences on voter support and approval, and as the election nears, there are simply less of these so opinions are less volatile.</p>
 <p>Instead of focusing solely on the democratic party, let&rsquo;s widen our scope to all parties in the dataset in the following model:</p>
-<pre><code class="language-r">ols.nov.2 &lt;- lm(pv2p ~ nov_poll, 
-                data = d_poll_nov)
-summary(ols.nov.2)
-</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = pv2p ~ nov_poll, data = d_poll_nov)
@@ -264,21 +88,8 @@ summary(ols.nov.2)
 ## F-statistic: 60.52 on 1 and 26 DF,  p-value: 2.974e-08
 </code></pre>
 <p>Similar to our previous model, we see that the <strong>nov_poll</strong> coefficient (0.70787) means that for each 1-point increase in November polling support, the predicted vote share increases by roughly 0.71 points. The positive relationship indicates that higher polling support in November is strongly associated with higher vote share. Once again, we see that the p-value is extremely lough, reinforcing the statistical significance of November&rsquo;s reliability as an indicator. A strong 0.7 R-squared value also provides confidence that the model is robust and capturing the data effectively. More importantly, this model confirms that November polls are a strong predictor of election outcomes, regardless of party affiliation.</p>
-<pre><code class="language-r">d_poll_weeks_train &lt;- d_poll_weeks |&gt; 
-  filter(year &lt;= 2020)
-d_poll_weeks_test &lt;- d_poll_weeks |&gt; 
-  filter(year == 2024)
-
-colnames(d_poll_weeks)[3:33] &lt;- paste0(&quot;poll_weeks_left_&quot;, 0:30)
-colnames(d_poll_weeks_train)[3:33] &lt;- paste0(&quot;poll_weeks_left_&quot;, 0:30)
-colnames(d_poll_weeks_test)[3:33] &lt;- paste0(&quot;poll_weeks_left_&quot;, 0:30)
-</code></pre>
-<h2 id="the-power-of-weeks-and-ridge-regression">The Power of Weeks and Ridge Regression</h2>
+<h2 id="the-power-of-weeks-regularization-methods">The Power of Weeks? Regularization Methods</h2>
 <p>Instead of looking just at November results, let&rsquo;s examine how our model performs when we consider weekly polling averages. Of course, we run into an alarming issue &ndash; multicolinearity. This means that we have several variables in our model that are correlated, producing a skewed view of our results. To handle this, we&rsquo;ll use ridge regression, which introduces a <strong>penalty term</strong> to the least squares cost function, preventing the coefficient from becoming too large, helping to adjust the multicolinearity factor. Let&rsquo;s examine our results:</p>
-<pre><code class="language-r">ols.pollweeks &lt;- lm(paste0(&quot;pv2p ~ &quot;, paste0( &quot;poll_weeks_left_&quot;, 0:30, collapse = &quot; + &quot;)), 
-                    data = d_poll_weeks_train)
-summary(ols.pollweeks)
-</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = paste0(&quot;pv2p ~ &quot;, paste0(&quot;poll_weeks_left_&quot;, 0:30, 
@@ -326,20 +137,9 @@ summary(ols.pollweeks)
 ## Multiple R-squared:      1,	Adjusted R-squared:    NaN 
 ## F-statistic:   NaN on 27 and 0 DF,  p-value: NA
 </code></pre>
-<pre><code class="language-r">x.train &lt;- d_poll_weeks_train |&gt;
-  ungroup() |&gt; 
-  select(all_of(starts_with(&quot;poll_weeks_left_&quot;))) |&gt; 
-  as.matrix()
-y.train &lt;- d_poll_weeks_train$pv2p
-</code></pre>
 <p>The models shows that we have no residual degrees of freedom, meaning we have perfect multicolinearity, which happens when there is an exact linear dependence among the predicators, in this case, weekly polling averages. The R-squared value is 1.0, indicating perfect fit, but this misleading since this fit is not due to the model&rsquo;s inherent capabilities, but rather from overfitting caused by too many correlated predictors.</p>
 <p>To better understand what we&rsquo;re doing, let&rsquo;s visualize our ridge regression:</p>
-<pre><code class="language-r">ridge.pollsweeks &lt;- glmnet(x = x.train, y = y.train, alpha = 0) # Set ridge using alpha = 0. 
-plot(ridge.pollsweeks, xvar = &quot;lambda&quot;)
-</code></pre>
 <img src="https://example.org/post/2024/09/22/blog-post-3-polling/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-<pre><code class="language-r">coef(ridge.pollsweeks, s = 0.1)
-</code></pre>
 <pre><code>## 32 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                              s1
 ## (Intercept)        29.951147799
@@ -375,201 +175,27 @@ plot(ridge.pollsweeks, xvar = &quot;lambda&quot;)
 ## poll_weeks_left_29  0.013833925
 ## poll_weeks_left_30  0.018964139
 </code></pre>
-<p>We can clearly see <strong>lambda</strong> acting as the regularization parameter here, adding more penalty to the coefficients and shrinking them towards zero to fight the multicolinearity and overfitting. This prevents any single variable from dominating the model, which is particularly important when dealing with models containing lots of multicolinearity. Of course, there are many other regularization methods, including OLS, Lasso, and Elastic Net, each with their own attributes. For the purposes of this blog, we will dive straight into a comparison between all three and draw conclusions, instead of an in-depth examination of each method:</p>
-<pre><code class="language-r">lasso.pollsweeks &lt;- glmnet(x = x.train, y = y.train, alpha = 1) 
-enet.pollsweeks &lt;- glmnet(x = x.train, y = y.train, alpha = 0.5)
-
-cv.ridge.pollweeks &lt;- cv.glmnet(x = x.train, y = y.train, alpha = 0)
-</code></pre>
-<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
-## fold
-</code></pre>
-<pre><code class="language-r">cv.lasso.pollweeks &lt;- cv.glmnet(x = x.train, y = y.train, alpha = 1)
-</code></pre>
-<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
-## fold
-</code></pre>
-<pre><code class="language-r">cv.enet.pollweeks &lt;- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
-</code></pre>
-<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
-## fold
-</code></pre>
-<pre><code class="language-r"># Get minimum lambda values 
-lambda.min.ridge &lt;- cv.ridge.pollweeks$lambda.min
-lambda.min.lasso &lt;- cv.lasso.pollweeks$lambda.min
-lambda.min.enet &lt;- cv.enet.pollweeks$lambda.min
-
-(mse.ridge &lt;- mean((predict(ridge.pollsweeks, s = lambda.min.ridge, newx = x.train) - y.train)^2))
-</code></pre>
+<p>We can clearly see <strong>lambda</strong> acting as the regularization parameter here, adding more penalty to the coefficients and shrinking them towards zero to fight the multicolinearity and overfitting. This prevents any single variable from dominating the model, which is particularly important when dealing with models containing lots of multicolinearity. Of course, there are many other regularization methods, including Lasso, and Elastic Net, each with their own attributes. For the purposes of this blog, we will dive straight into a comparison between all three and draw conclusions, instead of an in-depth examination of each method:</p>
 <pre><code>## [1] 9.575001
 </code></pre>
-<pre><code class="language-r">(mse.lasso &lt;- mean((predict(lasso.pollsweeks, s = lambda.min.lasso, newx = x.train) - y.train)^2))
+<pre><code>## [1] 3.61215
 </code></pre>
-<pre><code>## [1] 4.575388
-</code></pre>
-<pre><code class="language-r">(mse.enet &lt;- mean((predict(enet.pollsweeks, s = lambda.min.enet, newx = x.train) - y.train)^2))
-</code></pre>
-<pre><code>## [1] 4.467311
-</code></pre>
-<pre><code class="language-r"># Generate plot comparing coefficients for each of the weeks. 
-d.coefplot &lt;- data.frame(&quot;OLS&quot; = coef(ols.pollweeks)[-1], 
-                         &quot;Ridge&quot; = coef(ridge.pollsweeks, s = lambda.min.ridge)[-1], 
-                         &quot;Lasso&quot; = coef(lasso.pollsweeks, s = lambda.min.lasso)[-1], 
-                         &quot;Elastic Net&quot; = coef(enet.pollsweeks, s = lambda.min.enet)[-1]) |&gt; 
-  rownames_to_column(&quot;coef_name&quot;) |&gt; 
-  pivot_longer(cols = -coef_name, names_to = &quot;method&quot;, values_to = &quot;coef_est&quot;) |&gt; 
-  mutate(week = rep(0:30, each = 4))
-
-d.coefplot[which(is.na(d.coefplot$coef_est)),]$coef_est &lt;- 0 
-
-d.coefplot |&gt;
-  ggplot(aes(x = coef_est, y = reorder(coef_name, -week), color = method)) +
-  geom_segment(aes(xend = 0, yend = reorder(coef_name, -week)), alpha = 0.5, lty = &quot;dashed&quot;) +
-  geom_vline(aes(xintercept = 0), lty = &quot;dashed&quot;) +   
-  geom_point() + 
-  labs(x = &quot;Coefficient Estimate&quot;, 
-       y = &quot;Coefficient Name&quot;, 
-       title = &quot;Comparison of Coefficients Across Regularization Methods&quot;) + 
-  theme_classic()
+<pre><code>## [1] 4.302942
 </code></pre>
 <img src="https://example.org/post/2024/09/22/blog-post-3-polling/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-<p>Comparing the fou</p>
-<h3 id="still-need-to-talk-about-prediction-and-blog-extensions">STILL NEED TO TALK ABOUT PREDICTION AND BLOG EXTENSIONS</h3>
-<pre><code class="language-r">d_pollav_natl |&gt; 
-  filter(year == 2024) |&gt; 
-  select(weeks_left) |&gt; 
-  distinct() |&gt; 
-  range() # Let's take week 30 - 7 as predictors since those are the weeks we have polling data for 2024 and historically. 
-</code></pre>
+<p>By visualizing the four methods above, we see how OLS coefficients are larger compared to the regularized methods, which suggests strong overfitting, particularly in the presence of multicolinearity. Lasso and Ridge perform reasonably well, but <strong>Elastic Net</strong> performs the best, striking a balance between the shrinkage and variable selection, by reducing model complexity and highlight key predictors.</p>
+<p>Now that we have our chosen method, let&rsquo;s what the model tells us about the 2024 election results:</p>
 <pre><code>## [1]  7 36
-</code></pre>
-<pre><code class="language-r">x.train &lt;- d_poll_weeks_train |&gt;
-  ungroup() |&gt; 
-  select(all_of(paste0(&quot;poll_weeks_left_&quot;, 7:30))) |&gt; 
-  as.matrix()
-y.train &lt;- d_poll_weeks_train$pv2p
-x.test &lt;- d_poll_weeks_test |&gt;
-  ungroup() |&gt; 
-  select(all_of(paste0(&quot;poll_weeks_left_&quot;, 7:30))) |&gt; 
-  as.matrix()
-
-# Using elastic-net for simplicity. 
-set.seed(02138)
-enet.poll &lt;- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
-</code></pre>
-<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
-## fold
-</code></pre>
-<pre><code class="language-r">lambda.min.enet.poll &lt;- enet.poll$lambda.min
-
-# Predict 2024 national pv2p share using elastic-net. 
-(polls.pred &lt;- predict(enet.poll, s = lambda.min.enet.poll, newx = x.test))
 </code></pre>
 <pre><code>##            s1
 ## [1,] 51.79268
 ## [2,] 50.65879
 </code></pre>
-<pre><code class="language-r">d_econ &lt;- read_csv(&quot;/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv&quot;) |&gt; 
-  filter(quarter == 2)
-</code></pre>
-<pre><code>## Rows: 387 Columns: 14
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## dbl (14): year, quarter, GDP, GDP_growth_quarterly, RDPI, RDPI_growth_quarte...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r"># Combine datasets and create vote lags. 
-d_combined &lt;- d_econ |&gt; 
-  left_join(d_poll_weeks, by = &quot;year&quot;) |&gt; 
-  filter(year %in% c(unique(d_vote$year), 2024)) |&gt; 
-  group_by(party) |&gt; 
-  mutate(pv2p_lag1 = lag(pv2p, 1), 
-         pv2p_lag2 = lag(pv2p, 2)) |&gt; 
-  ungroup() |&gt; 
-  mutate(gdp_growth_x_incumbent = GDP_growth_quarterly * incumbent, 
-         rdpi_growth_quarterly = RDPI_growth_quarterly * incumbent,
-         cpi_x_incumbent = CPI * incumbent,
-         unemployment_x_incumbent = unemployment * incumbent,
-         sp500_x_incumbent = sp500_close * incumbent) # Generate interaction effects.
-
-# Create fundamentals-only dataset and split into training and test sets. 
-d_fund &lt;- d_combined |&gt; 
-  select(&quot;year&quot;, &quot;pv2p&quot;, &quot;GDP&quot;, &quot;GDP_growth_quarterly&quot;, &quot;RDPI&quot;, &quot;RDPI_growth_quarterly&quot;, &quot;CPI&quot;, &quot;unemployment&quot;, &quot;sp500_close&quot;,
-         &quot;incumbent&quot;, &quot;gdp_growth_x_incumbent&quot;, &quot;rdpi_growth_quarterly&quot;, &quot;cpi_x_incumbent&quot;, &quot;unemployment_x_incumbent&quot;, &quot;sp500_x_incumbent&quot;, 
-         &quot;pv2p_lag1&quot;, &quot;pv2p_lag2&quot;) 
-x.train.fund &lt;- d_fund |&gt; 
-  filter(year &lt;= 2020) |&gt;
-  select(-c(year, pv2p)) |&gt; 
-  slice(-c(1:9)) |&gt; 
-  as.matrix()
-y.train.fund &lt;- d_fund |&gt; 
-  filter(year &lt;= 2020) |&gt; 
-  select(pv2p) |&gt; 
-  slice(-c(1:9)) |&gt; 
-  as.matrix()
-x.test.fund &lt;- d_fund |&gt; 
-  filter(year == 2024) |&gt; 
-  select(-c(year, pv2p)) |&gt; 
-  drop_na() |&gt; 
-  as.matrix()
-</code></pre>
-<pre><code class="language-r">set.seed(02138)
-enet.fund &lt;- cv.glmnet(x = x.train.fund, y = y.train.fund, intercept = FALSE, alpha = 0.5)
-</code></pre>
-<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
-## fold
-</code></pre>
-<pre><code class="language-r">lambda.min.enet.fund &lt;- enet.fund$lambda.min
-
-# Predict 2024 national pv2p share using elastic-net. 
-(fund.pred &lt;- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund))
-</code></pre>
-<pre><code>## Warning in cbind2(1, newx): number of rows of result is not a multiple of
-## vector length (arg 1)
-</code></pre>
-<pre><code>##      s1
-</code></pre>
-<pre><code class="language-r"># Sequester data for combined model.
-d_combo &lt;- d_combined |&gt; 
-  select(&quot;year&quot;, &quot;pv2p&quot;, &quot;GDP&quot;, &quot;GDP_growth_quarterly&quot;, &quot;RDPI&quot;, &quot;RDPI_growth_quarterly&quot;, &quot;CPI&quot;, &quot;unemployment&quot;, &quot;sp500_close&quot;,
-         &quot;incumbent&quot;, &quot;gdp_growth_x_incumbent&quot;, &quot;rdpi_growth_quarterly&quot;, &quot;cpi_x_incumbent&quot;, &quot;unemployment_x_incumbent&quot;, &quot;sp500_x_incumbent&quot;, 
-         &quot;pv2p_lag1&quot;, &quot;pv2p_lag2&quot;, all_of(paste0(&quot;poll_weeks_left_&quot;, 7:30))) 
-
-x.train.combined &lt;- d_combo |&gt; 
-  filter(year &lt;= 2020) |&gt; 
-  select(-c(year, pv2p)) |&gt; 
-  slice(-c(1:9)) |&gt; 
-  as.matrix()
-y.train.combined &lt;- d_combo |&gt;
-  filter(year &lt;= 2020) |&gt; 
-  select(pv2p) |&gt; 
-  slice(-c(1:9)) |&gt; 
-  as.matrix()
-x.test.combined &lt;- d_combo |&gt;
-  filter(year == 2024) |&gt; 
-  select(-c(year, pv2p)) |&gt; 
-  drop_na() |&gt; 
-  as.matrix()
-  
-# Estimate combined model.
-set.seed(02138)
-enet.combined &lt;- cv.glmnet(x = x.train.combined, y = y.train.combined, intercept = FALSE, alpha = 0.5)
-</code></pre>
-<pre><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
-## fold
-</code></pre>
-<pre><code class="language-r">lambda.min.enet.combined &lt;- enet.combined$lambda.min
-
-# Predict 2024 national pv2p share using elastic-net.
-(combo.pred &lt;- predict(enet.combined, s = lambda.min.enet.combined, newx = x.test.combined))
-</code></pre>
-<pre><code>## Warning in cbind2(1, newx): number of rows of result is not a multiple of
-## vector length (arg 1)
-</code></pre>
-<pre><code>##      s1
-</code></pre>
+<p>Our current polling model predicts that Harris will win the results indicate that Harris will win the two-party vote share with roughly a 2% advantage over Trump.</p>
+<h2 id="a-battle-of-two-polls">A Battle of Two Polls</h2>
+<p>To extend our knowledge of polling, let&rsquo;s take a look at two different approaches. <a href="https://www.natesilver.net/p/model-methodology-2024">Silver&rsquo;s</a> methodology takes on a more conservative approach, by keeping his model largely unchanged from 2020, with a few specific updates. At large, the model continues to rely heavily on historical election data and assumes that voter behavior will remain consistent with a high degree of continuity. This helps reinforce the model&rsquo;s stability and reduces the risk of overfitting to recent events or anomalies.</p>
+<p>In contrast, <a href="https://abcnews.go.com/538/538s-2024-presidential-election-forecast-works/story?id=110867585">Morris</a> takes on a far more nuanced view of the 2024 model, completely rebuilding it and incorporating a more holistic integration of polling and fundamentals, such as the economy. His model combines historical voting patterns with demographic data and geographic proximity. His use of fundamental indicators, like GDP growth and employment, and political factors (incumbency, presidential approval ratings) helps support a more dynamic relationship between variables in his model. His use of extensive correlation matrices help project state-level polling movement and adds to the felixibiltiy and responsiveness of the model.</p>
+<p>Overall, I prefer <strong>538&rsquo;s model</strong> as it integrates a wide range of indicators to produce a more nuanced and comprehensive understanding of the electoral dynamics at play. Especially considering an election with so many changes and polarization, these fluctuations will be important factors to consider when building a model. This holistic approach to combine fundamentals and historical election data helps to handle uncertainty int he model and provide a more robust prediction of the election. Further, it&rsquo;s ability to update in real-time with new polling and fundamental data allows viewers to observe the most current state of the race. More importantly, he accounts for polling errors and state similarities which can provide a balanced view that adapts to recent trends without extensive overfitting.</p>
 <h2 id="data-sources">Data Sources:</h2>
 <p>Data are from the GOV 1347 course materials. All files can be found <a href="https://github.com/cys9772/election-blog4">here</a>. All external sources are hyperlinked.</p>
 

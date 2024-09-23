@@ -7,7 +7,7 @@ categories: []
 tags: []
 ---
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(ggplot2)
 library(maps)
 library(knitr)
@@ -42,7 +42,7 @@ However, there are common pitfalls related to polling, including sampling bias, 
 
 ## 2020 Polling -- A Detailed Analysis
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_pollav_natl |> 
   filter(year == 2020) |> 
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
@@ -87,7 +87,7 @@ d_pollav_natl |>
 
 Immediately, we can notice some interesting trends. First, before COVID_19 hit, both democratic and republican polling averages were roughly stable. However, once COVID-19 was in full swing, we see a significant decline in Republican approval, likely due to the public's perception of how the Trump was handling the pandemic, on both the healthcare and economic fronts. With George Floyd's death, we see a sharp decline in Republican approval, especially when faced with handling racial justice issues and social upheaval. Both the RNC and DNCs showed a bump in approval allowing parties to get in front of viewers, increase media coverage, and consolidating support.
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_pollav_natl |> 
   filter(year == 2024) |> 
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
@@ -109,7 +109,7 @@ Altogether, we can see the influence of major political, social, and health-rela
 
 Before we look into 2024, let's examine how powerful November polling averages can be at predicting election outcomes for the democratic party in 2020:
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_poll_nov <- d_vote |> 
   left_join(d_pollav_natl |> 
               group_by(year, party) |> 
@@ -129,7 +129,7 @@ There are a few critical results to note about the model above. First, the coeff
 
 Instead of focusing solely on the democratic party, let's widen our scope to all parties in the dataset in the following model:
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 ols.nov.2 <- lm(pv2p ~ nov_poll, 
                 data = d_poll_nov)
 summary(ols.nov.2)
@@ -137,7 +137,7 @@ summary(ols.nov.2)
 
 Similar to our previous model, we see that the **nov_poll** coefficient (0.70787) means that for each 1-point increase in November polling support, the predicted vote share increases by roughly 0.71 points. The positive relationship indicates that higher polling support in November is strongly associated with higher vote share. Once again, we see that the p-value is extremely lough, reinforcing the statistical significance of November's reliability as an indicator. A strong 0.7 R-squared value also provides confidence that the model is robust and capturing the data effectively. More importantly, this model confirms that November polls are a strong predictor of election outcomes, regardless of party affiliation.
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_poll_weeks_train <- d_poll_weeks |> 
   filter(year <= 2020)
 d_poll_weeks_test <- d_poll_weeks |> 
@@ -148,11 +148,11 @@ colnames(d_poll_weeks_train)[3:33] <- paste0("poll_weeks_left_", 0:30)
 colnames(d_poll_weeks_test)[3:33] <- paste0("poll_weeks_left_", 0:30)
 ```
 
-## The Power of Weeks and Ridge Regression
+## The Power of Weeks? Regularization Methods
 
 Instead of looking just at November results, let's examine how our model performs when we consider weekly polling averages. Of course, we run into an alarming issue -- multicolinearity. This means that we have several variables in our model that are correlated, producing a skewed view of our results. To handle this, we'll use ridge regression, which introduces a **penalty term** to the least squares cost function, preventing the coefficient from becoming too large, helping to adjust the multicolinearity factor. Let's examine our results:
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 ols.pollweeks <- lm(paste0("pv2p ~ ", paste0( "poll_weeks_left_", 0:30, collapse = " + ")), 
                     data = d_poll_weeks_train)
 summary(ols.pollweeks)
@@ -168,15 +168,15 @@ The models shows that we have no residual degrees of freedom, meaning we have pe
 
 To better understand what we're doing, let's visualize our ridge regression:
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 ridge.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 0) # Set ridge using alpha = 0. 
 plot(ridge.pollsweeks, xvar = "lambda")
 coef(ridge.pollsweeks, s = 0.1)
 ```
 
-We can clearly see **lambda** acting as the regularization parameter here, adding more penalty to the coefficients and shrinking them towards zero to fight the multicolinearity and overfitting. This prevents any single variable from dominating the model, which is particularly important when dealing with models containing lots of multicolinearity. Of course, there are many other regularization methods, including OLS, Lasso, and Elastic Net, each with their own attributes. For the purposes of this blog, we will dive straight into a comparison between all three and draw conclusions, instead of an in-depth examination of each method:
+We can clearly see **lambda** acting as the regularization parameter here, adding more penalty to the coefficients and shrinking them towards zero to fight the multicolinearity and overfitting. This prevents any single variable from dominating the model, which is particularly important when dealing with models containing lots of multicolinearity. Of course, there are many other regularization methods, including Lasso, and Elastic Net, each with their own attributes. For the purposes of this blog, we will dive straight into a comparison between all three and draw conclusions, instead of an in-depth examination of each method:
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 lasso.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 1) 
 enet.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 0.5)
 
@@ -215,11 +215,11 @@ d.coefplot |>
   theme_classic()
 ```
 
-Comparing the fou
+By visualizing the four methods above, we see how OLS coefficients are larger compared to the regularized methods, which suggests strong overfitting, particularly in the presence of multicolinearity. Lasso and Ridge perform reasonably well, but **Elastic Net** performs the best, striking a balance between the shrinkage and variable selection, by reducing model complexity and highlight key predictors.
 
-### STILL NEED TO TALK ABOUT PREDICTION AND BLOG EXTENSIONS
+Now that we have our chosen method, let's what the model tells us about the 2024 election results:
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_pollav_natl |> 
   filter(year == 2024) |> 
   select(weeks_left) |> 
@@ -245,84 +245,16 @@ lambda.min.enet.poll <- enet.poll$lambda.min
 (polls.pred <- predict(enet.poll, s = lambda.min.enet.poll, newx = x.test))
 ```
 
+Our current polling model predicts that Harris will win the results indicate that Harris will win the two-party vote share with roughly a 2% advantage over Trump.
 
-```{r}
-d_econ <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv") |> 
-  filter(quarter == 2)
+## A Battle of Two Polls
 
-# Combine datasets and create vote lags. 
-d_combined <- d_econ |> 
-  left_join(d_poll_weeks, by = "year") |> 
-  filter(year %in% c(unique(d_vote$year), 2024)) |> 
-  group_by(party) |> 
-  mutate(pv2p_lag1 = lag(pv2p, 1), 
-         pv2p_lag2 = lag(pv2p, 2)) |> 
-  ungroup() |> 
-  mutate(gdp_growth_x_incumbent = GDP_growth_quarterly * incumbent, 
-         rdpi_growth_quarterly = RDPI_growth_quarterly * incumbent,
-         cpi_x_incumbent = CPI * incumbent,
-         unemployment_x_incumbent = unemployment * incumbent,
-         sp500_x_incumbent = sp500_close * incumbent) # Generate interaction effects.
+To extend our knowledge of polling, let's take a look at two different approaches. [Silver's](https://www.natesilver.net/p/model-methodology-2024) methodology takes on a more conservative approach, by keeping his model largely unchanged from 2020, with a few specific updates. At large, the model continues to rely heavily on historical election data and assumes that voter behavior will remain consistent with a high degree of continuity. This helps reinforce the model's stability and reduces the risk of overfitting to recent events or anomalies. 
 
-# Create fundamentals-only dataset and split into training and test sets. 
-d_fund <- d_combined |> 
-  select("year", "pv2p", "GDP", "GDP_growth_quarterly", "RDPI", "RDPI_growth_quarterly", "CPI", "unemployment", "sp500_close",
-         "incumbent", "gdp_growth_x_incumbent", "rdpi_growth_quarterly", "cpi_x_incumbent", "unemployment_x_incumbent", "sp500_x_incumbent", 
-         "pv2p_lag1", "pv2p_lag2") 
-x.train.fund <- d_fund |> 
-  filter(year <= 2020) |>
-  select(-c(year, pv2p)) |> 
-  slice(-c(1:9)) |> 
-  as.matrix()
-y.train.fund <- d_fund |> 
-  filter(year <= 2020) |> 
-  select(pv2p) |> 
-  slice(-c(1:9)) |> 
-  as.matrix()
-x.test.fund <- d_fund |> 
-  filter(year == 2024) |> 
-  select(-c(year, pv2p)) |> 
-  drop_na() |> 
-  as.matrix()
-```
-```{r}
-set.seed(02138)
-enet.fund <- cv.glmnet(x = x.train.fund, y = y.train.fund, intercept = FALSE, alpha = 0.5)
-lambda.min.enet.fund <- enet.fund$lambda.min
+In contrast, [Morris](https://abcnews.go.com/538/538s-2024-presidential-election-forecast-works/story?id=110867585) takes on a far more nuanced view of the 2024 model, completely rebuilding it and incorporating a more holistic integration of polling and fundamentals, such as the economy. His model combines historical voting patterns with demographic data and geographic proximity. His use of fundamental indicators, like GDP growth and employment, and political factors (incumbency, presidential approval ratings) helps support a more dynamic relationship between variables in his model. His use of extensive correlation matrices help project state-level polling movement and adds to the felixibiltiy and responsiveness of the model.
 
-# Predict 2024 national pv2p share using elastic-net. 
-(fund.pred <- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund))
-  
-# Sequester data for combined model.
-d_combo <- d_combined |> 
-  select("year", "pv2p", "GDP", "GDP_growth_quarterly", "RDPI", "RDPI_growth_quarterly", "CPI", "unemployment", "sp500_close",
-         "incumbent", "gdp_growth_x_incumbent", "rdpi_growth_quarterly", "cpi_x_incumbent", "unemployment_x_incumbent", "sp500_x_incumbent", 
-         "pv2p_lag1", "pv2p_lag2", all_of(paste0("poll_weeks_left_", 7:30))) 
+Overall, I prefer **538's model** as it integrates a wide range of indicators to produce a more nuanced and comprehensive understanding of the electoral dynamics at play. Especially considering an election with so many changes and polarization, these fluctuations will be important factors to consider when building a model. This holistic approach to combine fundamentals and historical election data helps to handle uncertainty int he model and provide a more robust prediction of the election. Further, it's ability to update in real-time with new polling and fundamental data allows viewers to observe the most current state of the race. More importantly, he accounts for polling errors and state similarities which can provide a balanced view that adapts to recent trends without extensive overfitting.
 
-x.train.combined <- d_combo |> 
-  filter(year <= 2020) |> 
-  select(-c(year, pv2p)) |> 
-  slice(-c(1:9)) |> 
-  as.matrix()
-y.train.combined <- d_combo |>
-  filter(year <= 2020) |> 
-  select(pv2p) |> 
-  slice(-c(1:9)) |> 
-  as.matrix()
-x.test.combined <- d_combo |>
-  filter(year == 2024) |> 
-  select(-c(year, pv2p)) |> 
-  drop_na() |> 
-  as.matrix()
-  
-# Estimate combined model.
-set.seed(02138)
-enet.combined <- cv.glmnet(x = x.train.combined, y = y.train.combined, intercept = FALSE, alpha = 0.5)
-lambda.min.enet.combined <- enet.combined$lambda.min
-
-# Predict 2024 national pv2p share using elastic-net.
-(combo.pred <- predict(enet.combined, s = lambda.min.enet.combined, newx = x.test.combined))
-```
 ## Data Sources:
 
 Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
