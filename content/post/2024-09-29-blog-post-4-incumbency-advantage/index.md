@@ -178,7 +178,7 @@ Let's zoom in closer and see the effects on counties across different states dur
 ## F-statistic: 865.9 on 15 and 17943 DF,  p-value: < 2.2e-16
 ```
 
-Compared to our previous model, we're now combining additional variables, **including advertising, campaign, war, house vote, and population change.** The key takeaway here is that changes in income, campaign efforts, and local political support significantly affect voting behavior, **reinforcing how both economic performance and campaign intensity can play a critical role in securing votes**. Of course, these results are not bulletproof as poor foreign policy decisions during the Iraq War by the incumbent can cause **broad dissatisfaction** among voters and shift support the other way.
+Compared to our previous model, we're now combining additional variables, **including advertising, campaign, war, house vote, and population change.** The key takeaway here is that changes in income, campaign efforts, and local political support significantly affect voting behavior, **reinforcing how both economic performance and campaign intensity still play a critical role in securing votes**. Of course, these results are not bulletproof as poor foreign policy decisions during the Iraq War by the incumbent can cause **broad dissatisfaction** among voters and shift support the other way.
 
 However, when we look at state comparisons, these results aren't as conclusive:
 
@@ -246,7 +246,7 @@ These relationships have been studied extensively throughout history. Now we'll 
 
 Most notably, we see here that the **coefficient for incumbency is positive and highly significant**, indicating a 2.1 percentage-point increase in vote share. Thus we can see that trends of greater name recognition and established campaign infrastructure help sitting presidents secure this incumbency advantage. Further, June approval ratings show that the **voter perception of the incumbent's performance can be a powerful predictor** of electoral success and something to seriously consider when creating our own models.
 
-Ultimately, we see the multiple **R-squared value of 0.7106** which is relatively high, suggesting that the model captures a large portion of what influences vote share, with the roughly 29% remaining variance being left unexplained by other factors. This is so far the **highest R-squared value** we've seen in our models which *could* hint towards a good direction.
+Ultimately, we see the multiple **R-squared value of 0.7106** which is relatively high, suggesting that the model captures a large portion of what influences vote share, with the roughly 29% remaining variance being left unexplained by other factors. This is so far the **highest R-squared value** we've seen in our models which *could* hint towards a good direction...
 
 Could we reduce our model to something even more simple?
 
