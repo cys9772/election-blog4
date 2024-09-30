@@ -16,6 +16,7 @@ library(broom)
 library(car)
 library(caret)
 library(glmnet)
+library(knitr)
 library(kableExtra)
 library(RColorBrewer)
 library(viridis)
@@ -104,14 +105,14 @@ cat(paste0("Elections with At Least One Incumbent Running: ", nrow(inc_tab), "\n
                            nrow(inc_tab)*100, 2)))
 ```
 
-The data shows a slightly higher success rate (63.64%) when the incumbents choose to run for re-election. Under standard assumptions, we can see that these candidates benefit from increased name recognition, established campaign infrastructure, and the ability to leverage their position to shape public perception (e.g., by delivering policies or showing leadership in crises). 
+The data shows a slightly higher success rate (63.64%) when the incumbents choose to run for re-election. Under standard assumptions, we can see that these candidates benefit from increased name recognition, established campaign infrastructure, and the ability to leverage their position to shape public perception (e.g., by delivering policies or showing leadership in crises).
 
 Let's zoom in even closer and look at the six elections since 2000:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-options(tibble.width = Inf)
 inc_tab |> 
-  filter(year >= 2000)
+  filter(year >= 2000) |>
+  kable()
 ```
 
 The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.

@@ -54,18 +54,48 @@
 </code></pre>
 <p>The data shows a slightly higher success rate (63.64%) when the incumbents choose to run for re-election. Under standard assumptions, we can see that these candidates benefit from increased name recognition, established campaign infrastructure, and the ability to leverage their position to shape public perception (e.g., by delivering policies or showing leadership in crises).</p>
 <p>Let&rsquo;s zoom in even closer and look at the six elections since 2000:</p>
-<pre><code>## # A tibble: 3 × 7
-##    year candidate_DEM    candidate_REP    incumbent_DEM incumbent_REP winner_DEM
-##   &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;            &lt;lgl&gt;         &lt;lgl&gt;         &lt;lgl&gt;     
-## 1  2004 Kerry, John      Bush, George W.  FALSE         TRUE          FALSE     
-## 2  2012 Obama, Barack H. Romney, Mitt     TRUE          FALSE         TRUE      
-## 3  2020 Biden, Joseph R. Trump, Donald J. FALSE         TRUE          TRUE      
-##   winner_REP
-##   &lt;lgl&gt;     
-## 1 TRUE      
-## 2 FALSE     
-## 3 FALSE
-</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">year</th>
+<th style="text-align:left">candidate_DEM</th>
+<th style="text-align:left">candidate_REP</th>
+<th style="text-align:left">incumbent_DEM</th>
+<th style="text-align:left">incumbent_REP</th>
+<th style="text-align:left">winner_DEM</th>
+<th style="text-align:left">winner_REP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">2004</td>
+<td style="text-align:left">Kerry, John</td>
+<td style="text-align:left">Bush, George W.</td>
+<td style="text-align:left">FALSE</td>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:left">FALSE</td>
+<td style="text-align:left">TRUE</td>
+</tr>
+<tr>
+<td style="text-align:right">2012</td>
+<td style="text-align:left">Obama, Barack H.</td>
+<td style="text-align:left">Romney, Mitt</td>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:left">FALSE</td>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:left">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:right">2020</td>
+<td style="text-align:left">Biden, Joseph R.</td>
+<td style="text-align:left">Trump, Donald J.</td>
+<td style="text-align:left">FALSE</td>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:left">FALSE</td>
+</tr>
+</tbody>
+</table>
 <p>The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.</p>
 <h2 id="candidate-vs-party-incumbency">Candidate vs Party Incumbency</h2>
 <p>Instead of focusing solely on the candidates running for re-election, let&rsquo;s examine how the party incumbency performs during these situations:</p>

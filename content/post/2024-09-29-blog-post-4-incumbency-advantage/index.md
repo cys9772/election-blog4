@@ -44,24 +44,16 @@ However, the analysis above represents overall incumbency re-election. Let's see
 ## Percentage: 63.64
 ```
 
-The data shows a slightly higher success rate (63.64%) when the incumbents choose to run for re-election. Under standard assumptions, we can see that these candidates benefit from increased name recognition, established campaign infrastructure, and the ability to leverage their position to shape public perception (e.g., by delivering policies or showing leadership in crises). 
+The data shows a slightly higher success rate (63.64%) when the incumbents choose to run for re-election. Under standard assumptions, we can see that these candidates benefit from increased name recognition, established campaign infrastructure, and the ability to leverage their position to shape public perception (e.g., by delivering policies or showing leadership in crises).
 
 Let's zoom in even closer and look at the six elections since 2000:
 
 
-```
-## # A tibble: 3 × 7
-##    year candidate_DEM    candidate_REP    incumbent_DEM incumbent_REP winner_DEM
-##   <dbl> <chr>            <chr>            <lgl>         <lgl>         <lgl>     
-## 1  2004 Kerry, John      Bush, George W.  FALSE         TRUE          FALSE     
-## 2  2012 Obama, Barack H. Romney, Mitt     TRUE          FALSE         TRUE      
-## 3  2020 Biden, Joseph R. Trump, Donald J. FALSE         TRUE          TRUE      
-##   winner_REP
-##   <lgl>     
-## 1 TRUE      
-## 2 FALSE     
-## 3 FALSE
-```
+| year|candidate_DEM    |candidate_REP    |incumbent_DEM |incumbent_REP |winner_DEM |winner_REP |
+|----:|:----------------|:----------------|:-------------|:-------------|:----------|:----------|
+| 2004|Kerry, John      |Bush, George W.  |FALSE         |TRUE          |FALSE      |TRUE       |
+| 2012|Obama, Barack H. |Romney, Mitt     |TRUE          |FALSE         |TRUE       |FALSE      |
+| 2020|Biden, Joseph R. |Trump, Donald J. |FALSE         |TRUE          |TRUE       |FALSE      |
 
 The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.
 
