@@ -1,0 +1,238 @@
+---
+title: Blog Post 4 –– Incumbency Advantage
+author: Chris S
+date: '2024-09-29'
+slug: blog-post-4-incumbency-advantage
+categories: []
+tags: []
+---
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(ggplot2)
+library(maps)
+library(knitr)
+library(tidyverse)
+library(dplyr)
+library(broom)
+library(car)
+library(caret)
+library(glmnet)
+library(kableExtra)
+library(RColorBrewer)
+library(viridis)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_econ <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv")
+d_vote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+d_state_vote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_popvote_1948_2020.csv")
+d_pollav_natl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+d_pollav_state <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_polls_1968-2024.csv")
+d_pork_state <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fedgrants_bystate_1988-2008.csv")
+d_pork_county <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fedgrants_bycounty_1988-2008.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+d_econ |> 
+  filter(quarter == 2)
+
+d_poll_nov <- d_vote |> 
+  left_join(d_pollav_natl |> 
+              group_by(year, party) |> 
+              top_n(1, poll_date) |> 
+              select(-candidate), 
+            by = c("year", "party")) |> 
+  rename(nov_poll = poll_support) |> 
+  filter(year <= 2020) |> 
+  drop_na()
+
+d_poll_weeks <- d_pollav_natl |> 
+  group_by(year, party, weeks_left) |>
+  summarize(mean_poll_week = mean(poll_support)) |> 
+  filter(weeks_left <= 30) |> 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+```
+
+*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
+
+## Introduction -- How should we treat the *incumbency advantage* in our 2024 electoral forecasts?
+
+Humans are predictable creatures. For example, if you choose a seat to sit in on the first day of lecture, chances are, you'll choose the same spot next week. And the week after that -- probably until the last day of class. Is this the same for voting behavior? When it comes to elections, incumbents seem to hold a similar seat-saving advantage. Voters often stick with the familiar, and the incumbency advantage becomes a powerful force in shaping election outcomes. But is this advantage truly as reliable as picking the same lecture seat, or is it more complicated? 
+
+Moreover, when existing presidents do a poor job at handling national concerns such as social upheaval or economic downturn, they leave a sour taste in the public's memory. Perhaps this tarnished reputation lingers, making voters more inclined to seek change rather than continuity -- just as how a coffee spill might make you choose a new lecture seat...
+
+As usual, to analyze these questions, we'll start with the data. So, let's dive in!
+
+## War and Incumbency
+
+War is an unbelievably challenging time for most countries. It is in these pivotal moments when we look towards our leaders to navigate this environment with strength, decisiveness, and humility. Therefore, taking data between 1948 and 2024, I've produced the following summary for incumbency re-election:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+d_vote |> 
+  filter(winner) |> 
+  select(year, win_party = party, win_cand = candidate) |> 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |> 
+  mutate(reelect_president = win_cand_last == win_cand) |> 
+  filter(year > 1948 & year < 2024) |> 
+  group_by(reelect_president) |> 
+  summarize(N = n()) |> 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |>
+  as.data.frame()
+```
+
+We can immediately notice something -- in 12/18 post-war elections, the incumbent president did not win re-election, meaning that voters opted for change rather than continuing with the same president. Historically, the incumbent advantage seems to be weaker than what's often assumed, which may be due to several factors. For example, many of these incumbents faced significant fundamental economic crises, including Carter's era of inflation and Bush's period of recession. In doing so, voters may often seek fresh leadership if the current administration fails to address these national concerns effectively in the public's eye.
+
+Of course, we also have to consider potential outliers -- such as Kennedy's close victory in 1960 or the Watergate scandal that impacted Ford's chances in 1976 -- that may have contributed to surprisingly low re-election rate.
+
+However, the analysis above represents overall incumbency re-election. Let's see how it changes when the incumbent **actually runs** for re-election:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+inc_tab <- d_vote |> 
+  filter(year > 1948 & year < 2024) |>
+  select(year, party, candidate, incumbent, winner) |> 
+  pivot_wider(names_from = party, 
+              values_from = c(candidate, incumbent, winner)) |> 
+  filter(incumbent_DEM == TRUE | incumbent_REP == TRUE)
+
+
+cat(paste0("Elections with At Least One Incumbent Running: ", nrow(inc_tab), "\n",
+   "Incumbent Victories: ", (sum(inc_tab$incumbent_REP & inc_tab$winner_REP) + 
+                             sum(inc_tab$incumbent_DEM & inc_tab$winner_DEM)), "\n",
+    "Percentage: ", round((sum(inc_tab$incumbent_REP & inc_tab$winner_REP) + 
+                           sum(inc_tab$incumbent_DEM & inc_tab$winner_DEM))/
+                           nrow(inc_tab)*100, 2)))
+```
+
+The data shows a slightly higher success rate (63.64%) when the incumbents choose to run for re-election. Under standard assumptions, we can see that these candidates benefit from increased name recognition, established campaign infrastructure, and the ability to leverage their position to shape public perception (e.g., by delivering policies or showing leadership in crises). 
+
+Let's zoom in even closer and look at the six elections since 2000:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+inc_tab |> 
+  filter(year >= 2000)
+```
+
+The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.
+
+## Candidate vs Party Incumbency
+
+Instead of focusing solely on the candidates running for re-election, let's examine how the party incumbency performs during these situations:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_vote |> 
+  filter(winner) |> 
+  select(year, win_party = party, win_cand = candidate) |> 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |> 
+  mutate(reelect_party = win_party_last == win_party) |> 
+  filter(year > 1948 & year < 2024) |> 
+  group_by(reelect_party) |> 
+  summarize(N = n()) |> 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |>
+  as.data.frame()
+```
+
+From above, we can see that 55.56% of the time, the party that held the presidency **did not** win the next election. Surprisingly, this suggests that the party in power is slightly more likely to **lose the presidency** than retain it. A big factor we're seeing here is party fatigue -- a phenomenon in which voters will often desire change if a party has been in power for multiple terms, particularly if it has faced challenges and controversies. This can be further amplified when a former president is very popular and the party fails to secure an impressive successor, which can be seen in the 1992 election after Reagan. Another simple example could be in 2016, in which Obama's two terms of success could not sustain the democratic party, and a general voter desire for change led to Trump's presidency.
+
+There are also economic and political components in play, such as in 1980 when the Democrats controlled the presidency but Carter's disastrous handling of inflation and the Iran Hostage Crisis led to a republican victory by Reagan. Similarly, Trump's failed leadership during the COVID-19 pandemic further led to a loss in party confidence by voters, leading to an eventually transition to Biden and the democrats.
+
+Overall, the near-even split between party retention and loss highlights the competitive and unpredictable nature of presidential elections, making our forecasting job more challenging and exciting!
+
+## I'm In Power -- Now What?
+
+```{r}
+d_pork_state |> 
+  filter(!is.na(state_year_type)) |> 
+  group_by(state_year_type) |>
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |> 
+  ggplot(aes(x = state_year_type, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = "identity", fill = "chartreuse4") + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = "Type of State & Year", 
+       y = "Federal Grant Spending (Millions of $)", 
+       title = "Federal Grant Spending (Millions $) by State Election Type") + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12))
+```
+
+
+
+
+```{r}
+d_pork_state |> 
+  filter(!is.na(state_year_type2)) |> 
+  group_by(state_year_type2) |>
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |> 
+  ggplot(aes(x = state_year_type2, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = "identity", fill = "chartreuse4") + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = "Type of State & Year", 
+       y = "Federal Grant Spending (Millions of $)", 
+       title = "Federal Grant Spending (Millions $) by State Election Type") + 
+  theme_minimal() +
+  theme(plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12))
+```
+
+# county model
+
+```{r}
+pork_mod_county_1 <- lm(dvoteswing_inc  ~ dpct_grants*comp_state + as.factor(year), 
+                      d_pork_county)
+summary(pork_mod_county_1)
+
+pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year) +
+                          dpc_income + inc_ad_diff + inc_campaign_diff + 
+                          dhousevote_inc + iraq_cas2004 + iraq_cas2008 + 
+                          dpct_popl,
+                        data = d_pork_county)
+summary(pork_mod_county_2)
+```
+
+# pork state model
+
+```{r}
+d_pork_state_model <- d_state_vote |>
+  mutate(state_abb = state.abb[match(d_state_vote$state, state.name)]) |>
+  inner_join(d_pork_state, by = c("year", "state_abb")) |>
+  left_join(d_vote, by = "year") |>
+  filter(incumbent_party == TRUE) |>
+  mutate(inc_pv2p = ifelse(party == "REP", R_pv2p, D_pv2p)) |>
+  mutate(is_comp = case_when(state_year_type == "swing + election year" ~ 1,
+                             .default = 0)) |>
+  group_by(state) |>
+  mutate(change_grant_mil = (1-grant_mil/(lag(grant_mil, n = 1)))*100,
+         change_inc_pv2p = (1-inc_pv2p/(lag(inc_pv2p, n = 1)))*100) |>
+  ungroup() |>
+  select(state, year, is_comp, change_grant_mil, change_inc_pv2p)
+
+pork_state_mod <- lm(change_inc_pv2p ~ is_comp*change_grant_mil + as.factor(year),
+                     data = d_pork_state_model)
+summary(pork_state_mod)
+```
+
+# time for a change model
+
+```{r}
+d_tfc_train <- d_vote |> 
+  left_join(d_econ, by = "year") |> 
+  filter(incumbent_party) |>
+  mutate(incumbent = as.numeric(incumbent))
+
+# estimate through 2016
+tfc_mod_2016 <- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+                   data = subset(d_tfc_train, year < 2020))
+summary(tfc_mod_2016)
+
+# estimate for 2020
+tfc_mod_2020 <- lm(pv2p ~ juneapp, 
+                   data = subset(d_tfc_train, year < 2024))
+summary(tfc_mod_2020)
+```
+

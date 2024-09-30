@@ -41,6 +41,7 @@ One of the first measurements of economic growth and performance is **quarterly 
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 4.834 on 17 degrees of freedom
+##   (1 observation deleted due to missingness)
 ## Multiple R-squared:  0.1881,	Adjusted R-squared:  0.1403 
 ## F-statistic: 3.938 on 1 and 17 DF,  p-value: 0.06358
 ```
@@ -71,6 +72,7 @@ Let's take a look and see what our model would look like with **2020 removed**:
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 4.463 on 16 degrees of freedom
+##   (1 observation deleted due to missingness)
 ## Multiple R-squared:  0.3248,	Adjusted R-squared:  0.2826 
 ## F-statistic: 7.697 on 1 and 16 DF,  p-value: 0.01354
 ```
@@ -86,8 +88,8 @@ Table: <span id="tab:unnamed-chunk-5"></span>Table 1: Correlation between GDP Gr
 
 |Model        | Correlation|
 |:------------|-----------:|
-|With 2020    |   0.4336956|
-|Without 2020 |   0.5699180|
+|With 2020    |          NA|
+|Without 2020 |          NA|
 
 ## GDP, DPI, and Both
 

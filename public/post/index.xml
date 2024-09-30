@@ -6,8 +6,15 @@
     <description>Recent content in Posts on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 4 –– Incumbency Advantage</title>
+      <link>https://example.org/post/2024/09/29/blog-post-4-incumbency-advantage/</link>
+      <pubDate>Sun, 29 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://example.org/post/2024/09/29/blog-post-4-incumbency-advantage/</guid>
+      <description>## # A tibble: 97 × 14 ## year quarter GDP GDP_growth_quarterly RDPI RDPI_growth_quarterly CPI ## &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 1928 2 NA NA NA NA NA ## 2 1929 2 NA NA NA NA NA ## 3 1930 2 NA NA NA NA NA ## 4 1931 2 NA NA NA NA NA ## 5 1932 2 NA NA NA NA NA ## 6 1933 2 NA NA NA NA NA ## 7 1934 2 NA NA NA NA NA ## 8 1935 2 NA NA NA NA NA ## 9 1936 2 NA NA NA NA NA ## 10 1937 2 NA NA NA NA NA ## # ℹ 87 more rows ## # ℹ 7 more variables: unemployment &amp;lt;dbl&amp;gt;, sp500_open &amp;lt;dbl&amp;gt;, sp500_high &amp;lt;dbl&amp;gt;, ## # sp500_low &amp;lt;dbl&amp;gt;, sp500_close &amp;lt;dbl&amp;gt;, sp500_adj_close &amp;lt;dbl&amp;gt;, ## # sp500_volume &amp;lt;dbl&amp;gt; This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor Ryan Enos.</description>
+    </item>
     <item>
       <title>Blog Post 3 –– Polling and Prediction</title>
       <link>https://example.org/post/2024/09/22/blog-post-3-polling/</link>
