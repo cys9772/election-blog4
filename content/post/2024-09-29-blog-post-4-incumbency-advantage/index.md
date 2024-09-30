@@ -9,25 +9,6 @@ tags: []
 
 
 
-```
-## # A tibble: 97 × 14
-##     year quarter   GDP GDP_growth_quarterly  RDPI RDPI_growth_quarterly   CPI
-##    <dbl>   <dbl> <dbl>                <dbl> <dbl>                 <dbl> <dbl>
-##  1  1928       2    NA                   NA    NA                    NA    NA
-##  2  1929       2    NA                   NA    NA                    NA    NA
-##  3  1930       2    NA                   NA    NA                    NA    NA
-##  4  1931       2    NA                   NA    NA                    NA    NA
-##  5  1932       2    NA                   NA    NA                    NA    NA
-##  6  1933       2    NA                   NA    NA                    NA    NA
-##  7  1934       2    NA                   NA    NA                    NA    NA
-##  8  1935       2    NA                   NA    NA                    NA    NA
-##  9  1936       2    NA                   NA    NA                    NA    NA
-## 10  1937       2    NA                   NA    NA                    NA    NA
-## # ℹ 87 more rows
-## # ℹ 7 more variables: unemployment <dbl>, sp500_open <dbl>, sp500_high <dbl>,
-## #   sp500_low <dbl>, sp500_close <dbl>, sp500_adj_close <dbl>,
-## #   sp500_volume <dbl>
-```
 
 *This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
 
@@ -75,7 +56,11 @@ Let's zoom in even closer and look at the six elections since 2000:
 ## 1  2004 Kerry, John      Bush, George W.  FALSE         TRUE          FALSE     
 ## 2  2012 Obama, Barack H. Romney, Mitt     TRUE          FALSE         TRUE      
 ## 3  2020 Biden, Joseph R. Trump, Donald J. FALSE         TRUE          TRUE      
-## # ℹ 1 more variable: winner_REP <lgl>
+##   winner_REP
+##   <lgl>     
+## 1 TRUE      
+## 2 FALSE     
+## 3 FALSE
 ```
 
 The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.

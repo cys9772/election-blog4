@@ -31,10 +31,10 @@ d_pork_state <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fed
 d_pork_county <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fedgrants_bycounty_1988-2008.csv")
 d_vote$party[d_vote$party == "democrat"] <- "DEM"
 d_vote$party[d_vote$party == "republican"] <- "REP"
-d_econ |> 
-  filter(quarter == 2)
+invisible(d_econ |> 
+  filter(quarter == 2))
 
-d_poll_nov <- d_vote |> 
+invisible(d_poll_nov <- d_vote |> 
   left_join(d_pollav_natl |> 
               group_by(year, party) |> 
               top_n(1, poll_date) |> 
@@ -42,14 +42,14 @@ d_poll_nov <- d_vote |>
             by = c("year", "party")) |> 
   rename(nov_poll = poll_support) |> 
   filter(year <= 2020) |> 
-  drop_na()
+  drop_na())
 
-d_poll_weeks <- d_pollav_natl |> 
+invisible(d_poll_weeks <- d_pollav_natl |> 
   group_by(year, party, weeks_left) |>
   summarize(mean_poll_week = mean(poll_support)) |> 
   filter(weeks_left <= 30) |> 
   pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
-  left_join(d_vote, by = c("year", "party"))
+  left_join(d_vote, by = c("year", "party")))
 ```
 
 *This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
@@ -109,6 +109,7 @@ The data shows a slightly higher success rate (63.64%) when the incumbents choos
 Let's zoom in even closer and look at the six elections since 2000:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
+options(tibble.width = Inf)
 inc_tab |> 
   filter(year >= 2000)
 ```

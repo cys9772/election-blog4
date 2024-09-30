@@ -34,24 +34,6 @@
 </div>
 
 <main>
-<pre><code>## # A tibble: 97 × 14
-##     year quarter   GDP GDP_growth_quarterly  RDPI RDPI_growth_quarterly   CPI
-##    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;                &lt;dbl&gt; &lt;dbl&gt;                 &lt;dbl&gt; &lt;dbl&gt;
-##  1  1928       2    NA                   NA    NA                    NA    NA
-##  2  1929       2    NA                   NA    NA                    NA    NA
-##  3  1930       2    NA                   NA    NA                    NA    NA
-##  4  1931       2    NA                   NA    NA                    NA    NA
-##  5  1932       2    NA                   NA    NA                    NA    NA
-##  6  1933       2    NA                   NA    NA                    NA    NA
-##  7  1934       2    NA                   NA    NA                    NA    NA
-##  8  1935       2    NA                   NA    NA                    NA    NA
-##  9  1936       2    NA                   NA    NA                    NA    NA
-## 10  1937       2    NA                   NA    NA                    NA    NA
-## # ℹ 87 more rows
-## # ℹ 7 more variables: unemployment &lt;dbl&gt;, sp500_open &lt;dbl&gt;, sp500_high &lt;dbl&gt;,
-## #   sp500_low &lt;dbl&gt;, sp500_close &lt;dbl&gt;, sp500_adj_close &lt;dbl&gt;,
-## #   sp500_volume &lt;dbl&gt;
-</code></pre>
 <p><em>This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor <a href="https://www.ryandenos.com/">Ryan Enos</a>. It will be updated weekly and culminate in a predictive model of the 2024 presidential election.</em></p>
 <h2 id="introduction----how-should-we-treat-the-incumbency-advantage-in-our-2024-electoral-forecasts">Introduction &ndash; How should we treat the <em>incumbency advantage</em> in our 2024 electoral forecasts?</h2>
 <p>Humans are predictable creatures. For example, if you choose a seat to sit in on the first day of lecture, chances are, you&rsquo;ll choose the same spot next week. And the week after that &ndash; probably until the last day of class. Is this the same for voting behavior? When it comes to elections, incumbents seem to hold a similar seat-saving advantage. Voters often stick with the familiar, and the incumbency advantage becomes a powerful force in shaping election outcomes. But is this advantage truly as reliable as picking the same lecture seat, or is it more complicated?</p>
@@ -78,7 +60,11 @@
 ## 1  2004 Kerry, John      Bush, George W.  FALSE         TRUE          FALSE     
 ## 2  2012 Obama, Barack H. Romney, Mitt     TRUE          FALSE         TRUE      
 ## 3  2020 Biden, Joseph R. Trump, Donald J. FALSE         TRUE          TRUE      
-## # ℹ 1 more variable: winner_REP &lt;lgl&gt;
+##   winner_REP
+##   &lt;lgl&gt;     
+## 1 TRUE      
+## 2 FALSE     
+## 3 FALSE
 </code></pre>
 <p>The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.</p>
 <h2 id="candidate-vs-party-incumbency">Candidate vs Party Incumbency</h2>
