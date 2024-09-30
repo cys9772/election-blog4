@@ -41,10 +41,27 @@
 <p>As usual, to analyze these questions, we&rsquo;ll start with the data. So, let&rsquo;s dive in!</p>
 <h2 id="war-and-incumbency">War and Incumbency</h2>
 <p>War is an unbelievably challenging time for most countries. It is in these pivotal moments when we look towards our leaders to navigate this environment with strength, decisiveness, and humility. Therefore, taking data between 1948 and 2024, I&rsquo;ve produced the following summary for incumbency re-election:</p>
-<pre><code>##   reelect_president  N Percent
-## 1             FALSE 12   66.67
-## 2              TRUE  6   33.33
-</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">reelect_president</th>
+<th style="text-align:right">N</th>
+<th style="text-align:right">Percent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">FALSE</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">66.67</td>
+</tr>
+<tr>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:right">6</td>
+<td style="text-align:right">33.33</td>
+</tr>
+</tbody>
+</table>
 <p>We can immediately notice something &ndash; in 12/18 post-war elections, the incumbent president did not win re-election, meaning that voters opted for change rather than continuing with the same president. Historically, the incumbent advantage seems to be weaker than what&rsquo;s often assumed, which may be due to several factors. For example, many of these incumbents faced significant fundamental economic crises, including Carter&rsquo;s era of inflation and Bush&rsquo;s period of recession. In doing so, voters may often seek fresh leadership if the current administration fails to address these national concerns effectively in the public&rsquo;s eye.</p>
 <p>Of course, we also have to consider potential outliers &ndash; such as Kennedy&rsquo;s close victory in 1960 or the Watergate scandal that impacted Ford&rsquo;s chances in 1976 &ndash; that may have contributed to surprisingly low re-election rate.</p>
 <p>However, the analysis above represents overall incumbency re-election. Let&rsquo;s see how it changes when the incumbent <strong>actually runs</strong> for re-election:</p>
@@ -99,10 +116,27 @@
 <p>The table above details the each of the specific candidates running in the past 3 elections. We see that 2/3 elections were won by incumbents seeking re-election (Bush in 2004 and Obama in 2012), which mathematically checks out roughly with our previous 63% calculation. More importantly, the 2020 election breaks the previous pattern of incumbency advantage, showing that a sitting president is still vulnerable, especially under critical circumstances including a national health crisis and economic upheaval.</p>
 <h2 id="candidate-vs-party-incumbency">Candidate vs Party Incumbency</h2>
 <p>Instead of focusing solely on the candidates running for re-election, let&rsquo;s examine how the party incumbency performs during these situations:</p>
-<pre><code>##   reelect_party  N Percent
-## 1         FALSE 10   55.56
-## 2          TRUE  8   44.44
-</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">reelect_party</th>
+<th style="text-align:right">N</th>
+<th style="text-align:right">Percent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">FALSE</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">55.56</td>
+</tr>
+<tr>
+<td style="text-align:left">TRUE</td>
+<td style="text-align:right">8</td>
+<td style="text-align:right">44.44</td>
+</tr>
+</tbody>
+</table>
 <p>From above, we can see that 55.56% of the time, the party that held the presidency <strong>did not</strong> win the next election. Surprisingly, this suggests that the party in power is slightly more likely to <strong>lose the presidency</strong> than retain it. A big factor we&rsquo;re seeing here is party fatigue &ndash; a phenomenon in which voters will often desire change if a party has been in power for multiple terms, particularly if it has faced challenges and controversies. This can be further amplified when a former president is very popular and the party fails to secure an impressive successor, which can be seen in the 1992 election after Reagan. Another simple example could be in 2016, in which Obama&rsquo;s two terms of success could not sustain the democratic party, and a general voter desire for change led to Trump&rsquo;s presidency.</p>
 <p>There are also economic and political components in play, such as in 1980 when the Democrats controlled the presidency but Carter&rsquo;s disastrous handling of inflation and the Iran Hostage Crisis led to a republican victory by Reagan. Similarly, Trump&rsquo;s failed leadership during the COVID-19 pandemic further led to a loss in party confidence by voters, leading to an eventually transition to Biden and the democrats.</p>
 <p>Overall, the near-even split between party retention and loss highlights the competitive and unpredictable nature of presidential elections, making our forecasting job more challenging and exciting!</p>

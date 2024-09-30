@@ -25,11 +25,10 @@ As usual, to analyze these questions, we'll start with the data. So, let's dive 
 War is an unbelievably challenging time for most countries. It is in these pivotal moments when we look towards our leaders to navigate this environment with strength, decisiveness, and humility. Therefore, taking data between 1948 and 2024, I've produced the following summary for incumbency re-election:
 
 
-```
-##   reelect_president  N Percent
-## 1             FALSE 12   66.67
-## 2              TRUE  6   33.33
-```
+|reelect_president |  N| Percent|
+|:-----------------|--:|-------:|
+|FALSE             | 12|   66.67|
+|TRUE              |  6|   33.33|
 
 We can immediately notice something -- in 12/18 post-war elections, the incumbent president did not win re-election, meaning that voters opted for change rather than continuing with the same president. Historically, the incumbent advantage seems to be weaker than what's often assumed, which may be due to several factors. For example, many of these incumbents faced significant fundamental economic crises, including Carter's era of inflation and Bush's period of recession. In doing so, voters may often seek fresh leadership if the current administration fails to address these national concerns effectively in the public's eye.
 
@@ -62,11 +61,10 @@ The table above details the each of the specific candidates running in the past 
 Instead of focusing solely on the candidates running for re-election, let's examine how the party incumbency performs during these situations:
 
 
-```
-##   reelect_party  N Percent
-## 1         FALSE 10   55.56
-## 2          TRUE  8   44.44
-```
+|reelect_party |  N| Percent|
+|:-------------|--:|-------:|
+|FALSE         | 10|   55.56|
+|TRUE          |  8|   44.44|
 
 From above, we can see that 55.56% of the time, the party that held the presidency **did not** win the next election. Surprisingly, this suggests that the party in power is slightly more likely to **lose the presidency** than retain it. A big factor we're seeing here is party fatigue -- a phenomenon in which voters will often desire change if a party has been in power for multiple terms, particularly if it has faced challenges and controversies. This can be further amplified when a former president is very popular and the party fails to secure an impressive successor, which can be seen in the 1992 election after Reagan. Another simple example could be in 2016, in which Obama's two terms of success could not sustain the democratic party, and a general voter desire for change led to Trump's presidency.
 
