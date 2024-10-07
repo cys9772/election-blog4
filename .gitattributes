@@ -1,0 +1,1 @@
+anes_timeseries_cdf_stata_20220916.dta filter=lfs diff=lfs merge=lfs -text
