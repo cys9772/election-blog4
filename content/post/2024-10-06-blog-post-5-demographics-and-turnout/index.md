@@ -192,7 +192,7 @@ As mentioned before, the logistic regression model is quite simple **compared to
 ## 
 ```
 
-Immediately, we can see that strong accuracy of 0.704, with a 95% confidence interval of 0.683 to 0.7235, suggesting a **fairly robust and confident estimate of the model's performance.** Compared to the No Information Rate (NIR), we see that our model **performs significantly better** than random guessing or simply predicting the majority class. Once again, the balanced accuracy here represents the average of sensitivity and specificity. With a value of 0.7038, we can see that it is able to **better predict for both Democrats and Republicans** compared to our previous logistic regression model. 
+Immediately, we can see that strong accuracy of 0.703, with a 95% confidence interval of 0.683 to 0.7226, suggesting a **fairly robust and confident estimate of the model's performance.** Compared to the No Information Rate (NIR), we see that our model **performs significantly better** than random guessing or simply predicting the majority class. Once again, the balanced accuracy here represents the average of sensitivity and specificity. With a value of 0.7028, we can see that it is able to **better predict for both Democrats and Republicans** compared to our previous logistic regression model. 
 
 Of course, we have some concerns about overfitting because these results are based on in-sample data. Let's see how the model performs on **unseen data and whether or not our results remain consistent:**
 
