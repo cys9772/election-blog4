@@ -6,8 +6,15 @@
     <description>Recent content in Home on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 5 -- Demographics, Turnout, and Forests?</title>
+      <link>https://example.org/post/2024/10/06/blog-post-5-demographics-and-turnout/</link>
+      <pubDate>Sun, 06 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://example.org/post/2024/10/06/blog-post-5-demographics-and-turnout/</guid>
+      <description>This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor Ryan Enos. It will be updated weekly and culminate in a predictive model of the 2024 presidential election.&#xA;Introduction &amp;ndash; What are connections, if any between demographics and voter turnout? Can demographics and turnout be used to predict election outcomes? If so, how and how well? As kids, our family, community, experiences, and upbringing all play a role in determining who we become as adults.</description>
+    </item>
     <item>
       <title>Blog Post 4 –– Incumbency Advantage</title>
       <link>https://example.org/post/2024/09/29/blog-post-4-incumbency-advantage/</link>
