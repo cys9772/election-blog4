@@ -518,7 +518,7 @@ Here, we can see that the Democrats are predicted to **win roughly 8.36 states o
 
 The Republican confidence interval is fairly narrow, indicating that the predictions are **pretty consistent across the simulations.** As a result, we're seeing that based on the test dataset, the Republicans are **struggling to gain ground based on historical polling data and previous election results.** Of course, we need to consider possible limitations and how the test dataset may not fully capture the **unexpected shifts in voter sentiment,** or last-minute changes that fuel surges in campaign spending.
 
-With less than 3 weeks to go, it's **still anyone's game.** Stay tuned!
+With less than 3 weeks to go, it's **still anyone's game.** Stay tuned to more!
 
 ## Data Sources:
 
