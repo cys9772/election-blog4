@@ -1,10 +1,11 @@
 ---
-title: Blog Post 6 -- Campaign Spending and Elections
-author: Chris S
-date: '2024-10-12'
-slug: blog-post-6-campaign-spending-and-elections
+title: "Blog Post 6 -- Campaign Spending and Elections"
+author: "Chris S"
+date: "2024-10-12"
+output: pdf_document
 categories: []
 tags: []
+slug: "blog-post-6-campaign-spending-and-elections"
 ---
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(car)
