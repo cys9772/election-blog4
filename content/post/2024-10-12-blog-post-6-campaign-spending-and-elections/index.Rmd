@@ -59,11 +59,11 @@ d_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_
 
 ## Introduction -- How should we treat the *campaign spending* in our 2024 electoral forecasts? What role can *Bayesianism* play at predicting election outcomes?
 
-As businesses a and companies often say -- **money talks**. And when it comes to elections, it often talks very loudly. If you turn on the TV or scroll through your Twitter, you'll see election ads everywhere. 
+As businesses and companies often say -- **money talks**. And when it comes to elections, it often talks very loudly. If you turn on the TV or scroll through your Twitter, you'll see election ads everywhere. 
 
-Campaigns spend millions on everything from **slick punches** towards their opponents to **carefully crafted slogans**, each trying to capture the hearts—and votes—of the public. But the real question is -- does all that spending actually get results? Are people actually swayed? We've all heard the saying that you can't buy love, **but can you buy an election?**
+Campaigns spend millions on everything from **slick punches** toward their opponents to **carefully crafted slogans**, each trying to capture the hearts—and votes—of the public. But the real question is -- does all that spending actually get results? Are people actually swayed? We've all heard the saying that you can't buy love, **but can you buy an election?**
 
-At first glance, we might expect that by spending more, candidates would get more votes. However, there's **various nuances** we have to keep in mind, such as how spending is **allocated, tone, purpose, different strategies**, and more. So, when we forecast the 2024 elections, how should we factor in campaign spending? Finally, how does **Bayesianism** play a role in our analysis?
+At first glance, we might expect that by spending more, candidates would get more votes. However, there are **various nuances** we have to keep in mind, such as how spending is **allocated, tone, purpose, different strategies**, and more. So, when we forecast the 2024 elections, how should we factor in campaign spending? Finally, how does **Bayesianism** play a role in our analysis?
 
 Let's follow the money -- **and the data!**
 
@@ -96,9 +96,9 @@ From above, we can see that Democratic campaigns had a **roughly balanced distri
 
 Similarly, Republican campaigns seemed to start with a **higher proportion of promote ads** in 2000, but have since noticeably declined in recent election cycles. Particularly in 2012, **attack ads seem to dominate** the Republican strategy.
 
-When we think back to previous historical elections, the trends we're observing make sense. In Bush v Gore 2000, we observed Republicans use more promote ads, which tie to Bush's **"compassionate conservative"** platform that focused on policy promotion. As we moved to 2004, the Iraq War and **national security concerns** began dominating election topics, fueling the fire behind **attack ads.**
+When we think back to previous historic elections, the trends we're observing make sense. In **Bush vs Gore 2000**, we observed Republicans use more promote ads, which tie to Bush's **"compassionate conservative"** platform that focused on policy promotion. As we moved to 2004, the Iraq War and **national security concerns** began dominating election topics, fueling the fire behind **attack ads.**
 
-Finally, the 2012 election revealed **Romney's dominant strategy with attack ads** towards the incumbent, while Obama focused heavily on contrast ads that supplemented his **distinguishing record** and varying policies compared to Romney's proposals.
+Finally, the 2012 election revealed **Romney's dominant strategy with attack ads** toward the incumbent, while Obama focused heavily on contrast ads that supplemented his **distinguishing record** and varying policies compared to Romney's proposals.
 
 To look more closely into these political ads, let's understand the **purpose behind them:**
 
@@ -217,7 +217,7 @@ ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
   theme_bw()
 ```
 
-Here we can see that by 2012, the Democratic focus shifted more toward healthcare, **women's health, civil rights, and economic inequality.** This highlights the Obama administration's priorities, particularly with the **defense of the Affordable Care Act** and efforts to address income disparity int he wake of the financial crisis just several years prior. 
+Here we can see that by 2012, the Democratic focus shifted more toward healthcare, **women's health, civil rights, and economic inequality.** This highlights the Obama administration's priorities, particularly with the **defense of the Affordable Care Act** and efforts to address income disparity in the wake of the financial crisis just several years prior. 
 
 Similarly, the Republican lens shifted towards more **social issues like homosexuality, family values, and religious values,** reflecting the increasing influence of **socially conservative factions** within the party.
 
@@ -253,7 +253,7 @@ Overall, we see increased spending over time, with the **most dramatic differenc
 
 More importantly, we see **late-stage spending surges**, particularly during the final days before November. This timing is key as it plays a critical role in **last-minute voter persuasion**, especially for undecided voters who are more likely to be **swayed by media messages.**
 
-Outside spending and contributions became a big part of campaigns since 2012, especially with **the development of Super PACs**, which can raise and spending nearly **unlimited amounts of money to support or oppose** specifically political candidates. As a result, both parties were able to spend far more on ads than in previous elections, leading to an **unprecedented media surge,** particularly in the **final weeks of the campaign.**
+Outside spending and contributions have become a big part of campaigns since 2012, especially with **the development of Super PACs**, which can raise and spend nearly **unlimited amounts of money to support or oppose** specifically political candidates. As a result, both parties were able to spend far more on ads than in previous elections, leading to an **unprecedented media surge,** particularly in the **final weeks of the campaign.**
 
 ## Facebook in 2020
 
@@ -345,11 +345,11 @@ Aside from the data irregularity around August, the spending patterns **appear t
 
 ## Bayesianism and Polls
 
-As we saw in [Blog Post 3](https://cys9772.github.io/election-blog4/post/2024/09/22/blog-post-3-polling/), polling averages often reveal a lot about **voters' perception towards candidates.** Here, we'll apply Bayesian principles to consider **prior beliefs based on historical trends** and update them with **new information,** such as recent polling data, campaign spending, and other factors.
+As we saw in [Blog Post 3](https://cys9772.github.io/election-blog4/post/2024/09/22/blog-post-3-polling/), polling averages often reveal a lot about **voters' perceptions towards candidates.** Here, we'll apply Bayesian principles to consider **prior beliefs based on historical trends** and update them with **new information,** such as recent polling data, campaign spending, and other factors.
 
-Under this methodology, we can see how campaigns may start with **a strong belief about how certain states will vote,** leading them to initially allocate **fewer ad dollars** to states were they feel confident based on historical trends (high prior). Thus, as new polling data comes in, more voter sentiment is revealed and campaigns begin **shifting ad spending** to influence state outcomes. 
+Under this methodology, we can see how campaigns may start with **a strong belief about how certain states will vote,** leading them to initially allocate **fewer ad dollars** to states where they feel confident based on historical trends (high prior). Thus, as new polling data comes in, more voter sentiment is revealed and campaigns begin **shifting ad spending** to influence state outcomes. 
 
-The late-stage ad surge we're seeing reflects how campaigns are **relying heavily on new poling information** to strategize their final pushes and **maximize influence on these state outcomes.**
+The late-stage ad surge we're seeing reflects how campaigns are **relying heavily on new polling information** to strategize their final pushes and **maximize influence on these state outcomes.**
 
 Let's take a look at our model results:
 
@@ -407,7 +407,7 @@ pred.ols.dem <- predict(reg.ols, newdata = d.test)
 
 From above, we can see how **latest_pollav_DEM** is a strong predictor for the Democratic vote share, as every 1% increase in the latest polling average **predicts a roughly 0.82% increase in Democratic vote share on average.** In the context of Bayes, we see how the positive coefficient shows that new information from polling is a **critical factor in updating prior beliefs.**
 
-However, the **negative counterintuitive mean_pollav_DEM** suggests than an increase in the mean polling average leads to **a slight reduction** in the Democratic vote share. This may be highlighting how candidates may **peak early as an outlier to boost their mean polling average,** while latest polling is a more precise indicator.
+However, the **negative counterintuitive mean_pollav_DEM** suggests that an increase in the mean polling average leads to **a slight reduction** in the Democratic vote share. This may be highlighting how candidates may **peak early as an outlier to boost their mean polling average,** while the latest polling is a more precise indicator.
 
 Importantly, the Democratic vote share in the previous election is **another strong predictor,** which reflects the historical trend that voting patterns in states tend to be **consistent across elections.** In Bayesian terms, we have **a strong prior belief** that voting patterns are consistent.
 
@@ -427,9 +427,9 @@ win_pred <- data.frame(state = d.test$state,
 win_pred
 ```
 
-By looking at the simp_pred_dem values, we can immediately **identify the swing states and solid democratic states.** For the swing states like Florida, North Carolina, and Ohio, democratic vote share seems to be highly contested, reflecting the **competitive and battleground nature of these places.**
+By looking at the simp_pred_dem values, we can immediately **identify the swing states and solid democratic states.** For the swing states like Florida, North Carolina, and Ohio, the democratic vote share seems to be highly contested, reflecting the **competitive and battleground nature of these places.**
 
-Comparatively, the solid states have been won historically by the Democratic party, and with most of the them having **a large number of electoral college votes,** this makes them even more crucial for a victory.
+Comparatively, the solid states have been won historically by the Democratic party, and with most of them having **a large number of electoral college votes,** this makes them even more crucial for a victory.
 
 Let's look at the final win predictions:
 
@@ -514,11 +514,11 @@ simplified_summary <- combined_summary %>%
 print(simplified_summary)
 ```
 
-Here, we can see that the Democrats are predicted to **win roughly 8.36 states on average,** with a confidence interval ranging from 6 to 11 states. This matches with our previous analysis and highlights how Democrats are **likely to secure a significant number out of the test dataset.**
+Here, we can see that the Democrats are predicted to **win roughly 8.36 states on average,** with a confidence interval ranging from 6 to 11 states. This matches our previous analysis and highlights how Democrats are **likely to secure a significant number out of the test dataset.**
 
-The Republican confidence interval is fairly narrow, indicating that the predictions are **pretty consistent across the simulations.** As a result, we're seeing that based on the test dataset, the Republicans are **struggling to gain ground based on historical polling data and previous election results.** Of course, we need to consider possible limitations and how the test dataset may not fully capture the **unexpected shifts in voter sentiment,** or last-minute changes that fuel surges in campaign spending.
+The Republican confidence interval is fairly narrow, indicating that the predictions are **pretty consistent across the simulations.** As a result, we're seeing that based on the test dataset, the Republicans are **struggling to gain ground based on historical polling data and previous election results.** Of course, we need to consider possible limitations and how the test dataset may not fully capture the **unexpected shifts in voter sentiment** or last-minute changes that fuel surges in campaign spending.
 
-With less than 3 weeks to go, it's **still anyone's game.** Stay tuned to more!
+With less than 3 weeks to go, it's **still anyone's game.** Stay tuned for more!
 
 ## Data Sources:
 
