@@ -1,0 +1,526 @@
+---
+title: Blog Post 6 -- Campaign Spending and Elections
+author: Chris S
+date: '2024-10-12'
+slug: blog-post-6-campaign-spending-and-elections
+categories: []
+tags: []
+---
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(car)
+library(caret)
+library(cowplot)
+library(curl)
+library(CVXR)
+library(foreign)
+library(geofacet)
+library(glmnet)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(rstan)
+library(scales)
+library(sf)
+library(shinystan)
+library(tidyverse)
+library(viridis)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+d_state_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_popvote_1948_2020.csv")
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/corrected_ec_1948_2024.csv")
+
+# Read ads datasets. 
+ad_campaigns <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/ad_campaigns_2000-2012.csv")
+ad_creative <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/ad_creative_2000-2012.csv")
+ads_2020 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/ads_2020.csv")
+facebook_ads_2020 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/facebook_ads_2020.csv")
+facebook_ads_biden_2020 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/facebook_ads_biden_2020.csv")
+campaign_spending <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/FEC_contributions_by_state_2008_2024.csv")
+
+# Read polling data. 
+d_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+d_state_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_polls_1968-2024.csv")
+
+# Read turnout data. 
+d_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_turnout_1980_2022.csv")
+```
+
+*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
+
+## Introduction -- How should we treat the *campaign spending* in our 2024 electoral forecasts? What role can *Bayesianism* play at predicting election outcomes?
+
+As businesses a and companies often say -- **money talks**. And when it comes to elections, it often talks very loudly. If you turn on the TV or scroll through your Twitter, you'll see election ads everywhere. 
+
+Campaigns spend millions on everything from slick punches towards their opponents to carefully crafted slogans, each trying to capture the hearts—and votes—of the public. But the real question is -- does all that spending actually get results? Are people actually swayed? We've all heard the saying that you can't buy love, **but can you buy an election?**
+
+At first glance, we might expect that by spending more, candidates would get more votes. However, there's various nuances we have to keep in mind, such as how spending is allocated, tone, purpose, different strategies, and more. So, when we forecast the 2024 elections, how should we factor in campaign spending? Finally, how does Bayesianism play a role in our analysis?
+
+Let's follow the money -- and the data!
+
+## It's All About The Tone
+
+What you say and how you say it are often two separate things. We convey emotion, attitude, and intent through our tone, which can significantly influence how a message is received and interpreted. This strategic choice of language is crucial for candidates and parties to sway voters for or against a certain side.
+
+Let's take a look at the data:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Tone and Political Ads. 
+ad_campaigns |>
+  left_join(ad_creative) |>
+  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
+  filter(!is.na(ad_tone)) |>
+  ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(2000, 2012, 4)) +
+  ggtitle("Campaign Ads Aired By Tone") +
+  scale_fill_manual(values = c("red","orange","gray","darkgreen","white"), name = "tone") +
+  xlab("") + ylab("%") +
+  facet_wrap(~ party) + theme_minimal() +
+  theme(axis.title = element_text(size=20),
+        axis.text = element_text(size=15),
+        strip.text.x = element_text(size = 20))
+```
+
+From above, we can see that Democratic campaigns had a roughly balanced distribution between attack, contrast, and promote ads in 2000 and 2004. Interestingly, the was a sharp increase in contrast ads in 2008, which immediately fell in 2012. Overall, we can see that promote ads (green) have generally decreased over time.
+
+Similarly, Republican campaigns seemed to start with a higher proportion of promote ads in 2000, but have since noticeably declined in recent election cycles. Particularly in 2012, attack ads seem to dominate the Republican strategy.
+
+When we think back to previous historical elections, the trends we're observing make sense. In Bush v Gore 2000, we observed Republicans use more promote ads, which tie to Bush's "compassionate conservative" platform that focused on policy promotion. As we moved to 2004, the Iraq War and national security concerns began dominating election topics, fueling the fire behind attack ads.
+
+Finally, the 2012 election revealed Romney's dominant strategy with attack ads towards the incumbent, while Obama focused heavily on contrast ads that supplemented his distinguishing record and varying policies compared to Romney's proposals.
+
+To look more closely into these political ads, let's understand the purpose behind them:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+## The Purpose of Political Ads
+ad_campaigns |>
+  left_join(ad_creative) |>
+  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, party, ad_purpose) |> summarise(pct=n()*100/first(tot_n)) |>
+  filter(!is.na(ad_purpose)) |>
+  bind_rows( ##2016 raw data not public yet! This was entered manually
+    data.frame(cycle = 2016, ad_purpose = "personal", party = "democrat", pct = 67),
+    data.frame(cycle = 2016, ad_purpose = "policy", party = "democrat", pct = 12),
+    data.frame(cycle = 2016, ad_purpose = "both", party = "democrat", pct = 21),
+    data.frame(cycle = 2016, ad_purpose = "personal", party = "republican", pct = 11),
+    data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
+    data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
+  ) |>
+  ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(2000, 2016, 4)) +
+  # ggtitle("Campaign Ads Aired By Purpose") +
+  scale_fill_manual(values = c("grey","red","darkgreen","black","white"), name = "purpose") +
+  xlab("") + ylab("%") +
+  facet_wrap(~ party) + theme_minimal() +
+  theme(axis.title = element_text(size=20),
+        axis.text = element_text(size=15),
+        strip.text.x = element_text(size = 20))
+```
+
+While mos of the trends remain relatively consistent, 2016 represents an interesting case study. Here, we see that the Democratic Party significantly shifts towards personal ads, highlighting the increasing importance of personalization in modern politics and political campaigns. This can be especially effective as voter emotions have become heavily tied to a candidate's character, leading to potential shifts in policy opinions, especially in an increasingly polarized political environment.
+
+On the other hand, we can see how Republicans have consistently emphasized policy in their ad strategies, even in the contentious 2016 cycle. These include policies focused on tax reform, economic policy, immigration, national security, etc -- which have been longstanding cornerstone of Republican platforms.
+
+## So Many Issues...
+
+Now that we've understood the purpose and tone behind these campaign ads, the next natural question is about what these ads primarily focus on.
+
+Let's take a closer look at the top issues that these ads seem to highlight:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+## The Elections and Their Issues
+top_issues <- ad_campaigns |> 
+  left_join(ad_creative) |>
+  filter(!grepl("None|Other", ad_issue)) |>
+  group_by(cycle, ad_issue) |> summarise(n=n()) |> top_n(5, n)
+
+### making each plot in a grid to have its own x-axis (issue name)
+### is tricky with `facet_wrap`, so we use this package `cowplot`
+### which allows us to take a list of separate plots and grid them together
+plist <- lapply(c(2000,2004,2008,2012), function(c) {
+  top_issues |> filter(cycle == c) |> 
+    ggplot(aes(x = reorder(ad_issue, n), y = n)) +
+    geom_bar(stat = "identity") + coord_flip() + theme_bw() +
+    xlab("") + ylab("number ads aired") + ggtitle(paste("Top 5 Ad\nIssues in",c))
+  
+})
+cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
+```
+
+From the four plots, we can note some key overarching themes. First, we can see a notable shift from domestic issues (education, healthcare, and social security) to national security concerns from 2000 to 2004. Primarily due to 9/11, national security and defense emerge as key issues alongside ongoing economic concerns. The war on terror and foreign policy took center stage.
+
+The next critical phase shift we see is the 2008 election during the financial crisis. Unsurprisingly, economic issues began dominating ads as candidates became focused on economic recovery, job creation, and stabilizing the financial system.
+
+Overall, we can see how taxes and healthcare remain prominent across all years. This reflects ongoing debates about fiscal policy, government spending, and ultimately, the role of government in providing social services. Its consistency in multiple election cycles highlights how it has been a persistent issue for voters and candidates alike.
+
+## Case Studies
+
+Let's break down these themes further and examine the 2000 election in-depth:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+## Campaign Ads Aired By Issue and Party: 2000
+party_issues2000 <- ad_campaigns |>
+  filter(cycle == 2000) |>
+  left_join(ad_creative) |>
+  filter(ad_issue != "None") |>
+  ## this `group_by` is to get our denominator
+  group_by(ad_issue) |> mutate(tot_n=n()) |> ungroup() |>
+  ## this one is get numerator and calculate % by party
+  group_by(ad_issue, party) |> summarise(p_n=n()*100/first(tot_n)) |> ungroup() |>
+  ## finally, this one so we can sort the issue names
+  ## by D% of issue ad-share instead of alphabetically
+  group_by(ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
+
+ggplot(party_issues2000, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("blue", "red")) +
+  ylab("% of ads on topic from each party") + xlab("issue") + 
+  # ggtitle("Campaign Ads Aired by Topic in 2000") +
+  coord_flip() + 
+  theme_bw()
+```
+
+Here, we see a stark divide between the two parties' focus areas. Democrats center on social justice, equality, welafare, and environmental protection, while Republicans emphasize more national security, foreign policy, military strength, and traditional social values. 
+
+Historically, the 2000 election between Bush and Gore was highly contentious, and the data above reflects each campaign's strategy. Bush pushed for tax cuts, smaller government, and stronger defense. His focus on foreign policy is a reflection of the Republican desire to maintain US global leadership and military superiority.
+
+Comparatively, Gore's campaign focused on economic prosperity, environmental sustainability, and expanding social programs, which align with traditional Democratic priorities of governmental intervention to improve social welfare.
+
+Now, let's compare it to the 2012 election to see if things have shifted at all:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+## Campaign Ads Aired By Issue and Party: 2012
+party_issues2012 <- ad_campaigns |>
+  filter(cycle == 2012) |>
+  left_join(ad_creative) |>
+  filter(ad_issue != "None") |>
+  group_by(cycle, ad_issue) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, ad_issue, party) |> summarise(p_n=n()*100/first(tot_n)) |> ungroup() |>
+  group_by(cycle, ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
+
+ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("blue", "red")) +
+  ylab("% of ads on topic from each party") + xlab("issue") +
+  # ggtitle("Campaign Ads Aired by Topic in 2012") +
+  coord_flip() + 
+  theme_bw()
+```
+
+Here we can see that by 2012, the Democratic focus shifted more toward healthcare, women's health, civil rights, and economic inequality. This highlights the Obama administration's priorities, particularly with the defense of the Affordable Care Act and efforts to address income disparity int he wake of the financial crisis just several years prior. 
+
+Similarly, the Republican lens shifted towards more social issues like homosexuality, family values, and religious values, reflecting the increasing influence of socially conservative factions within the party.
+
+Ultimately, we can observe a clear ideological divide between the two parties, which only widened in 2012. And, in the broader context of the 2008 financial crisis, both parties adjusted their campaign ad strategies to emphasize economic issues.
+
+## Show Me The Money
+
+Timing is everything in life. For campaign ads, it's no different. Now that we've analyzed the trends behind the messages, let's examine when the best time is to actually buy them:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+## When to Buy Ads? 
+ad_campaigns |>
+  mutate(year = as.numeric(substr(air_date, 1, 4))) |>
+  mutate(month = as.numeric(substr(air_date, 6, 7))) |>
+  filter(year %in% c(2000, 2004, 2008, 2012), month > 7) |>
+  group_by(cycle, air_date, party) |>
+  summarise(total_cost = sum(total_cost)) |>
+  ggplot(aes(x=air_date, y=total_cost, color=party)) +
+  # scale_x_date(date_labels = "%b, %Y") +
+  scale_y_continuous(labels = dollar_format()) +
+  scale_color_manual(values = c("blue","red"), name = "") +
+  geom_line() + geom_point(size=0.5) +
+  facet_wrap(cycle ~ ., scales="free") +
+  xlab("") + ylab("ad spend") +
+  theme_bw() +
+  theme(axis.title = element_text(size=20),
+        axis.text = element_text(size=11),
+        strip.text.x = element_text(size = 20))
+
+```
+
+Overall, we see increased spending over time, with the most dramatic difference occuring between 2008 and 2012. Especially as digitial and television ads become the primary way voters consume media, campaigns have adapted their spending strategies to capture voter attention.
+
+More importantly, we see late-stage spending surges, particularly during the final days before November. This timing is key as it plays a critical role in last-minute voter persuasion, especially for undecided voters who are more likely to be swayed by media messages.
+
+Outside spending and contributions became a big part of campaigns since 2012, especially with the development of Super PACs, which can raise and spending nearly unlimited amounts of money to support or oppose specifically political candidates. As a result, both parties were able to spend far more on ads than in previous elections, leading to an unprecedented media surge, particularly in the final weeks of the campaign.
+
+## Facebook in 2020
+
+As we've seen, social media has become a huge driver in terms of how candidates reach audiences and how voters consume campaign information and disinformation.
+
+Let's take a look at Biden's Facebook ads in 2020 during the heat of the election:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Visualizing Facebook ads and Biden Facebook ads in 2020. 
+invisible(d_facebook <- facebook_ads_2020 |> 
+  rename(date = from_date, new_ads = num_of_new_ads) |> 
+  group_by(date) |> 
+  summarize(new_spend = sum(new_spend, na.rm = T),
+            new_ads = sum(new_ads, na.rm = T)))
+
+invisible(d_facebook |> 
+  ggplot(aes(x = date, y = new_ads)) + 
+  geom_line() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Date", 
+       y = "New Facebook Ads") +
+  theme_minimal())
+
+invisible(d_facebook |> 
+  ggplot(aes(x = date, y = new_spend)) +
+  geom_line() +
+  scale_y_continuous(labels = dollar_format()) +
+  geom_smooth(method = "lm", se = TRUE) + 
+  labs(x = "Date", 
+       y = "New Facebook Ad Spending") +
+  theme_minimal())
+  
+invisible(d_facebook_biden <- facebook_ads_biden_2020 |> 
+  rename(date = from_date, new_ads = num_of_new_ads) |> 
+  group_by(date) |> 
+  summarize(new_spend = sum(new_spend, na.rm = T),
+            new_ads = sum(new_ads, na.rm = T)))
+
+invisible(d_facebook_biden |>
+  ggplot(aes(x = date, y = new_ads)) + 
+  geom_line() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Date", 
+       y = "New Facebook Ads (Biden Only)") +
+  theme_minimal())
+
+invisible(d_facebook_biden |>
+  ggplot(aes(x = date, y = new_spend)) +
+  geom_line() +
+  scale_y_continuous(labels = dollar_format()) +
+  geom_smooth(method = "lm", se = TRUE) + 
+  labs(x = "Date", 
+       y = "New Facebook Ad Spending (Biden Only)") +
+  theme_minimal())
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_facebook_combined <- d_facebook %>%
+  mutate(group = "All Ads") %>%
+  bind_rows(d_facebook_biden %>% mutate(group = "Biden Ads"))
+
+# Plot New Ads with facet wrap
+ggplot(d_facebook_combined, aes(x = date, y = new_ads, color = group)) + 
+  geom_line() +
+  geom_smooth(method = "lm", se = TRUE) +
+  facet_wrap(~ group, scales = "free_y") +  # Use facet wrap to show both graphs
+  labs(x = "Date", y = "New Facebook Ads") +
+  theme_minimal()
+```
+
+Overall, we can see a relatively stable pattern in the total number of new ads across all political campaigns. There seems to be a large drop, which could be due to data irregularities or reporting errors. After this however, we see a surge in the number of new ads leading up to the election, which confirms our previous analysis.
+
+For Biden, we can see a steady increase throughout the campaign period, with its sharpest increase in October as the election nears.
+
+Now, let's dive into spending over time and see if we observe the same pattern:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Plot New Spending with facet wrap
+ggplot(d_facebook_combined, aes(x = date, y = new_spend, color = group)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  geom_smooth(method = "lm", se = TRUE) + 
+  facet_wrap(~ group, scales = "free_y") +  # Use facet wrap to show both graphs
+  labs(x = "Date", y = "New Facebook Ad Spending") +
+  theme_minimal()
+```
+
+Aside from the data irregularity around August, the spending patterns appears to mirror that of the number of ads. Similarly, Biden's ad spending also shows a general upward trend, with a sharp increase as the summer ends and the election date nears.
+
+## Bayesianism and Polls
+
+As we saw in Blog Post 3, polling averages often reveal a lot about voters' perception towards candidates. Here, we'll apply Bayesian principles to consider prior beliefs based on historical trends and update them with new information, such as recent polling data, campaign spending, and other factors.
+
+Under this methodology, we can see how campaigns may start with a strong belief about how certain states will vote, leading them to initially allocate fewer ad dollars to states were they feel confident based on historical trends (high prior). Thus, as new polling data comes in, more voter sentiment is revealed and campaigns begin shifting ad spending to influence state outcomes. 
+
+The late-stage ad surge we're seeing reflects how campaigns are relying heavily on new poling information to strategize their final pushes and maximize influence on these state outcomes.
+
+Let's take a look at our model results:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_pollav_state <- d_state_polls |>
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |>
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+# Merge data.
+d <- d_pollav_state |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  left_join(d_popvote |> filter(party == "democrat"), by = "year") |>
+  left_join(d_turnout, by = c("year", "state")) |>
+  filter(year >= 1980) |>
+  ungroup()
+
+# Sequester states for which we have polling data for 2024.
+states.2024 <- unique(d$state[d$year == 2024])
+states.2024 <- states.2024[-which(states.2024 == "Nebraska Cd 2")]
+
+# Separate into training and testing for simple poll prediction model. 
+d.train <- d |> filter(year < 2024) |> select(year, state, D_pv2p, latest_pollav_DEM, mean_pollav_DEM, 
+                                              D_pv2p_lag1, D_pv2p_lag2) |> drop_na()
+d.test <- d |> filter(year == 2024) |> select(year, state, D_pv2p, latest_pollav_DEM, mean_pollav_DEM, 
+                                              D_pv2p_lag1, D_pv2p_lag2)
+
+# Add back in lagged vote share for 2024. 
+t <- d |> 
+  filter(year >= 2016) |> 
+  arrange(year) |> 
+  group_by(state) |> 
+  mutate(
+    D_pv2p_lag1 = lag(D_pv2p, 1),
+    R_pv2p_lag1 = lag(R_pv2p, 1), 
+    D_pv2p_lag2 = lag(D_pv2p, 2),
+    R_pv2p_lag2 = lag(R_pv2p, 2)) |> 
+  filter(year == 2024) |> 
+  select(state, year, D_pv2p, R_pv2p, D_pv2p_lag1, R_pv2p_lag1, D_pv2p_lag2, R_pv2p_lag2) 
+
+# Subset testing data to only relevant variables for our simple model. 
+d.test <- d.test |> 
+  select(-c(D_pv2p, D_pv2p_lag1, D_pv2p_lag2)) |> 
+  left_join(t, by = c("state", "year"))
+
+# Standard frequentist linear regression. 
+reg.ols <- lm(D_pv2p ~ latest_pollav_DEM + mean_pollav_DEM + D_pv2p_lag1 + D_pv2p_lag2, 
+              data = d.train)
+summary(reg.ols)
+pred.ols.dem <- predict(reg.ols, newdata = d.test)
+```
+
+From above, we can see how latest_pollav_DEM is a strong predictor for the Democratic vote share, as every 1% increase in the latest polling average predicts a roughly 0.82% increase in Democratic vote share on average. In the context of Bayes, we see how the positive coefficient shows that new information from polling is a critical factor in updating prior beliefs.
+
+However, the negative counterintuitive mean_pollav_DEM suggests than an increase in the mean polling average leads to a slight reduction in the Democratic vote share. This may be highlighting how candidates may peak early as an outlier to boost their mean polling average, while latest polling is a more precise indicator.
+
+Importantly, the Democratic vote share in the previous election is another strong predictor, which reflects the historical trend that voting patterns in states tend to be consistent across elections. In Bayesian terms, we have a strong prior belief that voting patterns are consistent.
+
+Overall, the model has an R-squared value of 83% and a very low p-value, indicating quite a strong fit and statistically significant.
+
+Let's break it down even further and look at state-level analysis:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Create dataset to summarize winners and EC vote distributions. 
+win_pred <- data.frame(state = d.test$state,
+                       year = rep(2024, length(d.test$state)),
+                       simp_pred_dem = pred.ols.dem,
+                       simp_pred_rep = 100 - pred.ols.dem) |> 
+            mutate(winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican")) |>
+            left_join(d_ec, by = c("state", "year"))
+
+win_pred
+```
+
+By looking at the simp_pred_dem values, we can immediately identify the swing states and solid democratic states. For the swing states like Florida, North Carolina, and Ohio, democratic vote share seems to be highly contested, reflecting the competitive and battleground nature of these places.
+
+Comparatively, the solid states have been won historically by the Democratic party, and with most of the them having a large number of electoral college votes, this makes them even more crucial for a victory.
+
+Let's look at the final win predictions:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+win_pred |> 
+  filter(winner == "Democrat")
+
+win_pred |> 
+  filter(winner == "Republican")
+
+win_pred |> 
+  group_by(winner) |> 
+  summarize(n = n(), ec = sum(electors))
+```
+
+Overall, we can see that Democrats are in a strong position to win the election, with significant leads in many states. However, Republicans are still competitive as they have 57 EC votes from just 2 states, underscoring the importance of large and historically red states. 
+
+However, we also need to remember that the sample we're seeing here is incomplete, and without predictions for key states like Pennsylvania, Michigan, or Wisconsin, it's still hard to make a full determination of either party's path to 270.
+
+## Repeated Bayes
+
+To enhance our previous analysis, let's preform repeated sampling of the test dataset to figure out what the average number won by Democrats and Republicans. This way, we can develop a more complete understanding of the average wins.
+
+Let's take a look:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+set.seed(123)  # Set seed for reproducibility
+
+# Function to perform a single simulation of resampling states and summarizing the results
+simulate_election <- function() {
+  # Step 1: Resample states with replacement
+  resampled_states <- sample(d.test$state, replace = TRUE)
+  
+  # Step 2: Filter the test dataset for the resampled states
+  resampled_test <- d.test[d.test$state %in% resampled_states, ]
+  
+  # Step 3: Predict the Democratic vote share for the resampled states using the OLS model
+  resampled_test$simp_pred_dem <- predict(reg.ols, newdata = resampled_test)
+  resampled_test$simp_pred_rep <- 100 - resampled_test$simp_pred_dem
+  
+  # Step 4: Determine the winner for each resampled state
+  resampled_test$winner <- ifelse(resampled_test$simp_pred_dem > resampled_test$simp_pred_rep, "Democrat", "Republican")
+  
+  # Step 5: Join with the electoral college data to get electors
+  resampled_test <- resampled_test %>%
+    left_join(d_ec, by = c("state", "year"))
+  
+  # Step 6: Summarize the results (number of states won and electoral votes)
+  ec_summary <- resampled_test %>%
+    group_by(winner) %>%
+    summarize(n = n(), ec = sum(electors, na.rm = TRUE))
+  
+  return(ec_summary)
+}
+
+# Number of simulations
+n_simulations <- 1000
+
+# Run the simulations and store results
+simulation_results <- replicate(n_simulations, simulate_election(), simplify = FALSE)
+
+# Step 7: Combine results into a single dataframe
+combined_results <- bind_rows(simulation_results, .id = "simulation")
+
+# Step 8: Calculate summary statistics for states won and electoral votes
+combined_summary <- combined_results %>%
+  group_by(winner) %>%
+  summarize(
+    mean_states_won = mean(n),
+    lower_ci_states = quantile(n, 0.025),
+    upper_ci_states = quantile(n, 0.975),
+    mean_ec_votes = mean(ec),
+    lower_ci_ec = quantile(ec, 0.025),
+    upper_ci_ec = quantile(ec, 0.975)
+  )
+
+# Simplify the results to include only the winner, mean_states_won, lower_ci_states, and upper_ci_states columns
+simplified_summary <- combined_summary %>%
+  select(winner, mean_states_won, lower_ci_states, upper_ci_states)
+
+# Print the simplified summary
+print(simplified_summary)
+```
+
+Here, we can see that the Democrats are predicted to with roughly 8.36 states on average, with a confidence interval ranging from 6 to 11 states. This matches with our previous analysis and highlights how Democrats are likely to secure a significant number out of the test dataset.
+
+The Republican confidence interval is fairly narrow, indicating that the predictions are pretty consistent across the simulations. As a result, we're seeing that based on the test dataset, the Republicans are struggling to gain ground based on historical polling data and previous election results. Of course, we need to consider possible limitations and how these test datasets may not fully capture the unexpected shifts in voter sentiment, or last-minute changes that fuel surges in campaign spending.
+
+With less than 3 weeks to go, it's still anyone's game. Stay tuned!
+
+## Data Sources:
+
+Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
