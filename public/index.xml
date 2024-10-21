@@ -13,7 +13,7 @@
       <link>https://example.org/post/2024/10/21/blog-post-7-the-ground-game/</link>
       <pubDate>Mon, 21 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://example.org/post/2024/10/21/blog-post-7-the-ground-game/</guid>
-      <description>library(geofacet) library(ggpubr) ## Loading required package: ggplot2 library(ggthemes) library(haven) library(kableExtra) library(maps) library(mgcv) ## Loading required package: nlme ## This is mgcv 1.9-1. For overview type &#39;help(&amp;quot;mgcv-package&amp;quot;)&#39;. library(mgcViz) ## Loading required package: qgam ## Registered S3 method overwritten by &#39;GGally&#39;: ## method from ## +.gg ggplot2 ## Registered S3 method overwritten by &#39;mgcViz&#39;: ## method from ## +.gg GGally ## ## Attaching package: &#39;mgcViz&#39; ## The following objects are masked from &#39;package:stats&#39;: ## ## qqline, qqnorm, qqplot library(RColorBrewer) library(scales) library(sf) ## Linking to GEOS 3.</description>
+      <description>This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor Ryan Enos. It will be updated weekly and culminate in a predictive model of the 2024 presidential election.&#xA;Introduction &amp;ndash; What role does the VEP play in state-level election results? How effective is the ground game at swinging election outcomes? Ultimately, can campaign events help predict these results? Knock knock. You open your front door to find a campaign volunteer, clipboard in hand, eager to talk to you about the upcoming election.</description>
     </item>
     <item>
       <title>Blog Post 6 -- Campaign Spending and Elections</title>
