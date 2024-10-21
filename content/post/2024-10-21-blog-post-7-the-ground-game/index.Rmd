@@ -238,6 +238,9 @@ Let's trace the data across 2012 and 2016:
 options(readr.show_progress = FALSE)
 fo_2012 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fieldoffice_2012_bycounty.csv")
 
+save(fo_2012, file = "fo_2012_data.Rdata")
+load("fo_2012_data.Rdata")
+
 lm_obama <- lm(obama12fo ~ romney12fo + 
                  swing + 
                  core_rep + 
@@ -465,6 +468,10 @@ d_campaign_events <- d_campaign_events |>
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 options(readr.show_progress = FALSE)
 d_campaign_events <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/campaign_events_geocoded.csv")
+
+save(d_campaign_events, file = "d_campaign_events.Rdata")
+load("d_campaign_events.Rdata")
+
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
 
