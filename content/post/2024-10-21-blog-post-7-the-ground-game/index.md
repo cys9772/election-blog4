@@ -465,8 +465,6 @@ With the context and analysis we have now, let's examine current trends and even
   |                                                                            
   |=====                                                                 |   7%
   |                                                                            
-  |=====                                                                 |   8%
-  |                                                                            
   |======                                                                |   8%
   |                                                                            
   |======                                                                |   9%
@@ -594,8 +592,6 @@ With the context and analysis we have now, let's examine current trends and even
   |======================================                                |  54%
   |                                                                            
   |======================================                                |  55%
-  |                                                                            
-  |=======================================                               |  55%
   |                                                                            
   |=======================================                               |  56%
   |                                                                            
@@ -726,7 +722,7 @@ With the context and analysis we have now, let's examine current trends and even
 
 As predicted, **both parties are concentrating their campaign events in battleground states like Michigan, Wisconsin, Pennsylvania, and Arizona.** These are crucial Rust Belt states that helped decide the 2020 election results. They also have a significant presence in Georgia and Arizona, **two historically Republican states that flipped to the Democrats in 2020,** suggesting that Democrats are working to consolidate their gains in these areas.
 
-The Republicans are also concentrating in battleground states, but are also **hosting events in Ohio, Florida, and North Carolina, which have been traditionally red **but occasionally competitive. Doing so will help **secure support in historical strongholds** while trying to gain a **competitive edge in the swing states.**
+The Republicans are also concentrating in battleground states, but are also **hosting events in Ohio, Florida, and North Carolina, which have been traditionally red** but occasionally competitive. Doing so will help **secure support in historical strongholds** while trying to gain a **competitive edge in the swing states.**
 
 Overall, we can see how both parties are hosting fewer campaign events in traditionally solid states, **allocating more of their resources to swing states where the outcomes are more unpredictable.**
 

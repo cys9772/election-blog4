@@ -235,6 +235,7 @@ Let's trace the data across 2012 and 2016:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Where should campaigns build field offices? 
+options(readr.show_progress = FALSE)
 fo_2012 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fieldoffice_2012_bycounty.csv")
 
 lm_obama <- lm(obama12fo ~ romney12fo + 
@@ -282,9 +283,9 @@ ef_d <- lm(dempct_change ~ dummy_fo_change + battle + dummy_fo_change:battle + a
 # Field Strategies of Obama, Romney, Clinton, and Trump in 2016. 
 fo_add <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fieldoffice_2012-2016_byaddress.csv")
 
-us_geo <- counties(cb = TRUE) |> 
+invisible(us_geo <- counties(cb = TRUE) |> 
   shift_geometry() |> 
-  filter(STUSPS %in% unique(fo_add$state))
+  filter(STUSPS %in% unique(fo_add$state)))
 
 obama12 <- subset(fo_add, year == 2012 & candidate == "Obama") %>%
   select(longitude, latitude)
@@ -462,7 +463,7 @@ d_campaign_events <- d_campaign_events |>
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-
+options(readr.show_progress = FALSE)
 d_campaign_events <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/campaign_events_geocoded.csv")
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
@@ -497,7 +498,7 @@ invisible((ev20 <- ggplot() +
 
 As predicted, **both parties are concentrating their campaign events in battleground states like Michigan, Wisconsin, Pennsylvania, and Arizona.** These are crucial Rust Belt states that helped decide the 2020 election results. They also have a significant presence in Georgia and Arizona, **two historically Republican states that flipped to the Democrats in 2020,** suggesting that Democrats are working to consolidate their gains in these areas.
 
-The Republicans are also concentrating in battleground states, but are also **hosting events in Ohio, Florida, and North Carolina, which have been traditionally red **but occasionally competitive. Doing so will help **secure support in historical strongholds** while trying to gain a **competitive edge in the swing states.**
+The Republicans are also concentrating in battleground states, but are also **hosting events in Ohio, Florida, and North Carolina, which have been traditionally red** but occasionally competitive. Doing so will help **secure support in historical strongholds** while trying to gain a **competitive edge in the swing states.**
 
 Overall, we can see how both parties are hosting fewer campaign events in traditionally solid states, **allocating more of their resources to swing states where the outcomes are more unpredictable.**
 
