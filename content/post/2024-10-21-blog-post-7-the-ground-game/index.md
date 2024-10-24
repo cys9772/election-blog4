@@ -440,6 +440,7 @@ With the context and analysis we have now, let's examine current trends and even
 
 
 
+
 ```
 ## 
   |                                                                            
@@ -592,6 +593,8 @@ With the context and analysis we have now, let's examine current trends and even
   |======================================                                |  54%
   |                                                                            
   |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
   |                                                                            
   |=======================================                               |  56%
   |                                                                            
