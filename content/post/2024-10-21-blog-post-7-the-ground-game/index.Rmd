@@ -282,12 +282,17 @@ ef_d <- lm(dempct_change ~ dummy_fo_change + battle + dummy_fo_change:battle + a
 
 # Field Strategies of Obama, Romney, Clinton, and Trump in 2016. 
 fo_add <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fieldoffice_2012-2016_byaddress.csv")
+```
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 invisible(us_geo <- counties(cb = TRUE) |> 
   shift_geometry() |> 
   filter(STUSPS %in% unique(fo_add$state)))
 
 save(us_geo, file = "us_geo.RData")
+```
+
+```{r}
 load("us_geo.RData")
 
 obama12 <- subset(fo_add, year == 2012 & candidate == "Obama") %>%
@@ -472,12 +477,16 @@ d_campaign_events <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 
 
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
+```
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 invisible(us_geo <- states(cb = TRUE) |> 
   shift_geometry() |> 
   filter(STUSPS %in% unique(fo_add$state)))
-
 save(us_geo, file = "us_geo.RData")
+```
+
+```{r}
 load("us_geo.RData")
 
 invisible(d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
