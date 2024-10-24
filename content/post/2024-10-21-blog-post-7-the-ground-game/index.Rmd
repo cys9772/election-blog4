@@ -285,14 +285,6 @@ fo_add <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fieldoffi
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-invisible(us_geo <- counties(cb = TRUE) |> 
-  shift_geometry() |> 
-  filter(STUSPS %in% unique(fo_add$state)))
-
-save(us_geo, file = "us_geo.RData")
-```
-
-```{r}
 load("us_geo.RData")
 
 obama12 <- subset(fo_add, year == 2012 & candidate == "Obama") %>%
@@ -480,34 +472,32 @@ d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Bi
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-invisible(us_geo <- states(cb = TRUE) |> 
+us_geo2 <- states(cb = TRUE) |> 
   shift_geometry() |> 
-  filter(STUSPS %in% unique(fo_add$state)))
-save(us_geo, file = "us_geo.RData")
-```
+  filter(STUSPS %in% unique(fo_add$state))
+save(us_geo2, file = "us_geo2.RData")
 
-```{r}
-load("us_geo.RData")
+load("us_geo2.RData")
 
 invisible(d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
-  st_transform(crs = st_crs(us_geo)) |>
+  st_transform(crs = st_crs(us_geo2)) |>
   shift_geometry() |> 
   st_make_valid())
 
 invisible((ev16 <- ggplot() +
-   geom_sf(data = us_geo) + 
+   geom_sf(data = us_geo2) + 
    geom_sf(data = d_ev_transformed |> filter(year == 2016), aes(color = party), size = 3, alpha = 0.75, pch = 3) +
    ggtitle("2016 Campaign Events") +
    theme_void()))
 
 invisible((ev20 <- ggplot() +
-   geom_sf(data = us_geo) + 
+   geom_sf(data = us_geo2) + 
    geom_sf(data = d_ev_transformed |> filter(year == 2020), aes(color = party), size = 3, alpha = 0.75, pch = 3) +
    ggtitle("2020 Campaign Events") +
    theme_void()))
 
 (ev24 <- ggplot() +
-   geom_sf(data = us_geo) + 
+   geom_sf(data = us_geo2) + 
    geom_sf(data = d_ev_transformed |> filter(year == 2024), aes(color = party), size = 3, alpha = 0.75, pch = 3) +
    ggtitle("2024 Campaign Events") +
    theme_void())
