@@ -472,11 +472,6 @@ d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Bi
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-us_geo2 <- states(cb = TRUE) |> 
-  shift_geometry() |> 
-  filter(STUSPS %in% unique(fo_add$state))
-save(us_geo2, file = "us_geo2.RData")
-
 load("us_geo2.RData")
 
 invisible(d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
