@@ -1,0 +1,380 @@
+---
+title: Blog Post -- Shocks, Models, and Possums?
+author: Chris S
+date: '2024-10-28'
+slug: blog-post-shocks
+categories: []
+tags: []
+---
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(car)
+library(caret)
+library(CVXR)
+library(foreign)
+library(glmnet)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Load necessary libraries
+library(tidyverse)
+library(mgcv)
+
+# Load datasets
+d_hurricane <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/hurricanes_1996_2016.csv")
+d_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_turnout_1980_2022.csv")
+d_vote_share <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_popvote_1948_2020.csv")
+
+```
+
+*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
+
+## Introduction -- What role do *shocks* play in election results? Do these *apolitical shocks* actually play a role, or do they simply make for humorous article titles?
+
+In politics, experts often talk about the predictability. For example, a candidate's popularity might rise with a strong economy, or perhaps fall after a scandal. But what about those random, seemingly apolitical moments that, for whatever reason, capture the public's attention and steer a bit of the national conversation? From an unexpected celebrity endorsement to a viral meme, do these quirky shocks actually shift election results, or are they just great headlines?
+
+Exploring these “shocks” feels a bit like chasing down the hidden influences on public opinion or perhaps they hold the secret ingredient that adds an unexpected twist to a familiar political recipe So, just how much do these factors play into elections, if at all? Or do they simply give us a chance to enjoy a laugh before getting back into nitty-gritty? 
+
+Let's take a closer look.
+
+## Iconic Election Forecasting
+
+Before we get into shocks, let's examine a few legendary (and perhaps unusual) election forecasting models.
+
+To kick things off, the [Iowa Electronic Markets](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/B256F4EA39F7F9B6F0423BA4EDA46B4A/S1049096524000921a.pdf/iowa-electronic-markets-forecasting-the-2024-us-presidential-election.pdf) model used real-money prediction markets to predict the 2024 US Presidential election. Since its inception in 1988, the IEM has done surprisingly level, averaging an error rate of roughly 1.34 percentage points.
+
+However, it is quite sensitive to political shifts (like the June 27th debate), with confidence intervals and prediction rates changing drastically with a new Democratic nominee as the market adapted to surprising information. It also occasional showed bimodal distributions, indicating scenarios with both potential Republican and Democratic wins -- uncommon, but not entirely unprecendented in the context of market forecasts. Altogether, we're seeing the model predict a slight Democratic edge in the popular vote, but maintains substantial uncertainty particularly as voter sentiment continues to shift.
+
+Another iconic model is the [Economic Pessimism Model](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/EE1A580C166E04F3D34C071AF413A3E1/S104909652400091Xa.pdf/the-challenge-of-forecasting-the-2024-presidential-and-house-elections-economic-pessimism-and-election-outcomes.pdf), which leverages public economic outlook as a basis for its election outcome predictions. This goes back to our very first post on the idea of fundamentals, like the economy, which have reflected consistent trends since the 1960s whereby econmic downturn have correlated with incumbent loss. For example, inflationary pressures in the 1980s and Jimmy Carter's loss while positive growth helped Reagan in 1984. 
+
+The model currently predicts a small Republican win, but Lockerbie also recognizes that unforeseen events and circumstances as the election nears can dramatically change voter sentiment. With the race this close, even the smallest shift may be the difference between a win and a loss.
+
+The final interesting model is the [PoSSUM Model](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/89476D06B0055BD8B9E4557F09C9D10A/S1049096524000982a.pdf/the-2024-us-presidential-election-possum-poll.pdf). Instead of using state-wide polling or economic data, the authors analyzed users' digital traces on social media platforms like X (formerly Twitter) to compute their predictions. The addition of AI and large language models (LLMs) can help infer voting preferences and behavior via sentiment analysis without direct interviews or polling.
+
+By assessing digital profiles, it assigns "speculation scores" to guage the confidence of inferences about voting preferences. Overall, the model's results mirror closely with traditional polls, suggesting that AI polling and sophisticated algorithms are as good, if not better, than traditional methods. 
+
+Altogether, these somewhat unusual models provide a brief glimpse into the variety and creativity that political scientists and researchers are exploring when it comes to the game of predicting election outcomes.
+
+## Apolitical Shocks
+
+Before we dive into some final tweaking of our own model, let's examine the common debate over how sudden shocks affect voting behavior. This first began in [Achen and Bartels (2016)](https://muse-jhu-edu.ezp-prod1.hul.harvard.edu/book/64646) which explored the influence of shark attacks in New Jersey beach towns. Through their analysis, they uncovered that these towns often voted significantly less for the incumbent compared to non-beach towns that weren't facing this surprising shock. 
+
+However, research by [Fowler and Hall (2018)](https://www-journals-uchicago-edu.ezp-prod1.hul.harvard.edu/doi/pdfplus/10.1086%2F699244) later discovered that by incorporating other counties as a whole dramatically reduced the significance of this unusual shark attack shock. What they found was that Ocean County, the county that Achen and Bartels studied, was an outlier and in reality, beach and non-beach towns voted rather similarly. 
+
+These aren't the only examples of apolitical shocks and their influence. For instance, [Healy and Malhotra (2010)](https://www-nowpublishers-com.ezp-prod1.hul.harvard.edu/article/Details/QJPS-9057) found that whether or not there was a "disaster declaration" on certain shocking events created different impacts on voting behavior. They argued that such declarations often amplify incumbent support because it creates the impression of proactive response, regardless of the disaster's scale or actual effectiveness of relief efforts.
+
+Together, we can see that while these apolitical shocks provide interesting insights to voting behavior and election outcomes, their effects feel too context-dependent and may not be generalizable across many states. Thus, I won't be including this in my final model.
+
+## Random Forest Tweaks
+
+Of all the models I've investigated thus far, the random forest's robustness and ability to do both regression and classification tasks make it my favorite and most compelling. In particular, I'll be using the ANES dataset that provides a rich collectino of variables related to voting behavior and demographics to justify this decision.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+d_state_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_popvote_1948_2020.csv")
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/corrected_ec_1948_2024.csv")
+
+# Read and merge demographics data. 
+d_demos <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/demographics.csv")[,-1]
+
+# Read primary turnout data. 
+d_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/turnout_1789_2020.csv")
+d_state_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_turnout_1980_2022.csv")
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read polling data. 
+d_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+d_state_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_polls_1968-2024.csv")
+
+# Read and merge 1% voterfile data into one dataset. 
+voterfile.sample.files <- list.files("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_1pc_samples_aug24")
+
+# Florida example. 
+vf_fl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_1pc_samples_aug24/FL_sample.csv")
+d_vote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+d_pollav_natl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+
+d_poll_weeks <- d_pollav_natl |> 
+  group_by(year, party, weeks_left) |>
+  summarize(mean_poll_week = mean(poll_support)) |> 
+  filter(weeks_left <= 30) |> 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+
+d_poll_weeks_train <- d_poll_weeks |> 
+  filter(year <= 2020)
+d_poll_weeks_test <- d_poll_weeks |> 
+  filter(year == 2024)
+
+colnames(d_poll_weeks)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_train)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_test)[3:33] <- paste0("poll_weeks_left_", 0:30)
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+anes <- read_dta("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/anes_timeseries_cdf_stata_20220916.dta") # Total ANES Cumulative Data File. 
+
+anes <- anes |> 
+  mutate(year = VCF0004,
+         pres_vote = case_when(VCF0704a == 1 ~ 1, 
+                               VCF0704a == 2 ~ 2, 
+                               .default = NA), 
+         # Demographics
+         age = VCF0101, 
+         gender = VCF0104, # 1 = Male; 2 = Female; 3 = Other
+         race = VCF0105b, # 1 = White non-Hispanic; 2 = Black non-Hispanic, 3 == Hispanic; 4 = Other or multiple races, non-Hispanic; 9 = missing/DK
+         educ = VCF0110, # 0 = DK; 1 = Less than high school; 2. High school; 3 = Some college; 4 = College+ 
+         income = VCF0114, # 1 = 0-16 percentile; 2 = 17-33 percentile; 3 = 34-67; 4 = 68 to 95; 5 = 96 to 100. 
+         religion = VCF0128, # 0 = DK; 1 = Protestant; 2 = Catholic; 3 = Jewish; 4 = Other
+         attend_church = case_when(
+           VCF0004 < 1972 ~ as.double(as.character(VCF0131)),
+           TRUE ~ as.double(as.character(VCF0130))
+         ), # 1 = every week - regularly; 2 = almost every week - often; 3 = once or twice a month; 4 = a few times a year - seldom; 5 = never ; 6 = no religious preference
+         southern = VCF0113,
+         region = VCF0113, 
+         work_status = VCF0118,
+         homeowner = VCF0146, 
+         married = VCF0147,
+        
+         # 7-point PID
+         pid7 = VCF0301, # 0 = DK; 1 = Strong Democrat; 2 = Weak Democrat; 3 = Independent - Democrat; 4 = Independent - Independent; 5 = Independent - Republican; 6 = Weak Republican; 7 = Strong Republican
+         
+         # 3-point PID
+         pid3 = VCF0303, # 0 = DK; 1 = Democrats; 2 = Independents; 3 = Republicans. 
+         
+         # 3-point ideology. 
+         ideo = VCF0804 # 0, 9 = DK; 1 = Liberal; 2 = Moderate; 3 = Conservative
+         ) |> 
+  select(year, pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+         region, work_status, homeowner, married, pid7, pid3, ideo)
+```
+
+As we've seen, the model's ability to capture the 2016 election shows promising results:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+anes_year <- anes[anes$year == 2016,] |> 
+  select(-c(year, pid7, pid3, ideo)) |>
+  mutate(pres_vote = factor(pres_vote, levels = c(1, 2), labels = c("Democrat", "Republican"))) |> 
+  filter(!is.na(pres_vote)) |>
+  clean_names()
+
+n_features <- length(setdiff(names(anes_year), "pres_vote"))
+
+set.seed(02138)
+train.ind <- createDataPartition(anes_year$pres_vote, p = 0.8, list = FALSE)
+
+anes_train <- anes_year[train.ind,]
+anes_test <- anes_year[-train.ind,]
+logit_fit <- glm(pres_vote ~ ., 
+                 family = "binomial", 
+                 data = anes_train)
+# RANDOM FOREST: 
+rf_fit <- ranger(pres_vote ~ ., 
+                 mtry = floor(n_features/3), 
+                 respect.unordered.factors = "order", 
+                 seed <- 02138,
+                 classification = TRUE,
+                 data = anes_train)
+
+(cm.rf.is <- confusionMatrix(rf_fit$predictions, anes_train$pres_vote))
+```
+
+Here, we can see that **strong accuracy of 0.703**, with a 95% confidence interval of 0.683 to 0.7226, suggesting a **fairly robust and confident estimate of the model's performance.** Compared to the simple random guessing (NIR) rate of 0.523, we e see that our model **performs significantly better**.
+
+Reviewing again, its out-of-sample accuracy is just as good:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+# Out-of-sample accuracy. 
+rf_pred <- predict(rf_fit, data = anes_test)
+(cm.rf.oos <- confusionMatrix(rf_pred$predictions, anes_test$pres_vote))
+```
+
+Thus, we can see how the random forest model maintains an accuracy of roughly 0.70, demonstrating how it can consistently capture the complex interactions between education, race, religion, etc.
+
+Our previous prediction was:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Set seed for reproducibility
+set.seed(02138)
+
+# Extract training data (weeks left from 7 to 30) as features (predictors)
+x.train_rf <- d_poll_weeks_train |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)))
+
+# Extract target variable (pv2p)
+y.train_rf <- d_poll_weeks_train$pv2p
+
+# Extract test data (weeks left from 7 to 30) for 2024
+x.test_rf <- d_poll_weeks_test |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)))
+
+# Train the random forest model
+rf_fit_2024 <- ranger(pv2p ~ ., 
+                      data = data.frame(x.train_rf, pv2p = y.train_rf), 
+                      mtry = floor(ncol(x.train_rf) / 3), 
+                      respect.unordered.factors = "order", 
+                      seed = 02138, 
+                      classification = FALSE)
+
+# Predict the 2024 vote share using the trained random forest model
+rf_pred_2024 <- predict(rf_fit_2024, data = x.test_rf)
+
+# Display the predicted vote shares
+rf_pred_2024$predictions
+```
+
+Thus, see that the random forest model predicts a reasonably **narrow gap in vote share,** with Harris leading by a slim margin. Now, we'll incorporate economic variables into our model to improve its accuracy and predictive ability.
+
+Research from [Fair (2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm) and [Sides and Vavreck (2013)](https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_jstor_books_j_ctt7ztpn1&context=PC&vid=HVD2&search_scope=everything&tab=everything&lang=en_US) have shown that the state of the economy has a non-negligible ability to mobilize and persuade voters. Thus, let's take a look at the model's prediction:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Load necessary libraries
+library(ranger)
+library(caret)
+library(dplyr)
+
+# Set seed for reproducibility
+set.seed(02138)
+
+fred_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv")
+bea_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/bea_econ.csv")
+
+bea_econ <- bea_econ %>%
+  rename(year = Year)
+
+econ_data <- fred_econ %>%
+  inner_join(bea_econ, by = "year")
+
+# Merge the economic data with the training and testing datasets by year
+d_poll_weeks_train_with_econ <- d_poll_weeks_train %>%
+  left_join(econ_data, by = "year")
+
+d_poll_weeks_test_with_econ <- d_poll_weeks_test %>%
+  left_join(econ_data, by = "year")
+
+x.train_rf <- d_poll_weeks_train_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Define target variable (pv2p) for training data
+y.train_rf <- d_poll_weeks_train_with_econ$pv2p
+
+# Define test predictor variables (weeks left from 7 to 30 and added economic indicators) for 2024
+x.test_rf <- d_poll_weeks_test_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Train the random forest model
+rf_fit_2024 <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x.train_rf, pv2p = y.train_rf), 
+  mtry = floor(ncol(x.train_rf) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+
+# Predict the 2024 vote share using the trained random forest model
+rf_pred_2024 <- predict(rf_fit_2024, data = x.test_rf)
+
+# Display the predicted vote share
+predicted_vote_share <- rf_pred_2024$predictions
+unique_predicted_vote_share <- unique(predicted_vote_share)
+
+# Print the cleaned up output with context
+cat("Predicted Vote Shares for 2024 Election:\n")
+cat("Democratic candidate (Harris):", round(unique_predicted_vote_share[1], 2), "%\n")
+cat("Republican candidate (Trump):", round(unique_predicted_vote_share[2], 2), "%\n")
+
+```
+
+Here, we can see how the estimates still imply a fairly narrow margin, highlighting the competitiveness of this presidential race. We also see a very small increase in predicted vote share for Harris, which makes sense as economic data like GDP, unemployment rate, CPI, and the S&P often favor the incumbent party when the economy is doing well.
+
+To further cement our prediction, let's do a cross-validation to examine the model's precision:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Define the tuning grid with required parameters
+tuning_grid <- expand.grid(
+  mtry = floor(ncol(x.train_rf) / 3),
+  splitrule = "variance", # Using variance as split rule for regression
+  min.node.size = 5       # Minimum node size
+)
+
+# Perform cross-validation with the updated tuning grid
+train_control <- trainControl(method = "cv", number = 10) # 10-fold cross-validation
+rf_model_cv <- train(
+  x = x.train_rf, y = y.train_rf,
+  method = "ranger",
+  trControl = train_control,
+  tuneGrid = tuning_grid,
+  importance = "permutation"
+)
+
+# Cross-Validation Results: Accuracy Estimate
+print(rf_model_cv)
+print(paste("Cross-validated RMSE:", rf_model_cv$results$RMSE))
+print(paste("Cross-validated R-squared:", rf_model_cv$results$Rsquared))
+
+```
+
+Here, we can see an R-squared value of nearly 1, suggesting that the model has a near-perfect explanatory power over the training data. However, I'm also thinking about potential overfitting and whether the model is simply capturing the "noise" of the dataset. Then again, the random forest model has the ability to capture non-linear interactions, which may be well suited for the current data structure. My next steps will be to ensure its reliability by evaluating the model performance on an independent test set, and considering additional techniques like feature selection or reducing complexity if the precision drops significantly.
+
+Altogether, this will make for an exciting model as we gear up for the final days before Nov 5th. Stay tuned for the final results next Monday!
+
+## Data Sources:
+
+Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
+
+
+```
+
+
+
+
