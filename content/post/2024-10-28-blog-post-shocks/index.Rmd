@@ -1,5 +1,5 @@
 ---
-title: Blog Post -- Shocks, Models, and Possums?
+title: Blog Post 8 -- Shocks, Models, and Possums?
 author: Chris S
 date: '2024-10-28'
 slug: blog-post-shocks
@@ -60,43 +60,45 @@ d_vote_share <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/sta
 
 ## Introduction -- What role do *shocks* play in election results? Do these *apolitical shocks* actually play a role, or do they simply make for humorous article titles?
 
-In politics, experts often talk about the predictability. For example, a candidate's popularity might rise with a strong economy, or perhaps fall after a scandal. But what about those random, seemingly apolitical moments that, for whatever reason, capture the public's attention and steer a bit of the national conversation? From an unexpected celebrity endorsement to a viral meme, do these quirky shocks actually shift election results, or are they just great headlines?
+In politics, experts often talk about **predictability.** For example, a candidate’s popularity **might rise with a strong economy, or perhaps fall after a scandal.** But what about those random, **seemingly apolitical moments** that, for whatever reason, capture the public’s attention and steer a bit of the national conversation? From an unexpected celebrity endorsement to a viral meme, **do these quirky shocks actually shift election results**, or are they just great headlines?
 
-Exploring these “shocks” feels a bit like chasing down the hidden influences on public opinion or perhaps they hold the secret ingredient that adds an unexpected twist to a familiar political recipe So, just how much do these factors play into elections, if at all? Or do they simply give us a chance to enjoy a laugh before getting back into nitty-gritty? 
+Exploring these “shocks” feels a bit like **chasing down the hidden influences on public opinion** or perhaps they hold the secret ingredient that adds an unexpected twist to a familiar political recipe. So, just **how much do these factors play into elections,** if at all? Or do they simply give us a chance to enjoy a laugh **before getting back into nitty-gritty?**
 
 Let's take a closer look.
 
 ## Iconic Election Forecasting
 
-Before we get into shocks, let's examine a few legendary (and perhaps unusual) election forecasting models.
+Before we get into shocks, let's examine **a few legendary (and perhaps unusual)** election forecasting models.
 
-To kick things off, the [Iowa Electronic Markets](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/B256F4EA39F7F9B6F0423BA4EDA46B4A/S1049096524000921a.pdf/iowa-electronic-markets-forecasting-the-2024-us-presidential-election.pdf) model used real-money prediction markets to predict the 2024 US Presidential election. Since its inception in 1988, the IEM has done surprisingly level, averaging an error rate of roughly 1.34 percentage points.
+To kick things off, the [Iowa Electronic Markets](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/B256F4EA39F7F9B6F0423BA4EDA46B4A/S1049096524000921a.pdf/iowa-electronic-markets-forecasting-the-2024-us-presidential-election.pdf) model used **real-money prediction markets** to predict the 2024 U.S. presidential election. Since its inception in 1988, the IEM has done surprisingly level, **averaging an error rate of roughly 1.34 percentage points.**
 
-However, it is quite sensitive to political shifts (like the June 27th debate), with confidence intervals and prediction rates changing drastically with a new Democratic nominee as the market adapted to surprising information. It also occasional showed bimodal distributions, indicating scenarios with both potential Republican and Democratic wins -- uncommon, but not entirely unprecendented in the context of market forecasts. Altogether, we're seeing the model predict a slight Democratic edge in the popular vote, but maintains substantial uncertainty particularly as voter sentiment continues to shift.
+However, it is quite sensitive to political shifts (like the June 27th debate), **with confidence intervals and prediction rates changing drastically** with a new Democratic nominee as **the market adapted to surprising information.** It also occasionally showed **bimodal distributions,** indicating scenarios with both potential Republican and Democratic wins – **uncommon, but not entirely unprecedented in the context of market forecasts.** Altogether, we're seeing the model predict **a slight Democratic edge in the popular vote,** but maintains substantial uncertainty particularly as voter sentiment continues to shift.
 
-Another iconic model is the [Economic Pessimism Model](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/EE1A580C166E04F3D34C071AF413A3E1/S104909652400091Xa.pdf/the-challenge-of-forecasting-the-2024-presidential-and-house-elections-economic-pessimism-and-election-outcomes.pdf), which leverages public economic outlook as a basis for its election outcome predictions. This goes back to our very first post on the idea of fundamentals, like the economy, which have reflected consistent trends since the 1960s whereby econmic downturn have correlated with incumbent loss. For example, inflationary pressures in the 1980s and Jimmy Carter's loss while positive growth helped Reagan in 1984. 
+Another iconic model is the [Economic Pessimism Model](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/EE1A580C166E04F3D34C071AF413A3E1/S104909652400091Xa.pdf/the-challenge-of-forecasting-the-2024-presidential-and-house-elections-economic-pessimism-and-election-outcomes.pdf), which **leverages public economic outlook** as a basis for its election outcome predictions. This goes back to our very first post on the idea of fundamentals, like the economy, which has **reflected consistent trends since the 1960s** whereby economic downturns have correlated with incumbent loss. For example, inflationary pressures in the 1980s **contributed to Carter’s loss** while positive growth **helped Reagan in 1984.**
 
-The model currently predicts a small Republican win, but Lockerbie also recognizes that unforeseen events and circumstances as the election nears can dramatically change voter sentiment. With the race this close, even the smallest shift may be the difference between a win and a loss.
+The model **currently predicts a small Republican win,** but Lockerbie also recognizes that unforeseen events and circumstances as the election nears can dramatically change voter sentiment. With the race this close, **even the smallest shift** may be the difference between a win and a loss.
 
-The final interesting model is the [PoSSUM Model](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/89476D06B0055BD8B9E4557F09C9D10A/S1049096524000982a.pdf/the-2024-us-presidential-election-possum-poll.pdf). Instead of using state-wide polling or economic data, the authors analyzed users' digital traces on social media platforms like X (formerly Twitter) to compute their predictions. The addition of AI and large language models (LLMs) can help infer voting preferences and behavior via sentiment analysis without direct interviews or polling.
+The final interesting model is the [PoSSUM Model](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/89476D06B0055BD8B9E4557F09C9D10A/S1049096524000982a.pdf/the-2024-us-presidential-election-possum-poll.pdf). Instead of using state-wide polling or economic data, the authors **analyzed users’ digital traces on social media platforms** like X (formerly Twitter) to compute their predictions. The addition of AI and large language models (LLMs) can help **infer voting preferences and behavior via sentiment analysis** without direct interviews or polling.
 
-By assessing digital profiles, it assigns "speculation scores" to guage the confidence of inferences about voting preferences. Overall, the model's results mirror closely with traditional polls, suggesting that AI polling and sophisticated algorithms are as good, if not better, than traditional methods. 
+By assessing digital profiles, it assigns *speculation scores* to gauge the **confidence of inferences** about voting preferences. Overall, the model’s results **mirror closely with traditional polls,** suggesting that AI polling and sophisticated algorithms are as good, if not better, than traditional methods.
 
-Altogether, these somewhat unusual models provide a brief glimpse into the variety and creativity that political scientists and researchers are exploring when it comes to the game of predicting election outcomes.
+Altogether, these somewhat unusual models provide **a brief glimpse into the variety and creativity** that political scientists and researchers are exploring when it comes to predicting election outcomes.
 
 ## Apolitical Shocks
 
-Before we dive into some final tweaking of our own model, let's examine the common debate over how sudden shocks affect voting behavior. This first began in [Achen and Bartels (2016)](https://muse-jhu-edu.ezp-prod1.hul.harvard.edu/book/64646) which explored the influence of shark attacks in New Jersey beach towns. Through their analysis, they uncovered that these towns often voted significantly less for the incumbent compared to non-beach towns that weren't facing this surprising shock. 
+Before we dive into some final tweaking of our model, let's examine **the common debate over how sudden shocks affect voting behavior.** This first began in [Achen and Bartels (2016)](https://muse-jhu-edu.ezp-prod1.hul.harvard.edu/book/64646) which explored the influence of **shark attacks in New Jersey beach towns.** Through their analysis, they uncovered that these towns often **voted significantly less for the incumbent** compared to non-beach towns that weren't facing this surprising shock.
 
-However, research by [Fowler and Hall (2018)](https://www-journals-uchicago-edu.ezp-prod1.hul.harvard.edu/doi/pdfplus/10.1086%2F699244) later discovered that by incorporating other counties as a whole dramatically reduced the significance of this unusual shark attack shock. What they found was that Ocean County, the county that Achen and Bartels studied, was an outlier and in reality, beach and non-beach towns voted rather similarly. 
+However, research by [Fowler and Hall (2018)](https://www-journals-uchicago-edu.ezp-prod1.hul.harvard.edu/doi/pdfplus/10.1086%2F699244) later discovered that **incorporating other counties** as a whole dramatically **reduced** the significance of this unusual shark attack shock. What they found was that Ocean County, the county that Achen and Bartels studied, **was an outlier**, and in reality, beach and non-beach towns voted **rather similarly.**
 
-These aren't the only examples of apolitical shocks and their influence. For instance, [Healy and Malhotra (2010)](https://www-nowpublishers-com.ezp-prod1.hul.harvard.edu/article/Details/QJPS-9057) found that whether or not there was a "disaster declaration" on certain shocking events created different impacts on voting behavior. They argued that such declarations often amplify incumbent support because it creates the impression of proactive response, regardless of the disaster's scale or actual effectiveness of relief efforts.
+These aren't the only examples of apolitical shocks and their influence. For instance, [Healy and Malhotra (2010)](https://www-nowpublishers-com.ezp-prod1.hul.harvard.edu/article/Details/QJPS-9057) found that **whether or not there was a “disaster declaration”** on certain shocking events created different impacts on voting behavior. They argued that such declarations often **amplify incumbent support because they create the impression of a proactive response,** regardless of the disaster's scale or the actual effectiveness of relief efforts.
 
-Together, we can see that while these apolitical shocks provide interesting insights to voting behavior and election outcomes, their effects feel too context-dependent and may not be generalizable across many states. Thus, I won't be including this in my final model.
+Together, we can see that while these apolitical shocks provide interesting insights into voting behavior and election outcomes, **their effects feel too context-dependent and may not be generalizable across many states.** Thus, I won't be including this in my final model.
 
 ## Random Forest Tweaks
 
-Of all the models I've investigated thus far, the random forest's robustness and ability to do both regression and classification tasks make it my favorite and most compelling. In particular, I'll be using the ANES dataset that provides a rich collectino of variables related to voting behavior and demographics to justify this decision.
+Of all the models I've investigated thus far, the random forest's robustness and **ability to do both regression and classification tasks** make it my favorite and most compelling. In particular, I'll be using the **ANES dataset** which provides a rich collection of variables related to voting behavior and demographics to justify this decision.
+
+As we’ve seen, the model’s ability to capture the 2016 election **shows promising results:**
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 d_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
@@ -191,8 +193,6 @@ anes <- anes |>
          region, work_status, homeowner, married, pid7, pid3, ideo)
 ```
 
-As we've seen, the model's ability to capture the 2016 election shows promising results:
-
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 anes_year <- anes[anes$year == 2016,] |> 
   select(-c(year, pid7, pid3, ideo)) |>
@@ -221,9 +221,9 @@ rf_fit <- ranger(pres_vote ~ .,
 (cm.rf.is <- confusionMatrix(rf_fit$predictions, anes_train$pres_vote))
 ```
 
-Here, we can see that **strong accuracy of 0.703**, with a 95% confidence interval of 0.683 to 0.7226, suggesting a **fairly robust and confident estimate of the model's performance.** Compared to the simple random guessing (NIR) rate of 0.523, we e see that our model **performs significantly better**.
+Here, we can see **a strong accuracy of 0.703,** with a 95% confidence interval of **0.683 to 0.7226,** suggesting a fairly robust and confident estimate of the model’s performance. Compared to the **simple random guessing (NIR) rate of 0.523**, we observe that our model performs **significantly better.**
 
-Reviewing again, its out-of-sample accuracy is just as good:
+Reviewing again, its **out-of-sample accuracy** is just as good:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -232,9 +232,9 @@ rf_pred <- predict(rf_fit, data = anes_test)
 (cm.rf.oos <- confusionMatrix(rf_pred$predictions, anes_test$pres_vote))
 ```
 
-Thus, we can see how the random forest model maintains an accuracy of roughly 0.70, demonstrating how it can consistently capture the complex interactions between education, race, religion, etc.
+Thus, we clearly observe how the random forest model **maintains an accuracy of roughly 0.70,** demonstrating how it can consistently capture the complex interactions between education, race, religion, etc.
 
-Our previous prediction was:
+Based on this, **our previous prediction was:**
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Set seed for reproducibility
@@ -268,9 +268,11 @@ rf_pred_2024 <- predict(rf_fit_2024, data = x.test_rf)
 rf_pred_2024$predictions
 ```
 
-Thus, see that the random forest model predicts a reasonably **narrow gap in vote share,** with Harris leading by a slim margin. Now, we'll incorporate economic variables into our model to improve its accuracy and predictive ability.
+Thus, we see that the random forest model predicts a reasonably **narrow gap in vote share,** with Harris leading by a slim margin. Now, we'll **incorporate economic variables** into our model to improve its accuracy and predictive ability.
 
-Research from [Fair (2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm) and [Sides and Vavreck (2013)](https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_jstor_books_j_ctt7ztpn1&context=PC&vid=HVD2&search_scope=everything&tab=everything&lang=en_US) have shown that the state of the economy has a non-negligible ability to mobilize and persuade voters. Thus, let's take a look at the model's prediction:
+Research from [Fair (2018)](https://fairmodel.econ.yale.edu/RAYFAIR/PDF/2018B.htm) and [Sides and Vavreck (2013)](https://hollis.harvard.edu/primo-explore/fulldisplay?docid=TN_cdi_jstor_books_j_ctt7ztpn1&context=PC&vid=HVD2&search_scope=everything&tab=everything&lang=en_US) have shown that the **state of the econom**y has a **non-negligible ability** to mobilize and persuade voters. 
+
+Thus, let's take a look at the **updated model's prediction:**
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Load necessary libraries
@@ -335,9 +337,9 @@ cat("Republican candidate (Trump):", round(unique_predicted_vote_share[2], 2), "
 
 ```
 
-Here, we can see how the estimates still imply a fairly narrow margin, highlighting the competitiveness of this presidential race. We also see a very small increase in predicted vote share for Harris, which makes sense as economic data like GDP, unemployment rate, CPI, and the S&P often favor the incumbent party when the economy is doing well.
+Here, we can see how the estimates **still imply a fairly narrow margin,** highlighting the competitiveness of this presidential race. We also observe **a very small increase in predicted vote share for Harris,** which makes sense as economic data like GDP, unemployment rate, CPI, and the S&P often **favor the incumbent party when the economy is doing well.**
 
-To further cement our prediction, let's do a cross-validation to examine the model's precision:
+To further cement our prediction, let's do a **cross-validation** to examine the model's precision:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Define the tuning grid with required parameters
@@ -364,17 +366,13 @@ print(paste("Cross-validated R-squared:", rf_model_cv$results$Rsquared))
 
 ```
 
-Here, we can see an R-squared value of nearly 1, suggesting that the model has a near-perfect explanatory power over the training data. However, I'm also thinking about potential overfitting and whether the model is simply capturing the "noise" of the dataset. Then again, the random forest model has the ability to capture non-linear interactions, which may be well suited for the current data structure. My next steps will be to ensure its reliability by evaluating the model performance on an independent test set, and considering additional techniques like feature selection or reducing complexity if the precision drops significantly.
+Here, we can see an **R-squared value of nearly 1,** suggesting that the model has a **near-perfect explanatory power** over the training data. However, I'm also thinking about potential overfitting and whether the model is **simply capturing the “noise” of the dataset.** Then again, the random forest model can reveal non-linear interactions, which may be **well-suited for the current data structure.** My next steps will be to ensure its reliability by **evaluating the model performance on an independent test set,** and considering additional techniques like **feature selection or reducing complexity** if the precision drops significantly.
 
-Altogether, this will make for an exciting model as we gear up for the final days before Nov 5th. Stay tuned for the final results next Monday!
+Altogether, this will make for an exciting model as we gear up for the **final days before Nov 5th.** Stay tuned for the **final results next Monday!**
 
 ## Data Sources:
 
 Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
-
-
-```
-
 
 
 
