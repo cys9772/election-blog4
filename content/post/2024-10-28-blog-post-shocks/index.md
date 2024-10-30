@@ -1,10 +1,10 @@
 ---
-title: Blog Post -- Shocks, Models, and Possums?
-author: Chris S
-date: '2024-10-28'
-slug: blog-post-shocks
+title: "Blog Post -- Shocks, Models, and Possums?"
+author: "Chris S"
+date: "2024-10-28"
 categories: []
 tags: []
+slug: "blog-post-shocks"
 ---
 
 
