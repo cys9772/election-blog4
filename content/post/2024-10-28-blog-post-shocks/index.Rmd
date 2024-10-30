@@ -1,5 +1,5 @@
 ---
-title: Blog Post 8 -- Shocks, Models, and Possums?
+title: Blog Post -- Shocks, Models, and Possums?
 author: Chris S
 date: '2024-10-28'
 slug: blog-post-shocks
