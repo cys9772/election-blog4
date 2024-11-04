@@ -1,0 +1,501 @@
+---
+title: The Finale
+author: Chris S
+date: '2024-11-03'
+slug: the-finale
+categories: []
+tags: []
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(car)
+library(caret)
+library(CVXR)
+library(foreign)
+library(glmnet)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+d_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+d_state_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_popvote_1948_2020.csv")
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/corrected_ec_1948_2024.csv")
+
+# Read and merge demographics data. 
+d_demos <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/demographics.csv")[,-1]
+
+# Read primary turnout data. 
+d_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/turnout_1789_2020.csv")
+d_state_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_turnout_1980_2022.csv")
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read polling data. 
+d_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+d_state_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_polls_1968-2024.csv")
+
+# Read and merge 1% voterfile data into one dataset. 
+voterfile.sample.files <- list.files("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_1pc_samples_aug24")
+
+# Florida example. 
+vf_fl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_1pc_samples_aug24/FL_sample.csv")
+d_vote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+d_pollav_natl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+
+d_poll_weeks <- d_pollav_natl |> 
+  group_by(year, party, weeks_left) |>
+  summarize(mean_poll_week = mean(poll_support)) |> 
+  filter(weeks_left <= 30) |> 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+
+d_poll_weeks_train <- d_poll_weeks |> 
+  filter(year <= 2020)
+d_poll_weeks_test <- d_poll_weeks |> 
+  filter(year == 2024)
+
+colnames(d_poll_weeks)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_train)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_test)[3:33] <- paste0("poll_weeks_left_", 0:30)
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+anes <- read_dta("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/anes_timeseries_cdf_stata_20220916.dta") # Total ANES Cumulative Data File. 
+
+anes <- anes |> 
+  mutate(year = VCF0004,
+         pres_vote = case_when(VCF0704a == 1 ~ 1, 
+                               VCF0704a == 2 ~ 2, 
+                               .default = NA), 
+         # Demographics
+         age = VCF0101, 
+         gender = VCF0104, # 1 = Male; 2 = Female; 3 = Other
+         race = VCF0105b, # 1 = White non-Hispanic; 2 = Black non-Hispanic, 3 == Hispanic; 4 = Other or multiple races, non-Hispanic; 9 = missing/DK
+         educ = VCF0110, # 0 = DK; 1 = Less than high school; 2. High school; 3 = Some college; 4 = College+ 
+         income = VCF0114, # 1 = 0-16 percentile; 2 = 17-33 percentile; 3 = 34-67; 4 = 68 to 95; 5 = 96 to 100. 
+         religion = VCF0128, # 0 = DK; 1 = Protestant; 2 = Catholic; 3 = Jewish; 4 = Other
+         attend_church = case_when(
+           VCF0004 < 1972 ~ as.double(as.character(VCF0131)),
+           TRUE ~ as.double(as.character(VCF0130))
+         ), # 1 = every week - regularly; 2 = almost every week - often; 3 = once or twice a month; 4 = a few times a year - seldom; 5 = never ; 6 = no religious preference
+         southern = VCF0113,
+         region = VCF0113, 
+         work_status = VCF0118,
+         homeowner = VCF0146, 
+         married = VCF0147,
+        
+         # 7-point PID
+         pid7 = VCF0301, # 0 = DK; 1 = Strong Democrat; 2 = Weak Democrat; 3 = Independent - Democrat; 4 = Independent - Independent; 5 = Independent - Republican; 6 = Weak Republican; 7 = Strong Republican
+         
+         # 3-point PID
+         pid3 = VCF0303, # 0 = DK; 1 = Democrats; 2 = Independents; 3 = Republicans. 
+         
+         # 3-point ideology. 
+         ideo = VCF0804 # 0, 9 = DK; 1 = Liberal; 2 = Moderate; 3 = Conservative
+         ) |> 
+  select(year, pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+         region, work_status, homeowner, married, pid7, pid3, ideo)
+```
+
+*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
+
+## So, the time has come...
+
+After weeks of diving into the mechanics of elections -- from economic trends to ground game tactics, from polling swings to those elusive "October surprises", and even shark attacks -- it’s finally time to put our analysis to the test. The big question on everyone's mind is: *what’s our prediction?*
+
+As we wrap up this journey, I think back to a classic saying that echoes through every stats class -- "All models are wrong, but some are useful." 
+
+In other words, no prediction tool is perfect, but with the right approach, we might just capture some meaningful insights. So, while no model can account for every quirk and curveball, I'm excited to share my final forecast for this election. Maybe it's right. Maybe not.
+
+Regardless, let's dive in and see what our analysis reveals!
+
+## The Final Model
+
+In our previous blog, we discussed not only the influence of shocks, but we also decided on a final model that we would use. This model hinges ANES data, economic factors, and random forest computation to produce its results. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Set seed for reproducibility
+set.seed(02138)
+
+fred_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv")
+bea_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/bea_econ.csv")
+
+bea_econ <- bea_econ %>%
+  rename(year = Year)
+
+econ_data <- fred_econ %>%
+  inner_join(bea_econ, by = "year")
+
+# Merge the economic data with the training and testing datasets by year
+d_poll_weeks_train_with_econ <- d_poll_weeks_train %>%
+  left_join(econ_data, by = "year")
+
+d_poll_weeks_test_with_econ <- d_poll_weeks_test %>%
+  left_join(econ_data, by = "year")
+
+x.train_rf <- d_poll_weeks_train_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Define target variable (pv2p) for training data
+y.train_rf <- d_poll_weeks_train_with_econ$pv2p
+
+# Define test predictor variables (weeks left from 7 to 30 and added economic indicators) for 2024
+x.test_rf <- d_poll_weeks_test_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Train the random forest model
+rf_fit_2024 <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x.train_rf, pv2p = y.train_rf), 
+  mtry = floor(ncol(x.train_rf) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+# Define the tuning grid with required parameters
+tuning_grid <- expand.grid(
+  mtry = floor(ncol(x.train_rf) / 3),
+  splitrule = "variance", # Using variance as split rule for regression
+  min.node.size = 5       # Minimum node size
+)
+
+# Perform cross-validation with the updated tuning grid
+train_control <- trainControl(method = "cv", number = 10) # 10-fold cross-validation
+rf_model_cv <- train(
+  x = x.train_rf, y = y.train_rf,
+  method = "ranger",
+  trControl = train_control,
+  tuneGrid = tuning_grid,
+  importance = "permutation"
+)
+
+importance_data <- data.frame(
+  Variable = names(rf_model_cv$finalModel$variable.importance),
+  Importance = rf_model_cv$finalModel$variable.importance
+)
+
+ggplot(importance_data, aes(x = reorder(Variable, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() +
+  labs(title = "Feature Importance",
+       x = "Variables", y = "Importance") +
+  theme_minimal()
+
+```
+
+Interestingly, we can see how the random forest model is relying heavily on polling data, which can be positive as it reveals recent voter sentiment, but also may not fully capture economic shocks. However, by weighting polling data heavily, the model is well-suited for situations where the electorate's final preferences align with polling trends. Further, while economic factors have lower importance, the model is still considering its background influence, providing a bseline for voter sentiment.
+
+Throughout my research and investigation, I've found that voter sentiment and economic well-being to significantly impact how voters feel about the incumbent party and potential candidates. When the economy is doing well, voters tend to feel more secure and may attribute positive economic outcomes to the current administration or the incumbent party. On the other hand, economic downturns or periods of high unemployment can lead to dissatisfaction with the incumbent and voters looking for change.
+
+More broadly, we can see this central idea in political science as the retrospective voting theory, suggesting that voters make decisions based on the past performance of a candidate or party -- economic conditions is just one measure of this performance.
+
+Historically, we've seen this phenomena play out. In the 1980 election between Carter and Reagan, we saw how high inflation and unemployment caused voters to be frustrated with President Carter, contributing to a landslide victory for Reagan.
+
+Similarly, the 1992 election between Bush and Clinton saw the catchphrase "it's the economy, stupid" as the central statement for Clinton's campaign, highlighting the recession that affected Bush's approval. In particular, economic factors like unemployment and GDP growth were especially divisive, leading voters to seak and alternative candidate.
+
+Ultimately, by combining ANES data with economic indicators, the model can account for both personal factors (such as demographics and political attitudes) and external, quantifiable economic conditions that influence elections and voter sentiment.
+
+And so, let's take a look at the 2024 prediction results before further analysis and investigation:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Set seed for reproducibility
+set.seed(02138)
+
+fred_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv")
+bea_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/bea_econ.csv")
+
+bea_econ <- bea_econ %>%
+  rename(year = Year)
+
+econ_data <- fred_econ %>%
+  inner_join(bea_econ, by = "year")
+
+# Merge the economic data with the training and testing datasets by year
+d_poll_weeks_train_with_econ <- d_poll_weeks_train %>%
+  left_join(econ_data, by = "year")
+
+d_poll_weeks_test_with_econ <- d_poll_weeks_test %>%
+  left_join(econ_data, by = "year")
+
+x.train_rf <- d_poll_weeks_train_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Define target variable (pv2p) for training data
+y.train_rf <- d_poll_weeks_train_with_econ$pv2p
+
+# Define test predictor variables (weeks left from 7 to 30 and added economic indicators) for 2024
+x.test_rf <- d_poll_weeks_test_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Train the random forest model
+rf_fit_2024 <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x.train_rf, pv2p = y.train_rf), 
+  mtry = floor(ncol(x.train_rf) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+
+# Predict the 2024 vote share using the trained random forest model
+rf_pred_2024 <- predict(rf_fit_2024, data = x.test_rf)
+
+# Display the predicted vote share
+predicted_vote_share <- rf_pred_2024$predictions
+unique_predicted_vote_share <- unique(predicted_vote_share)
+
+# Print the cleaned up output with context
+cat("Predicted Vote Shares for 2024 Election:\n")
+cat("Democratic candidate (Harris):", round(unique_predicted_vote_share[1], 2), "%\n")
+cat("Republican candidate (Trump):", round(unique_predicted_vote_share[2], 2), "%\n")
+```
+
+Here, we can see how the estimates **still imply a fairly narrow margin,** highlighting the competitiveness of this presidential race. The **small increase in predicted vote share for Harris** compared to previous models  makes sense as economic data like GDP, unemployment rate, CPI, and the S&P **favor the incumbent party when the economy is doing well.**
+
+To further investigate our model, I conducted a cross-validation test that produced surprising results:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Define the tuning grid with required parameters
+tuning_grid <- expand.grid(
+  mtry = floor(ncol(x.train_rf) / 3),
+  splitrule = "variance", # Using variance as split rule for regression
+  min.node.size = 5       # Minimum node size
+)
+
+# Perform cross-validation with the updated tuning grid
+train_control <- trainControl(method = "cv", number = 10) # 10-fold cross-validation
+rf_model_cv <- train(
+  x = x.train_rf, y = y.train_rf,
+  method = "ranger",
+  trControl = train_control,
+  tuneGrid = tuning_grid,
+  importance = "permutation"
+)
+
+# Cross-Validation Results: Accuracy Estimate
+print(rf_model_cv)
+print(paste("Cross-validated RMSE:", rf_model_cv$results$RMSE))
+print(paste("Cross-validated R-squared:", rf_model_cv$results$Rsquared))
+```
+
+Interestingly, we can see an **R-squared value of nearly 1,** suggesting that the model has a **near-perfect explanatory power** over the training data. However, this indicates potential overfitting and whether the model is **simply capturing the “noise” of the dataset.** 
+
+Thus, my next steps will be to ensure its reliability by conducting in-sample, out-sample of sample, and bootstrapped prediction estimates to further evaluate the precision of my model.
+
+Let's dive in!
+
+## In-Sample and Out-of-Sample Tests
+
+We'll start with an in-sample test, whereby the model is evaluated on the same data it was trained on, which usually produces lower error but may not reflect the true predicitve power on new data:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Use the full training data (all years up to 2020) to train the model
+x_train_in_sample <- d_poll_weeks_train_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+y_train_in_sample <- d_poll_weeks_train_with_econ$pv2p
+
+# Train the random forest model on the full training data
+rf_fit_in_sample <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x_train_in_sample, pv2p = y_train_in_sample), 
+  mtry = floor(ncol(x_train_in_sample) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+
+# Predict on the same training data (in-sample predictions)
+in_sample_predictions <- predict(rf_fit_in_sample, data = x_train_in_sample)$predictions
+in_sample_rmse <- sqrt(mean((y_train_in_sample - in_sample_predictions)^2))
+cat("In-Sample RMSE:", in_sample_rmse, "\n")
+
+```
+
+Here, we can see that an extremely low RMSE means that the model fits the training data extremely well, but also means that there is some potentially overfitting. This happens when the model is adjusted too precisely to historical patterns, which may not hold for future data. 
+
+Let's see if this remains true for an out-of-sample test, in which we the model is evaluated on data it hasn't seen, such as holding out certain data points to provide a better assessment of how it might perform on new data:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Filter out 2008 and 2012 data as the pseudo-test set
+pseudo_test_data <- d_poll_weeks_train_with_econ |> filter(year %in% c(2008, 2012))
+train_data <- d_poll_weeks_train_with_econ |> filter(!year %in% c(2008, 2012))
+
+# Define training and pseudo-test predictors and target variables
+x_train_pseudo <- train_data |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+y_train_pseudo <- train_data$pv2p
+
+x_pseudo_test <- pseudo_test_data |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+y_pseudo_test <- pseudo_test_data$pv2p
+
+# Train the random forest model on the new training set (excluding 2008 and 2012)
+rf_fit_pseudo <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x_train_pseudo, pv2p = y_train_pseudo), 
+  mtry = floor(ncol(x_train_pseudo) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+
+# Predict on the training data to calculate training RMSE
+train_predictions_pseudo <- predict(rf_fit_pseudo, data = x_train_pseudo)$predictions
+train_rmse_pseudo <- sqrt(mean((y_train_pseudo - train_predictions_pseudo)^2))
+cat("Training RMSE (excluding 2008 and 2012):", train_rmse_pseudo, "\n")
+
+# Predict on the pseudo-test set (2008 and 2012) to calculate test RMSE
+pseudo_test_predictions <- predict(rf_fit_pseudo, data = x_pseudo_test)$predictions
+pseudo_test_rmse <- sqrt(mean((y_pseudo_test - pseudo_test_predictions)^2))
+cat("Pseudo-Test RMSE (2008 and 2012):", pseudo_test_rmse, "\n")
+```
+
+I chose not to test the model on the two most recent elections (2016 and 2020) due to the presence of unique factors. In particular, the political polarization of 2016 and the global pandemic in 2020 heavily influenced the election environment, which may suggest that the model does more poorly than in reality.
+
+Regardless, we can see the large difference between the Training RMSE and the Pseudo-Test RMSE, highlighting the model's high accuracy on the training set but inability to handle variations in real-world election conditions. At the same time, the 2008 and 2012 elections posed interesting factors, with Barack Obama as the first African American presidential nominee for a major party in 2008 and the 2012 election with the 2008 financial crisis still in its rearview mirror. 
+
+Thus, the model may not be flexible enough to account for these unusual election dynamics, which could explain the high error.
+
+Let's repeat our analysis to generate a prediction interval:
+
+## Predictive Interval
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Define necessary predictors only (explicitly removing any unwanted columns)
+predictor_columns <- c(paste0("poll_weeks_left_", 7:30), 
+                       "Gross.domestic.product", "unemployment", "CPI", "sp500_close")
+
+# Define the test set for 2024 with only the necessary predictors
+x.test_rf <- d_poll_weeks_test_with_econ |>
+  select(all_of(predictor_columns)) |>
+  as.data.frame()
+
+# Set parameters
+set.seed(02138)
+num_bootstrap <- 1000  # Number of bootstrap samples for the prediction interval
+
+# Placeholder to store predictions from each bootstrap sample
+bootstrap_predictions <- numeric(num_bootstrap)
+
+# Perform bootstrapping
+for (i in 1:num_bootstrap) {
+  # Resample the training data
+  bootstrap_sample <- d_poll_weeks_train_with_econ %>%
+    sample_frac(replace = TRUE)
+  
+  # Define predictors and target variable for the bootstrap sample
+  x_bootstrap <- bootstrap_sample %>%
+    select(all_of(predictor_columns)) |>
+    as.data.frame()  # Ensure data frame structure
+
+  y_bootstrap <- bootstrap_sample$pv2p
+  
+  # Train the random forest model on the bootstrap sample
+  rf_bootstrap <- ranger(
+    dependent.variable.name = "pv2p", 
+    data = data.frame(x_bootstrap, pv2p = y_bootstrap), 
+    mtry = floor(ncol(x_bootstrap) / 3), 
+    respect.unordered.factors = "order", 
+    seed = 02138, 
+    classification = FALSE
+  )
+  
+  # Predict the vote share for 2024
+  bootstrap_predictions[i] <- predict(rf_bootstrap, data = x.test_rf)$predictions
+}
+
+# Calculate the 95% predictive interval
+lower_bound <- quantile(bootstrap_predictions, 0.025)
+upper_bound <- quantile(bootstrap_predictions, 0.975)
+mean_prediction <- mean(bootstrap_predictions)
+
+# Display the results
+cat("Predicted Vote Share for 2024:\n")
+cat("Mean Prediction:", round(mean_prediction, 2), "%\n")
+cat("95% Prediction Interval:", round(lower_bound, 2), "% to", round(upper_bound, 2), "%\n")
+
+```
+
+The 95% prediction interval is extremely narrow, spanning only 0.08 percentage points (from 52.77% to 52.85%). Thus, this suggests that there is very little variability in the model’s predicted outcomes. At the same time, we need to consider potential overconfidence and how election outcomes often vary due to last-minute shifts in voter sentiment and unpredictable factors. 
+
+As we've seen before, there are potential questions about overfitting, and so the lack of flexibility in the model could mean that it is highly deterministic, focusing heavily on a few key predictors.
+
+We can also visualize these replications in a histogram:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(data.frame(Bootstrap_Predictions = bootstrap_predictions), aes(x = Bootstrap_Predictions)) +
+  geom_histogram(binwidth = 0.005, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Bootstrap Predictions",
+       x = "Predicted Vote Share (%)", y = "Frequency") +
+  theme_minimal()
+
+```
+
+Ultimately, the narrow 95% prediction interval suggests strong confidence in this specific outcome, buy may not fully account for real-world uncertainties and sudden shifts that characterize, or perhaps plague, elections.
+
+## Now We Wait...
+
+With election night just 24 hours away, the world sits on the edge of their seats (or perhaps their couches), anxiously awaiting the results. I know I'll be glued to the TV.
+
+For weeks, we've uncovered the dynamics of this election -- from the economic climate to voter sentiment, from polls to historical trends. Yet, even with the most advanced model at our fingertips, one thing remains certain -- elections are full of surprises.
+
+Either way, this process reminds us of the power and limits of data-driven insights. Ultimately, every vote and every voice counts. So, now we wait...
+
+## Data Sources:
+
+Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
