@@ -120,35 +120,8 @@ d_county_2020 <- d_county_2020 |>
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-# Sequester state and county-level map.
-states_2024 <- states(cb = TRUE, year = 2023) |> 
-  shift_geometry() |> 
-  mutate(GEOID = as.numeric(GEOID)) |> 
-  left_join(d_state_2024, by = c("GEOID" = "FIPS")) |> 
-  drop_na()
-
-# Save the object to a file
-save(states_2024, file = "states_2024.RData")
-
-
-counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023) |> 
-  shift_geometry() |> 
-  mutate(GEOID = as.numeric(GEOID)) |> 
-  left_join(d_county_2024, by = c("GEOID" = "FIPS")) |> 
-  left_join(d_county_2020, by = c("GEOID" = "FIPS")) |>
-  mutate(shift = (trump_pv - trump_pv_2020) * 100, 
-         shift_dir = case_when(shift > 0 ~ "REP", 
-                               shift < 0 ~ "DEM", 
-                               TRUE ~ "No Change"),
-         centroid = st_centroid(geometry), 
-         centroid_long = st_coordinates(centroid)[,1],
-         centroid_lat = st_coordinates(centroid)[,2],
-         scale_factor = 1e4, 
-         end_long = centroid_long + scale_factor * shift,
-         end_lat = centroid_lat + scale_factor * shift) |>
-  drop_na()
-
-save(counties_2024, file = "states_2024.RData")
+load("states_2024.RData")
+load("counties_2024.RData")
 
 county_pop_2024 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/PopulationEstimates.csv") |> 
   mutate(FIPStxt = as.numeric(FIPStxt)) |>
@@ -161,13 +134,13 @@ counties_2024 <- counties_2024 |>
 
 ## Introduction -- How did our election model fare? What insights did we capture, and where did we miss the mark?
 
-Election season has come and gone, and now it’s time for the real question -- how did our model stack up against reality? From economic trends to ground game tactics, from polling swings to those elusive "October surprises", and even shark attacks, we've aimed to capture the heart of 2024’s electoral landscape throughout the last couple of weeks. 
+Election season has come and gone, and now it’s time for the real question – how did our model stack up against reality? From economic trends to ground game tactics, polling swings to those elusive “October surprises”, and even shark attacks, we’ve aimed to capture the heart of 2024’s electoral landscape throughout the last couple of weeks.
 
-As begin our final reflection, I'm reminded of the important quote that echoes throughout almost any statistics course -- **"All models are wrong, but some are useful."** Even in the words of Professor Enos, he writes that the importance of forecasting is so that "...we can learn about important things..."
+As we begin our final reflection, I remember the important quote that echoes throughout almost any statistics course – “All models are wrong, but some are useful.” Even in the words of Professor Enos, writes that the importance of forecasting is so that “…we can learn about important things…”
 
-No model can be flawless, but if it got us even close to the truth, we're calling it a win. So, let's dive into the final results and see just how well we did. Did our predictions hold up? Let's find out!
+No model can be flawless, but we're calling it a win if it got us even close to the truth. So, let’s dive into the final results and see how well we did. Did our predictions hold up? Let’s find out!
 
-And as always, we'll start with the data...
+And as always, we’ll start with the data…
 
 ## Let's take a step back...
 
@@ -399,9 +372,9 @@ pseudo_test_rmse <- sqrt(mean((y_pseudo_test - pseudo_test_predictions)^2))
 cat("Pseudo-Test RMSE (2008 and 2012):", pseudo_test_rmse, "\n")
 ```
 
-The model’s R-squared value near 1 suggests it fits the training data almost perfectly, but this raises concerns about overfitting, as it may be capturing noise rather than true predictive patterns. For the out-of-sample tests, I chose not to test the model on 2016 and 2020 due to unique factors like intense polarization and the pandemic, which could've skewed the results. 
+The model’s R-squared value near 1 suggests it fits the training data almost perfectly, but this raises concerns about overfitting, as it may be capturing noise rather than true predictive patterns. For the out-of-sample tests, I chose not to test the model on 2016 and 2020 due to unique factors like intense polarization and the pandemic, which could’ve skewed the results.
 
-The large gap between Training RMSE and Pseudo-Test RMSE further indicates that while the model performs well on training data, it struggles with real-world election variability. At the same time, the 2008 and 2012 elections posed interesting factors, with Barack Obama as the first African American presidential nominee for a major party in 2008 and the 2012 election with the 2008 financial crisis still in its rearview mirror.
+The large gap between Training RMSE and Pseudo-Test RMSE further indicates that while the model performs well on training data, it struggled with real-world election variability. At the same time, the 2008 and 2012 elections posed interesting factors, with Barack Obama as the first African American presidential nominee for a major party in 2008 and the 2012 election with the 2008 financial crisis still in its rearview mirror.
 
 Thus, the model may not be flexible enough to account for these unusual election dynamics, which could explain the high error.
 
@@ -463,8 +436,8 @@ The narrow 95% prediction interval (spanning only ~0.08 percentage points) sugge
 
 ## So...how'd we do?
 
-With election night in full steam, we gatehred eagerly around screens and TVs to watch the US choose its next president. Unfortunately, our model was a bit off, but something tells me a lot of people didn't see this election swinging the way it did. 
-Let's take a look at the electoral college results:
+With election night in full steam, we gathered eagerly around screens and TVs to watch the US choose its next president. Unfortunately, our model was a bit off, but something tells me a lot of people didn't see this election swinging the way it did. 
+Let's take a look at the Electoral College results:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Make map of state winners. 
@@ -486,16 +459,16 @@ ggplot(counties_2024, aes(fill = factor(winner))) +
   theme(legend.position = "bottom")
 ```
 
-Overall, we see that Republicans secured a majority of states across the central and southern U.S., while Democrats won in several states along the coasts and in a few areas of the Midwest. This reflects a familiar pattern of urban-coastal Democratic support contrasted with Republican dominance in more rural and central regions. In a more granular county-level diagnostic, we observe that Republican support is spread widely across rural areas, while Democratic victories are concentrated in urban centers and some specific regions.
+Overall, we observe that Republicans secured a majority of states across the central and southern U.S., while Democrats won in several states along the coasts and a few areas of the Midwest. This reflects a familiar pattern of urban-coastal Democratic support contrasted with Republican dominance in more rural and central regions. In a more granular county-level diagnostic, we observe that Republican support is spread widely across rural areas, while Democratic victories are concentrated in urban centers and some specific regions.
 
-The popular vote reflected similar overall results, final count being roughly 51% for Trump and 49% for Harris. Clearly, our aggressive 52.88% prediction for Harris was off, and so, the question is -- what can we learn from it?
+The popular vote reflected similar overall results, with the final count being roughly 51% for Trump and 49% for Harris. Clearly, our aggressive 52.88% prediction for Harris was off, and so the question is – what can we learn from it?
 
 One hypothesis points in the direction of population shifts. Let's take a closer look!
 
 
 ## Population Shifts?
 
-The discrepancy that we're seeing between our prediction and the actual outcome could in-part be answered by the recent population shifts and migrations across the United States. My hypothesis is that my inaccuracy stems from its insufficient integration of recent demographic migration trends and their effects on voter demographics and preferences. 
+The discrepancy that we’re seeing between our prediction and the actual outcome could in part be answered by the recent population shifts and migrations across the United States. I hypothesize that my inaccuracy stems from its insufficient integration of recent demographic migration trends and their effects on voter demographics and preferences.
 
 Recent [sources](https://nypost.com/2024/11/09/lifestyle/new-york-california-losing-population-to-sun-belt-census-data/?utm_source=chatgpt.com) have reported that there has been a notable migration from high-tax, traditionally Democratic states like New York and California to lower-cost, more business-friendly states such as Texas, Florida, and North Carolina. As a result, the influx of residents into traditionally Republican-leaning states has led to increased voter registration and participation, potentially bolstering Republican vote shares in these areas. At the same time, the outmigration from Democratic strongholds may have reduced the Democratic voter base in those states, affecting their overall vote shares.
 
@@ -503,7 +476,6 @@ Let's see if the data reflects similar trends:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Make arrow map of county-level shifts across US. 
-counties_2024$shift |> mean()
 counties_2024 |> 
   ggplot() +
   geom_sf(fill = "gray95", color = "darkgrey") +  # Base map
@@ -521,7 +493,7 @@ counties_2024 |>
        subtitle = "Democratic vs. Republican Gains")
 ```
 
-We can see that the large abundance of red arrows, especially concentrated in the Midwest, South, and parts of the interior West, suggests a notable shift toward Republican preferences in these areas, which may have played a significant role in the my model’s inaccuracy. If Democratic-leaning voters moved to states or counties where they remain a minority, it wouldn't substantially shift these areas toward Democrats. However, the loss of these voters in traditionally Democratic urban centers could lead to a less robust base.
+We can see that the large abundance of red arrows, especially concentrated in the Midwest, South, and parts of the interior West, suggests a notable shift toward Republican preferences in these areas, which may have played a significant role in my model’s inaccuracy. If Democratic-leaning voters moved to states or counties where they remain a minority, it wouldn't substantially shift these areas toward Democrats. However, the loss of these voters in traditionally Democratic urban centers could lead to a less robust base.
 
 Let's take a more granular analysis of demographic shifts and look at a key battleground state -- Pennsylvania:
 
@@ -554,9 +526,9 @@ Thus, altogether I believe that incorporating real-time migration data and analy
 
 There are several ways in which we could quantitatively test my hypothesis on population shifts. For example, I could collect population change data (2020 to 2024) by county from sources like the U.S. Census Bureau, to track shifts in voting patterns (e.g., the percentage change in Republican vs. Democratic vote share). Thus, I could see if counties with significant population increases are more likely to have shifted toward the Republican vote, supporting the idea that new residents have impacted local voting dynamics.
 
-If available, I would look into migration data, such as from the IRS or USPS address data that can help identify where new residents in each county originated. As a result, I could test if areas that received large numbers of residents from Democratic-leaning or Republican-leaning regions regions.
+If available, I would look into migration data, such as from the IRS or USPS address data that can help identify where new residents in each county originated. As a result, I could test if areas that received large numbers of residents from Democratic-leaning or Republican-leaning regions.
 
-Armed with this new insight and data, a regression model using predictors like population growth rate, economic factors, and migration patterns would be more robust at predicting the size of voting shifts toward Republicans or Democrats in each county, and the overall two-party vote share. Additionally, a time series analysis, could be used to assess whether counties with higher recent migration rates (e.g., 2018-2024) deviated from their historical voting trends more than counties with stable populations. 
+Armed with this new insight and data, a regression model using predictors like population growth rate, economic factors, and migration patterns would be more robust at predicting the size of voting shifts toward Republicans or Democrats in each county, and the overall two-party vote share. Additionally, a time series analysis could be used to assess whether counties with higher recent migration rates (e.g., 2018-2024) deviated from their historical voting trends more than counties with stable populations. 
 
 More specifically, this approach would help to isolate whether recent migration significantly correlates with the somewhat unexpected voting shifts in the 2024 election.
 
@@ -566,9 +538,9 @@ Another pivotal issue that influenced voter behavior was inflation. While my mod
 
 As I reflect on my model, the reliance on historical data may have been limiting, especially when thinking about the unique economic dynamics of the 2024 cycle post-pandemic. Pressure from supply chain disruptions and labor unions presented new challenges that traditional economic indicators may not have been able to capture. Interestingly, research also indicates that voters often respond more strongly to [perceived economic threats than actual statistical indicators](https://www.cornellpress.cornell.edu/inflation-the-fed-and-the-2024-us-election/). The persistent anxiety that inflation creates can erode consumer confidence in the incumbent party and significantly influence voting behavior.
 
-To test this hypothesis, I would propose a correlation analysis between inflation and voting pattern to examine the relationship between inflation rates and voting behavior by analyzing county-level inflation data alongside voting outcomes. This would help determine if areas experiencing higher inflation saw significant shifts in voting patterns. I could the enhance the model by using additional inflation indicators, such as the Personal Consumption Expenditures (PCE) Price Index, which may capture consumer spending behaviors more accurately than simply CPI. Of course, I would also have to consider overfitting as a potential issue.
+To test this hypothesis, I would propose a correlation analysis between inflation and voting patterns to examine the relationship between inflation rates and voting behavior by analyzing county-level inflation data alongside voting outcomes. This would help determine if areas experiencing higher inflation saw significant shifts in voting patterns. I could enhance the model by using additional inflation indicators, such as the Personal Consumption Expenditures (PCE) Price Index, which may capture consumer spending behaviors more accurately than simply CPI. Of course, I would also have to consider overfitting as a potential issue.
 
-Similar to the previous section, a time-series analysis could provide meaningful insight into how changes in inflation over time correlate with shifts in voting patterns. Similar to out-of-sample tests, I would aim toe valuate the model's accuracy at varying inflation levels to see if it can maintain accuracy without too much difference in RMSE. If so, further model adjustment would be necessary.
+Similar to the previous section, a time-series analysis could provide meaningful insight into how changes in inflation over time correlate with shifts in voting patterns. Similar to out-of-sample tests, I would aim to evaluate the model’s accuracy at varying inflation levels to see if it can maintain accuracy without too much difference in RMSE. If so, further model adjustment would be necessary.
 
 ## Final Thoughts and Model Adjustments
 
@@ -576,7 +548,7 @@ As the dust settles on the 2024 election, we've come a long way since our first 
 
 As Professor Enos reiterated in class, the core experience of this predictive work is not simply getting the most accurate result, but the growth and learning that comes along the way. Moreover, this reflection plays a broader role in underscoring the importance of continually refining our models to better capture the complexities of voter behavior. By integrating more dynamic data and accounting for emerging trends, we can hopefully enhance our predictive accuracy in future elections.
 
-In the end, the true essence of democracy lies in the power of each individual's vote, but more broadly, our unique voice. I didn't realize it then, but I suppose this blog has been an outlet for just th.
+In the end, the true essence of democracy lies in the power of each individual's vote, but more broadly, our unique voice. I didn't realize it then, but I suppose this blog has been an outlet for just that.
 
 ## Data Sources:
 
