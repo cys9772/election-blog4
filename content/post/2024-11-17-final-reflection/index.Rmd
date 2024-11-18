@@ -126,6 +126,11 @@ states_2024 <- states(cb = TRUE, year = 2023) |>
   mutate(GEOID = as.numeric(GEOID)) |> 
   left_join(d_state_2024, by = c("GEOID" = "FIPS")) |> 
   drop_na()
+
+# Save the object to a file
+save(states_2024, file = "states_2024.RData")
+
+
 counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023) |> 
   shift_geometry() |> 
   mutate(GEOID = as.numeric(GEOID)) |> 
@@ -142,6 +147,9 @@ counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023) |>
          end_long = centroid_long + scale_factor * shift,
          end_lat = centroid_lat + scale_factor * shift) |>
   drop_na()
+
+save(counties_2024, file = "states_2024.RData")
+
 county_pop_2024 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/PopulationEstimates.csv") |> 
   mutate(FIPStxt = as.numeric(FIPStxt)) |>
   select(FIPStxt, POP_ESTIMATE_2023)
