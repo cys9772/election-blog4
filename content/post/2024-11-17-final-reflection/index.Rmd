@@ -568,7 +568,7 @@ As the dust settles on the 2024 election, we've come a long way since our first 
 
 As Professor Enos reiterated in class, the core experience of this predictive work is not simply getting the most accurate result, but the growth and learning that comes along the way. Moreover, this reflection plays a broader role in underscoring the importance of continually refining our models to better capture the complexities of voter behavior. By integrating more dynamic data and accounting for emerging trends, we can hopefully enhance our predictive accuracy in future elections.
 
-In the end, the true essence of democracy lies in the power of each individual's vote, but more broadly, our unique voice. I didn't realize it then, but I suppose this blog has been an outlet for just that.
+In the end, the true essence of democracy lies in the power of each individual's vote, but more broadly, our unique voice. I didn't realize it then, but I suppose this blog has been an outlet for just th.
 
 ## Data Sources:
 
