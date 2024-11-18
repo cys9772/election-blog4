@@ -6,8 +6,15 @@
     <description>Recent content in Home on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 03 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Final Reflection</title>
+      <link>https://example.org/post/2024/11/17/final-reflection/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://example.org/post/2024/11/17/final-reflection/</guid>
+      <description>library(censable) library(geofacet) library(ggpubr) ## Loading required package: ggplot2 library(ggthemes) library(haven) library(kableExtra) library(maps) library(mgcv) ## Loading required package: nlme ## This is mgcv 1.9-1. For overview type &#39;help(&amp;quot;mgcv-package&amp;quot;)&#39;. library(mgcViz) ## Loading required package: qgam ## Registered S3 method overwritten by &#39;GGally&#39;: ## method from ## +.gg ggplot2 ## Registered S3 method overwritten by &#39;mgcViz&#39;: ## method from ## +.gg GGally ## ## Attaching package: &#39;mgcViz&#39; ## The following objects are masked from &#39;package:stats&#39;: ## ## qqline, qqnorm, qqplot library(RColorBrewer) library(readstata13) library(scales) library(sf) ## Linking to GEOS 3.</description>
+    </item>
     <item>
       <title>The Finale</title>
       <link>https://example.org/post/2024/11/03/the-finale/</link>

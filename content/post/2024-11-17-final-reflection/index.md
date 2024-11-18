@@ -1,0 +1,11831 @@
+---
+title: Final Reflection
+author: Chris S
+date: '2024-11-17'
+slug: final-reflection
+categories: []
+tags: []
+---
+
+
+``` r
+library(censable)
+library(geofacet)
+library(ggpubr)
+```
+
+```
+## Loading required package: ggplot2
+```
+
+``` r
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+```
+
+```
+## Loading required package: nlme
+```
+
+```
+## This is mgcv 1.9-1. For overview type 'help("mgcv-package")'.
+```
+
+``` r
+library(mgcViz)
+```
+
+```
+## Loading required package: qgam
+```
+
+```
+## Registered S3 method overwritten by 'GGally':
+##   method from   
+##   +.gg   ggplot2
+```
+
+```
+## Registered S3 method overwritten by 'mgcViz':
+##   method from  
+##   +.gg   GGally
+```
+
+```
+## 
+## Attaching package: 'mgcViz'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     qqline, qqnorm, qqplot
+```
+
+``` r
+library(RColorBrewer)
+library(readstata13)
+library(scales)
+library(sf)
+```
+
+```
+## Linking to GEOS 3.10.2, GDAL 3.4.2, PROJ 8.2.1; sf_use_s2() is TRUE
+```
+
+``` r
+library(spData)
+```
+
+```
+## To access larger datasets in this package, install the spDataLarge
+## package with: `install.packages('spDataLarge',
+## repos='https://nowosad.github.io/drat/', type='source')`
+```
+
+``` r
+library(stargazer)
+```
+
+```
+## 
+## Please cite as:
+```
+
+```
+##  Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+```
+
+```
+##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer
+```
+
+``` r
+library(tidygeocoder)
+library(tidyverse)
+```
+
+```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
+```
+
+```
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ readr::col_factor() masks scales::col_factor()
+## ✖ dplyr::collapse()   masks nlme::collapse()
+## ✖ purrr::discard()    masks scales::discard()
+## ✖ dplyr::filter()     masks stats::filter()
+## ✖ dplyr::group_rows() masks kableExtra::group_rows()
+## ✖ dplyr::lag()        masks stats::lag()
+## ✖ purrr::map()        masks maps::map()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+``` r
+library(tigris)
+```
+
+```
+## To enable caching of data, set `options(tigris_use_cache = TRUE)`
+## in your R script or .Rprofile.
+```
+
+``` r
+library(tmap)
+```
+
+```
+## Breaking News: tmap 3.x is retiring. Please test v4, e.g. with
+## remotes::install_github('r-tmap/tmap')
+```
+
+``` r
+library(tmaptools)
+library(viridis)
+```
+
+```
+## Loading required package: viridisLite
+## 
+## Attaching package: 'viridis'
+## 
+## The following object is masked from 'package:scales':
+## 
+##     viridis_pal
+## 
+## The following object is masked from 'package:maps':
+## 
+##     unemp
+```
+
+
+``` r
+library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     some
+```
+
+``` r
+library(caret)
+```
+
+```
+## Loading required package: lattice
+```
+
+```
+## 
+## Attaching package: 'lattice'
+```
+
+```
+## The following object is masked from 'package:mgcViz':
+## 
+##     qq
+```
+
+```
+## 
+## Attaching package: 'caret'
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     lift
+```
+
+``` r
+library(CVXR)
+```
+
+```
+## 
+## Attaching package: 'CVXR'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     id
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     is_vector
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     power
+```
+
+``` r
+library(foreign)
+library(glmnet)
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## 
+## Attaching package: 'Matrix'
+```
+
+```
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, pack, unpack
+```
+
+```
+## Loaded glmnet 4.1-8
+```
+
+``` r
+library(haven)
+library(janitor)
+```
+
+```
+## 
+## Attaching package: 'janitor'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+```
+
+``` r
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+```
+
+```
+## randomForest 4.7-1.1
+```
+
+```
+## Type rfNews() to see new features/changes/bug fixes.
+```
+
+```
+## 
+## Attaching package: 'randomForest'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+```
+
+``` r
+library(ranger)
+```
+
+```
+## 
+## Attaching package: 'ranger'
+```
+
+```
+## The following object is masked from 'package:randomForest':
+## 
+##     importance
+```
+
+``` r
+library(RColorBrewer)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+```
+
+
+``` r
+# Read 2024 results datasets. 
+d_state_2024 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_votes_pres_2024.csv")[-1, 1:6]
+```
+
+```
+## New names:
+## Rows: 52 Columns: 42
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: "," chr
+## (42): FIPS, Geographic Name, Geographic Subtype, Total Vote, Kamala D. H...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `0` -> `0...31`
+## • `0` -> `0...32`
+## • `0` -> `0...33`
+## • `0` -> `0...34`
+## • `0` -> `0...35`
+## • `0` -> `0...36`
+## • `0` -> `0...37`
+## • `0` -> `0...38`
+## • `0` -> `0...39`
+## • `0` -> `0...40`
+## • `0` -> `0...41`
+## • `0` -> `0...42`
+```
+
+``` r
+d_county_2024 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/county_votes_pres_2024.csv")[-1, 1:6]
+```
+
+```
+## New names:
+## Rows: 3193 Columns: 42
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: "," chr
+## (42): FIPS, Geographic Name, Geographic Subtype, Total Vote, Kamala D. H...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `0` -> `0...31`
+## • `0` -> `0...32`
+## • `0` -> `0...33`
+## • `0` -> `0...34`
+## • `0` -> `0...35`
+## • `0` -> `0...36`
+## • `0` -> `0...37`
+## • `0` -> `0...38`
+## • `0` -> `0...39`
+## • `0` -> `0...40`
+## • `0` -> `0...41`
+## • `0` -> `0...42`
+```
+
+``` r
+d_county_2020 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/county_votes_pres_2020.csv")[-1, 1:6]
+```
+
+```
+## Rows: 3156 Columns: 42
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (42): FIPS, Geographic Name, Geographic Subtype, Total Vote, Joseph R. B...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+# Process 2024 state and county-level data. 
+d_state_2024 <- d_state_2024 |> 
+  mutate(FIPS = as.numeric(FIPS), 
+         votes_trump = as.numeric(`Donald J. Trump`), 
+         votes_harris = as.numeric(`Kamala D. Harris`), 
+         votes = as.numeric(`Total Vote`), 
+         trump_pv = votes_trump/votes, 
+         harris_pv = votes_harris/votes, 
+         trump_2pv = votes_trump/(votes_trump + votes_harris), 
+         harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
+  mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+         winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
+
+d_county_2024 <- d_county_2024 |>
+  mutate(FIPS = as.numeric(FIPS),
+         votes_trump = as.numeric(`Donald J. Trump`), 
+         votes_harris = as.numeric(`Kamala D. Harris`), 
+         votes = as.numeric(`Total Vote`), 
+         trump_pv = votes_trump/votes, 
+         harris_pv = votes_harris/votes, 
+         trump_2pv = votes_trump/(votes_trump + votes_harris), 
+         harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
+  mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+         winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
+
+d_county_2020 <- d_county_2020 |> 
+  mutate(FIPS = as.numeric(FIPS),
+         votes_trump_2020 = as.numeric(`Donald J. Trump`), 
+         votes_biden_2020 = as.numeric(`Joseph R. Biden Jr.`), 
+         votes_2020 = as.numeric(`Total Vote`), 
+         trump_pv_2020 = votes_trump_2020/votes_2020, 
+         biden_pv_2020 = votes_biden_2020/votes_2020, 
+         trump_2pv_2020 = votes_trump_2020/(votes_trump_2020 + votes_biden_2020), 
+         biden_2pv_2020 = votes_biden_2020/(votes_trump_2020 + votes_biden_2020)) |> 
+  mutate(winner_2020 = case_when(votes_trump_2020 > votes_biden_2020 ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump_2020, votes_biden_2020, votes_2020, 
+         winner_2020, trump_pv_2020, biden_pv_2020, trump_2pv_2020, biden_2pv_2020)
+```
+
+
+
+``` r
+# Sequester state and county-level map.
+states_2024 <- states(cb = TRUE, year = 2023) |> 
+  shift_geometry() |> 
+  mutate(GEOID = as.numeric(GEOID)) |> 
+  left_join(d_state_2024, by = c("GEOID" = "FIPS")) |> 
+  drop_na()
+```
+
+```
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |                                                                      |   1%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |==                                                                    |   4%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |===                                                                   |   5%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |=========                                                             |  14%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==============                                                        |  21%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |===================                                                   |  28%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |==========================                                            |  38%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |============================                                          |  41%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |=================================                                     |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |===================================                                   |  51%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |========================================                              |  58%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================|  99%
+  |                                                                            
+  |======================================================================| 100%
+```
+
+``` r
+counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023) |> 
+  shift_geometry() |> 
+  mutate(GEOID = as.numeric(GEOID)) |> 
+  left_join(d_county_2024, by = c("GEOID" = "FIPS")) |> 
+  left_join(d_county_2020, by = c("GEOID" = "FIPS")) |>
+  mutate(shift = (trump_pv - trump_pv_2020) * 100, 
+         shift_dir = case_when(shift > 0 ~ "REP", 
+                               shift < 0 ~ "DEM", 
+                               TRUE ~ "No Change"),
+         centroid = st_centroid(geometry), 
+         centroid_long = st_coordinates(centroid)[,1],
+         centroid_lat = st_coordinates(centroid)[,2],
+         scale_factor = 1e4, 
+         end_long = centroid_long + scale_factor * shift,
+         end_lat = centroid_lat + scale_factor * shift) |>
+  drop_na()
+```
+
+```
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |                                                                      |   1%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |===                                                                   |   5%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |===================                                                   |  28%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |==========================                                            |  38%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |==================================                                    |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==========================================                            |  61%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |==========================================================            |  84%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |===============================================================       |  91%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |====================================================================  |  98%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================|  99%
+  |                                                                            
+  |======================================================================| 100%
+```
+
+``` r
+county_pop_2024 <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/PopulationEstimates.csv") |> 
+  mutate(FIPStxt = as.numeric(FIPStxt)) |>
+  select(FIPStxt, POP_ESTIMATE_2023)
+```
+
+```
+## Rows: 3283 Columns: 68
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (3): FIPStxt, State, Area_Name
+## dbl (24): Rural_Urban_Continuum_Code_2013, Rural_Urban_Continuum_Code_2023, ...
+## num (41): CENSUS_2020_POP, ESTIMATES_BASE_2020, POP_ESTIMATE_2020, POP_ESTIM...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+counties_2024 <- counties_2024 |> 
+  left_join(county_pop_2024, by = c("GEOID" = "FIPStxt"))
+```
+
+*This blog is an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com/). It will be updated weekly and culminate in a predictive model of the 2024 presidential election.*
+
+## Introduction -- How did our election model fare? What insights did we capture, and where did we miss the mark?
+
+Election season has come and gone, and now it’s time for the real question -- how did our model stack up against reality? From economic trends to ground game tactics, from polling swings to those elusive "October surprises", and even shark attacks, we've aimed to capture the heart of 2024’s electoral landscape throughout the last couple of weeks. 
+
+As begin our final reflection, I'm reminded of the important quote that echoes throughout almost any statistics course -- **"All models are wrong, but some are useful."** Even in the words of Professor Enos, he writes that the importance of forecasting is so that "...we can learn about important things..."
+
+No model can be flawless, but if it got us even close to the truth, we're calling it a win. So, let's dive into the final results and see just how well we did. Did our predictions hold up? Let's find out!
+
+And as always, we'll start with the data...
+
+## Let's take a step back...
+
+Before we get into the actual results, let's do a brief recap of our final predictive model, which hinged on **ANES data, economic factors, and random forest computation** to produce its results.
+
+After analyzing feature importance, we found that our model relied heavily on polling data, which offers a real-time snapshot of voter sentiment but might miss economic shocks that shift the mood more gradually. Our polling-focused approach is useful when the electorate’s final choices mirror polling trends, and while economic factors are weighted less, they still set a baseline for understanding overall voter sentiment.
+
+Through my research, I found that economic well-being deeply shapes how voters feel about incumbents. Strong economic conditions generally benefit the current administration, as voters attribute their security to the status quo. In contrast, economic downturns often lead to a desire for change. More abstractly, this aligns with retrospective voting theory, suggesting that voters base decisions on past performance—where the economy plays a key role.
+
+We’ve seen this dynamic before. In the 1980 election, high inflation and unemployment led to voter frustration with President Carter, helping Reagan win by a landslide. Similarly, in 1992, Clinton’s “It’s the economy, stupid” slogan highlighted a recession that hurt Bush’s approval, and so economic issues like unemployment and GDP growth pushed voters to look for a change.
+
+Thus, I decided that by combining ANES data with economic indicators, the model can **account for both personal factors (such as demographics and political attitudes) and external, quantifiable economic conditions** that influence elections and voter sentiment.
+
+Let's take a look at what it said:
+
+
+``` r
+d_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+```
+
+```
+## Rows: 40 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (2): party, candidate
+## dbl (5): year, pv, pv2p, deminc, juneapp
+## lgl (4): winner, incumbent, incumbent_party, prev_admin
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_state_popvote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_popvote_1948_2020.csv")
+```
+
+```
+## Rows: 959 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (1): state
+## dbl (13): year, D_pv, R_pv, D_pv2p, R_pv2p, D_pv_lag1, R_pv_lag1, D_pv2p_lag...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+# Read elector distribution dataset. 
+d_ec <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/corrected_ec_1948_2024.csv")
+```
+
+```
+## Rows: 1010 Columns: 4
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (2): state, stateab
+## dbl (2): year, electors
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+# Read and merge demographics data. 
+d_demos <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/demographics.csv")[,-1]
+```
+
+```
+## New names:
+## Rows: 663 Columns: 44
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: "," chr
+## (1): state dbl (43): ...1, year, total_pop, white, black, american_indian,
+## asian_pacifi...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `` -> `...1`
+```
+
+``` r
+# Read primary turnout data. 
+d_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/turnout_1789_2020.csv")
+```
+
+```
+## Rows: 59 Columns: 4
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## dbl (3): year_pres, year_midterm, vep_turnout_midterm
+## num (1): vep_turnout_pres
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_state_turnout <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_turnout_1980_2022.csv")
+```
+
+```
+## Rows: 1144 Columns: 15
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (5): state, vep_turnout, vep_highest_office, vap_highest_office, noncitizen
+## dbl (1): year
+## num (9): total_ballots, highest_office_ballots, vep, vap, prison, probation,...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read polling data. 
+d_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+```
+
+```
+## Rows: 7378 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (3): state, party, candidate
+## dbl  (4): year, weeks_left, days_left, poll_support
+## lgl  (1): before_convention
+## date (1): poll_date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_state_polls <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_polls_1968-2024.csv")
+```
+
+```
+## Rows: 204564 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (3): state, party, candidate
+## dbl  (4): year, weeks_left, days_left, poll_support
+## lgl  (1): before_convention
+## date (1): poll_date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+# Read and merge 1% voterfile data into one dataset. 
+voterfile.sample.files <- list.files("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_1pc_samples_aug24")
+
+# Florida example. 
+vf_fl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/state_1pc_samples_aug24/FL_sample.csv")
+```
+
+```
+## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+## e.g.:
+##   dat <- vroom(...)
+##   problems(dat)
+```
+
+```
+## Rows: 216941 Columns: 43
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (22): sii_state, sii_age_range, sii_gender, sii_race, svi_party_registra...
+## dbl (16): sii_deceased, sii_age, sii_married, svi_vote_all_general, svi_vote...
+## lgl  (5): svi_vh_2020pp_party, svi_vh_2023p, svi_vh_2023p_party, svi_vh_2023...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_vote <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/popvote_1948-2020.csv")
+```
+
+```
+## Rows: 40 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (2): party, candidate
+## dbl (5): year, pv, pv2p, deminc, juneapp
+## lgl (4): winner, incumbent, incumbent_party, prev_admin
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+d_pollav_natl <- read_csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/national_polls_1968-2024.csv")
+```
+
+```
+## Rows: 7378 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (3): state, party, candidate
+## dbl  (4): year, weeks_left, days_left, poll_support
+## lgl  (1): before_convention
+## date (1): poll_date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+d_poll_weeks <- d_pollav_natl |> 
+  group_by(year, party, weeks_left) |>
+  summarize(mean_poll_week = mean(poll_support)) |> 
+  filter(weeks_left <= 30) |> 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+```
+
+```
+## `summarise()` has grouped output by 'year', 'party'. You can override using the
+## `.groups` argument.
+```
+
+``` r
+d_poll_weeks_train <- d_poll_weeks |> 
+  filter(year <= 2020)
+d_poll_weeks_test <- d_poll_weeks |> 
+  filter(year == 2024)
+
+colnames(d_poll_weeks)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_train)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_test)[3:33] <- paste0("poll_weeks_left_", 0:30)
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+anes <- read_dta("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/anes_timeseries_cdf_stata_20220916.dta") # Total ANES Cumulative Data File. 
+
+anes <- anes |> 
+  mutate(year = VCF0004,
+         pres_vote = case_when(VCF0704a == 1 ~ 1, 
+                               VCF0704a == 2 ~ 2, 
+                               .default = NA), 
+         # Demographics
+         age = VCF0101, 
+         gender = VCF0104, # 1 = Male; 2 = Female; 3 = Other
+         race = VCF0105b, # 1 = White non-Hispanic; 2 = Black non-Hispanic, 3 == Hispanic; 4 = Other or multiple races, non-Hispanic; 9 = missing/DK
+         educ = VCF0110, # 0 = DK; 1 = Less than high school; 2. High school; 3 = Some college; 4 = College+ 
+         income = VCF0114, # 1 = 0-16 percentile; 2 = 17-33 percentile; 3 = 34-67; 4 = 68 to 95; 5 = 96 to 100. 
+         religion = VCF0128, # 0 = DK; 1 = Protestant; 2 = Catholic; 3 = Jewish; 4 = Other
+         attend_church = case_when(
+           VCF0004 < 1972 ~ as.double(as.character(VCF0131)),
+           TRUE ~ as.double(as.character(VCF0130))
+         ), # 1 = every week - regularly; 2 = almost every week - often; 3 = once or twice a month; 4 = a few times a year - seldom; 5 = never ; 6 = no religious preference
+         southern = VCF0113,
+         region = VCF0113, 
+         work_status = VCF0118,
+         homeowner = VCF0146, 
+         married = VCF0147,
+        
+         # 7-point PID
+         pid7 = VCF0301, # 0 = DK; 1 = Strong Democrat; 2 = Weak Democrat; 3 = Independent - Democrat; 4 = Independent - Independent; 5 = Independent - Republican; 6 = Weak Republican; 7 = Strong Republican
+         
+         # 3-point PID
+         pid3 = VCF0303, # 0 = DK; 1 = Democrats; 2 = Independents; 3 = Republicans. 
+         
+         # 3-point ideology. 
+         ideo = VCF0804 # 0, 9 = DK; 1 = Liberal; 2 = Moderate; 3 = Conservative
+         ) |> 
+  select(year, pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+         region, work_status, homeowner, married, pid7, pid3, ideo)
+```
+
+
+``` r
+set.seed(02138)
+
+fred_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/fred_econ.csv")
+bea_econ <- read.csv("/Users/chrisshen/Downloads/GOV1347/Election Blog 4/bea_econ.csv")
+
+bea_econ <- bea_econ %>%
+  rename(year = Year)
+
+econ_data <- fred_econ %>%
+  inner_join(bea_econ, by = "year")
+```
+
+```
+## Warning in inner_join(., bea_econ, by = "year"): Detected an unexpected many-to-many relationship between `x` and `y`.
+## ℹ Row 78 of `x` matches multiple rows in `y`.
+## ℹ Row 1 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   "many-to-many"` to silence this warning.
+```
+
+``` r
+# Merge the economic data with the training and testing datasets by year
+d_poll_weeks_train_with_econ <- d_poll_weeks_train %>%
+  left_join(econ_data, by = "year")
+```
+
+```
+## Warning in left_join(., econ_data, by = "year"): Detected an unexpected many-to-many relationship between `x` and `y`.
+## ℹ Row 1 of `x` matches multiple rows in `y`.
+## ℹ Row 337 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   "many-to-many"` to silence this warning.
+```
+
+``` r
+d_poll_weeks_test_with_econ <- d_poll_weeks_test %>%
+  left_join(econ_data, by = "year")
+```
+
+```
+## Warning in left_join(., econ_data, by = "year"): Detected an unexpected many-to-many relationship between `x` and `y`.
+## ℹ Row 1 of `x` matches multiple rows in `y`.
+## ℹ Row 1233 of `y` matches multiple rows in `x`.
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   "many-to-many"` to silence this warning.
+```
+
+``` r
+x.train_rf <- d_poll_weeks_train_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Define target variable (pv2p) for training data
+y.train_rf <- d_poll_weeks_train_with_econ$pv2p
+
+# Define test predictor variables (weeks left from 7 to 30 and added economic indicators) for 2024
+x.test_rf <- d_poll_weeks_test_with_econ |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+
+# Train the random forest model
+rf_fit_2024 <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x.train_rf, pv2p = y.train_rf), 
+  mtry = floor(ncol(x.train_rf) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+
+# Predict the 2024 vote share using the trained random forest model
+rf_pred_2024 <- predict(rf_fit_2024, data = x.test_rf)
+
+# Display the predicted vote share
+predicted_vote_share <- rf_pred_2024$predictions
+unique_predicted_vote_share <- unique(predicted_vote_share)
+
+# Print the cleaned up output with context
+cat("Predicted Vote Shares for 2024 Election:\n")
+```
+
+```
+## Predicted Vote Shares for 2024 Election:
+```
+
+``` r
+cat("Democratic candidate (Harris):", round(unique_predicted_vote_share[1], 2), "%\n")
+```
+
+```
+## Democratic candidate (Harris): 52.88 %
+```
+
+``` r
+cat("Republican candidate (Trump):", round(unique_predicted_vote_share[2], 2), "%\n")
+```
+
+```
+## Republican candidate (Trump): 47.72 %
+```
+Here, we can see that the model predicted that Harris would win with a small margin, with even a **small increase in predicted vote share for Harris** compared to previous models once we factored in economic features like GDP, unemployment rate, CPI, and the S&P, which typically **favor the incumbent party when the economy is doing well.**
+
+However, I was still skeptical about the results, especially as our cross-validation and out-sample tests revealed sharp differences. The out-of-sample test was particularly informative, in which the model is evaluated on data it hasn't seen, such as **holding out certain data points** to provide a better assessment of how it might perform on new data.
+
+Let's take a look at the results:
+
+
+``` r
+tuning_grid <- expand.grid(
+  mtry = floor(ncol(x.train_rf) / 3),
+  splitrule = "variance", # Using variance as split rule for regression
+  min.node.size = 5       # Minimum node size
+)
+
+# Perform cross-validation with the updated tuning grid
+train_control <- trainControl(method = "cv", number = 10) # 10-fold cross-validation
+rf_model_cv <- train(
+  x = x.train_rf, y = y.train_rf,
+  method = "ranger",
+  trControl = train_control,
+  tuneGrid = tuning_grid,
+  importance = "permutation"
+)
+```
+
+```
+## Warning: Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+## Setting row names on a tibble is deprecated.
+```
+
+``` r
+# Cross-Validation Results: Accuracy Estimate
+print(rf_model_cv)
+```
+
+```
+## Random Forest 
+## 
+## 448 samples
+##  28 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 404, 404, 402, 403, 402, 404, ... 
+## Resampling results:
+## 
+##   RMSE         Rsquared   MAE         
+##   0.003043932  0.9999996  0.0009377337
+## 
+## Tuning parameter 'mtry' was held constant at a value of 9
+## Tuning
+##  parameter 'splitrule' was held constant at a value of variance
+## 
+## Tuning parameter 'min.node.size' was held constant at a value of 5
+```
+
+``` r
+print(paste("Cross-validated RMSE:", rf_model_cv$results$RMSE))
+```
+
+```
+## [1] "Cross-validated RMSE: 0.00304393235350963"
+```
+
+``` r
+print(paste("Cross-validated R-squared:", rf_model_cv$results$Rsquared))
+```
+
+```
+## [1] "Cross-validated R-squared: 0.999999560925517"
+```
+
+
+``` r
+# Filter out 2008 and 2012 data as the pseudo-test set
+pseudo_test_data <- d_poll_weeks_train_with_econ |> filter(year %in% c(2008, 2012))
+train_data <- d_poll_weeks_train_with_econ |> filter(!year %in% c(2008, 2012))
+
+# Define training and pseudo-test predictors and target variables
+x_train_pseudo <- train_data |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+y_train_pseudo <- train_data$pv2p
+
+x_pseudo_test <- pseudo_test_data |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:30)), 
+         Gross.domestic.product, unemployment, CPI, sp500_close)
+y_pseudo_test <- pseudo_test_data$pv2p
+
+# Train the random forest model on the new training set (excluding 2008 and 2012)
+rf_fit_pseudo <- ranger(
+  pv2p ~ ., 
+  data = data.frame(x_train_pseudo, pv2p = y_train_pseudo), 
+  mtry = floor(ncol(x_train_pseudo) / 3), 
+  respect.unordered.factors = "order", 
+  seed = 02138, 
+  classification = FALSE
+)
+
+# Predict on the training data to calculate training RMSE
+train_predictions_pseudo <- predict(rf_fit_pseudo, data = x_train_pseudo)$predictions
+train_rmse_pseudo <- sqrt(mean((y_train_pseudo - train_predictions_pseudo)^2))
+cat("Training RMSE (excluding 2008 and 2012):", train_rmse_pseudo, "\n")
+```
+
+```
+## Training RMSE (excluding 2008 and 2012): 0.0006013352
+```
+
+``` r
+# Predict on the pseudo-test set (2008 and 2012) to calculate test RMSE
+pseudo_test_predictions <- predict(rf_fit_pseudo, data = x_pseudo_test)$predictions
+pseudo_test_rmse <- sqrt(mean((y_pseudo_test - pseudo_test_predictions)^2))
+cat("Pseudo-Test RMSE (2008 and 2012):", pseudo_test_rmse, "\n")
+```
+
+```
+## Pseudo-Test RMSE (2008 and 2012): 2.430502
+```
+
+The model’s R-squared value near 1 suggests it fits the training data almost perfectly, but this raises concerns about overfitting, as it may be capturing noise rather than true predictive patterns. For the out-of-sample tests, I chose not to test the model on 2016 and 2020 due to unique factors like intense polarization and the pandemic, which could've skewed the results. 
+
+The large gap between Training RMSE and Pseudo-Test RMSE further indicates that while the model performs well on training data, it struggles with real-world election variability. At the same time, the 2008 and 2012 elections posed interesting factors, with Barack Obama as the first African American presidential nominee for a major party in 2008 and the 2012 election with the 2008 financial crisis still in its rearview mirror.
+
+Thus, the model may not be flexible enough to account for these unusual election dynamics, which could explain the high error.
+
+Finally, we completed repeating samples to generate a prediction interval:
+
+
+``` r
+predictor_columns <- c(paste0("poll_weeks_left_", 7:30), 
+                       "Gross.domestic.product", "unemployment", "CPI", "sp500_close")
+
+# Define the test set for 2024 with only the necessary predictors
+x.test_rf <- d_poll_weeks_test_with_econ |>
+  select(all_of(predictor_columns)) |>
+  as.data.frame()
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+``` r
+set.seed(02138)
+num_bootstrap <- 1000  # Number of bootstrap samples for the prediction interval
+
+# Placeholder to store predictions from each bootstrap sample
+bootstrap_predictions <- numeric(num_bootstrap)
+
+# Perform bootstrapping
+for (i in 1:num_bootstrap) {
+  # Resample the training data
+  bootstrap_sample <- d_poll_weeks_train_with_econ %>%
+    sample_frac(replace = TRUE)
+  
+  # Define predictors and target variable for the bootstrap sample
+  x_bootstrap <- bootstrap_sample %>%
+    select(all_of(predictor_columns)) |>
+    as.data.frame()  # Ensure data frame structure
+
+  y_bootstrap <- bootstrap_sample$pv2p
+  
+  # Train the random forest model on the bootstrap sample
+  rf_bootstrap <- ranger(
+    dependent.variable.name = "pv2p", 
+    data = data.frame(x_bootstrap, pv2p = y_bootstrap), 
+    mtry = floor(ncol(x_bootstrap) / 3), 
+    respect.unordered.factors = "order", 
+    seed = 02138, 
+    classification = FALSE
+  )
+  
+  # Predict the vote share for 2024
+  bootstrap_predictions[i] <- predict(rf_bootstrap, data = x.test_rf)$predictions
+}
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+```
+## Adding missing grouping variables: `year`, `party`
+```
+
+```
+## Warning in bootstrap_predictions[i] <- predict(rf_bootstrap, data =
+## x.test_rf)$predictions: number of items to replace is not a multiple of
+## replacement length
+```
+
+
+``` r
+ggplot(data.frame(Bootstrap_Predictions = bootstrap_predictions), aes(x = Bootstrap_Predictions)) +
+  geom_histogram(binwidth = 0.005, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Bootstrap Predictions",
+       x = "Predicted Vote Share (%)", y = "Frequency") +
+  theme_minimal()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+
+The narrow 95% prediction interval (spanning only ~0.08 percentage points) suggests the model has high confidence in its outcome, with little variability in predictions. However, this may indicate overconfidence, as it doesn't fully account for last-minute voter shifts and unpredictable factors that often impact elections. This narrow range also suggests that the model may be relying heavily on a few key predictors, making it more deterministic and less adaptable to real-world uncertainties.
+
+## So...how'd we do?
+
+With election night in full steam, we gatehred eagerly around screens and TVs to watch the US choose its next president. Unfortunately, our model was a bit off, but something tells me a lot of people didn't see this election swinging the way it did. 
+Let's take a look at the electoral college results:
+
+
+``` r
+# Make map of state winners. 
+ggplot(states_2024, aes(fill = factor(winner))) + 
+  geom_sf() + 
+  scale_fill_manual(values = c("DEM" = "blue", "REP" = "red")) + 
+  theme_bw() + 
+  labs(title = "2024 Presidential Election Results by State", 
+       fill = "Winner") + 
+  theme(legend.position = "bottom") 
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+
+``` r
+# Make map of county winners.
+ggplot(counties_2024, aes(fill = factor(winner))) + 
+  geom_sf() + 
+  scale_fill_manual(values = c("DEM" = "blue", "REP" = "red")) + 
+  theme_bw() + 
+  labs(title = "2024 Presidential Election Results by County", 
+       fill = "Winner") + 
+  theme(legend.position = "bottom")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-2.png" width="672" />
+
+Overall, we see that Republicans secured a majority of states across the central and southern U.S., while Democrats won in several states along the coasts and in a few areas of the Midwest. This reflects a familiar pattern of urban-coastal Democratic support contrasted with Republican dominance in more rural and central regions. In a more granular county-level diagnostic, we observe that Republican support is spread widely across rural areas, while Democratic victories are concentrated in urban centers and some specific regions.
+
+The popular vote reflected similar overall results, final count being roughly 51% for Trump and 49% for Harris. Clearly, our aggressive 52.88% prediction for Harris was off, and so, the question is -- what can we learn from it?
+
+One hypothesis points in the direction of population shifts. Let's take a closer look!
+
+
+## Population Shifts?
+
+The discrepancy that we're seeing between our prediction and the actual outcome could in-part be answered by the recent population shifts and migrations across the United States. My hypothesis is that my inaccuracy stems from its insufficient integration of recent demographic migration trends and their effects on voter demographics and preferences. 
+
+Recent [sources](https://nypost.com/2024/11/09/lifestyle/new-york-california-losing-population-to-sun-belt-census-data/?utm_source=chatgpt.com) have reported that there has been a notable migration from high-tax, traditionally Democratic states like New York and California to lower-cost, more business-friendly states such as Texas, Florida, and North Carolina. As a result, the influx of residents into traditionally Republican-leaning states has led to increased voter registration and participation, potentially bolstering Republican vote shares in these areas. At the same time, the outmigration from Democratic strongholds may have reduced the Democratic voter base in those states, affecting their overall vote shares.
+
+Let's see if the data reflects similar trends:
+
+
+``` r
+# Make arrow map of county-level shifts across US. 
+counties_2024$shift |> mean()
+```
+
+```
+## [1] 1.885619
+```
+
+``` r
+counties_2024 |> 
+  ggplot() +
+  geom_sf(fill = "gray95", color = "darkgrey") +  # Base map
+  geom_curve(aes(x = centroid_long, 
+                 y = centroid_lat,
+                 xend = end_long, 
+                 yend = end_lat,
+                 color = shift_dir),
+              arrow = arrow(length = unit(0.1, "cm"), type = "closed"),  # Smaller arrowhead
+              curvature = 0.2,  # Add a slight curve to each arrow
+              size = 0.2) +
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +
+  theme_void() +
+  labs(title = "Presidential Voting Shifts by County Across the US",
+       subtitle = "Democratic vs. Republican Gains")
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+
+We can see that the large abundance of red arrows, especially concentrated in the Midwest, South, and parts of the interior West, suggests a notable shift toward Republican preferences in these areas, which may have played a significant role in the my model’s inaccuracy. If Democratic-leaning voters moved to states or counties where they remain a minority, it wouldn't substantially shift these areas toward Democrats. However, the loss of these voters in traditionally Democratic urban centers could lead to a less robust base.
+
+Let's take a more granular analysis of demographic shifts and look at a key battleground state -- Pennsylvannia:
+
+
+``` r
+# Check county-level shifts in Pennsylvania between 2024 and 2020. 
+counties_2024 |> 
+  filter(STATE_NAME == "Pennsylvania") |> 
+  ggplot() +
+  geom_sf(fill = "gray95", color = "darkgrey") +  # Base map
+  geom_text(aes(x = centroid_long, y = centroid_lat-1e4, label = NAME),
+            size = 2,  # Adjust size as needed
+            color = "black", hjust = 0.5, vjust = -0.5) + 
+  geom_curve(aes(x = centroid_long, 
+                 y = centroid_lat,
+                 xend = end_long, 
+                 yend = end_lat,
+                 color = shift_dir),
+             arrow = arrow(length = unit(0.1, "cm"), type = "closed"),  # Smaller arrowhead
+             curvature = 0.2,  # Add a slight curve to each arrow
+             size = 0.3) +
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +
+  theme_void() +
+  labs(title = "Presidential Voting Shifts by County in Pennsylvania",
+       subtitle = "Democratic vs. Republican Gains")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+
+Here, we can see how almost all the arrows are red, indicating a statewide shift toward Republican support across most counties. In general, we're witnessing many individuals moving out of major urban centers like Philadelphia and Pittsburgh, traditionally Democratic strongholds, into suburban and exurban areas. This shift may dilute Democratic support in urban areas while boosting Republican numbers in counties where these new residents have moved, especially if these areas traditionally lean Republican, impacting our overall model accuracy.
+
+Thus, altogether I believe that incorporating real-time migration data and analyzing its impact on state-level voting behaviors could enhance the model's predictive accuracy in future elections.
+
+There are several ways in which we could quantitatively test my hypothesis on population shifts. For example, I could collect population change data (2020 to 2024) by county from sources like the U.S. Census Bureau, to track shifts in voting patterns (e.g., the percentage change in Republican vs. Democratic vote share). Thus, I could see if counties with significant population increases are more likely to have shifted toward the Republican vote, supporting the idea that new residents have impacted local voting dynamics.
+
+If available, I would look into migration data, such as from the IRS or USPS address data that can help identify where new residents in each county originated. As a result, I could test if areas that received large numbers of residents from Democratic-leaning or Republican-leaning regions regions.
+
+Armed with this new insight and data, a regression model using predictors like population growth rate, economic factors, and migration patterns would be more robust at predicting the size of voting shifts toward Republicans or Democrats in each county, and the overall two-party vote share. Additionally, a time series analysis, could be used to assess whether counties with higher recent migration rates (e.g., 2018-2024) deviated from their historical voting trends more than counties with stable populations. 
+
+More specifically, this approach would help to isolate whether recent migration significantly correlates with the somewhat unexpected voting shifts in the 2024 election.
+
+## Inflation?
+
+Another pivotal issue that influenced voter behavior was inflation. While my model incorporated economic indicators like GDP, unemployment, and CPI, it did not fully capture the nuanced impact of inflation on voter sentiment. More specifically, while CPI provides a good overall measure of inflation, [sources](https://www.usatoday.com/story/opinion/columns/2024/11/12/inflation-voters-economic-pain-anger-donald-trump-bureau-labor-statistics-housing-child-care-health/76202853007/) have found that voters continued to express concerns about rising costs in housing and healthcare.
+
+As I reflect on my model, the reliance on historical data may have been limiting, especially when thinking about the unique economic dynamics of the 2024 cycle post-pandemic. Pressure from supply chain disruptions and labor unions presented new challenges that traditional economic indicators may not have been able to capture. Interestingly, research also indicates that voters often respond more strongly to [perceived economic threats than actual statistical indicators](https://www.cornellpress.cornell.edu/inflation-the-fed-and-the-2024-us-election/). The persistent anxiety that inflation creates can erode consumer confidence in the incumbent party and significantly influence voting behavior.
+
+To test this hypothesis, I would propose a correlation analysis between inflation and voting pattern to examine the relationship between inflation rates and voting behavior by analyzing county-level inflation data alongside voting outcomes. This would help determine if areas experiencing higher inflation saw significant shifts in voting patterns. I could the enhance the model by using additional inflation indicators, such as the Personal Consumption Expenditures (PCE) Price Index, which may capture consumer spending behaviors more accurately than simply CPI. Of course, I would also have to consider overfitting as a potential issue.
+
+Similar to the previous section, a time-series analysis could provide meaningful insight into how changes in inflation over time correlate with shifts in voting patterns. Similar to out-of-sample tests, I would aim toe valuate the model's accuracy at varying inflation levels to see if it can maintain accuracy without too much difference in RMSE. If so, further model adjustment would be necessary.
+
+## Final Thoughts and Model Adjustments
+
+As the dust settles on the 2024 election, we've come a long way since our first exploratory blog post. While our final model provided valuable insights, the actual results remind us that elections are inherently unpredictable. Factors like population shifts and economic fluctuations, particularly inflation, played significant roles that our model didn't fully anticipate.
+
+As Professor Enos reiterated in class, the core experience of this predictive work is not simply getting the most accurate result, but the growth and learning that comes along the way. Moreover, this reflection plays a broader role in underscoring the importance of continually refining our models to better capture the complexities of voter behavior. By integrating more dynamic data and accounting for emerging trends, we can hopefully enhance our predictive accuracy in future elections.
+
+In the end, the true essence of democracy lies in the power of each individual's vote, but more broadly, our unique voice. I didn't realize it then, but I suppose this blog has been an outlet for just that.
+
+## Data Sources:
+
+Data are from the GOV 1347 course materials. All files can be found [here](https://github.com/cys9772/election-blog4). All external sources are hyperlinked.
+
+
+
+
+
+
+
+
+
+
