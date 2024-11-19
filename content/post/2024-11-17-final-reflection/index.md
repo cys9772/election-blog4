@@ -124,9 +124,15 @@ Let's take a look at the state-by-state results:
 
 Overall, we observe that **Republicans secured a majority of states across the central and southern U.S.,** while Democrats won in several states along the **coasts and a few areas of the Midwest.** This reflects a familiar pattern of urban-coastal Democratic support contrasted with Republican dominance in more rural and central regions. In a more granular county-level diagnostic, we observe that **Republican support is spread widely across rural areas,** while Democratic victories are concentrated in **urban centers and some specific regions.**
 
-The popular vote reflected similar overall results, with the final count **being roughly 51% for Trump and 49% for Harris.** Clearly, our aggressive 52.88% prediction for Harris was off, and so the question is – **what can we learn from it?**
+The popular vote reflected similar overall results, with the final count **being roughly 51% for Trump and 49% for Harris.**
 
-One hypothesis points in the direction of **population shifts and inflation.** Let's take a closer look!
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+
+This indicates an **overestimation of Democratic support** by nearly *4 percentage points*, with the most pronounced inaccuracies in battleground states such as Pennsylvania and Georgia. While the model performed well in **predicting outcomes in traditionally partisan states**, there was a **consistent overestimation** in some of the critical swing states.
+
+More importantly, the question is – **what can we learn from it?** One hypothesis points in the direction of **population shifts and inflation.** 
+
+Let's take a closer look!
 
 ## Population Shifts?
 
@@ -136,13 +142,13 @@ Recent [sources](https://nypost.com/2024/11/09/lifestyle/new-york-california-los
 
 Let's see if the data reflects similar trends:
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 We can see that the **large abundance of red arrows,** especially concentrated in the Midwest, South, and parts of the interior West, suggests a notable shift toward Republican preferences in these areas, which may have **played a significant role in my model’s inaccuracy.** If Democratic-leaning voters moved to states or counties where they remain a minority, it wouldn't substantially shift these areas toward Democrats. However, the loss of these voters in traditionally Democratic urban centers **could lead to a less robust base.**
 
 Let's take a more granular analysis of demographic shifts and look at a key battleground state -- **Pennsylvania:**
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 Here, we can see how **almost all the arrows are red,** indicating a statewide shift toward Republican support across most counties. In general, we're witnessing many individuals **moving out of major urban centers like Philadelphia and Pittsburgh,** traditionally Democratic strongholds, **into suburban and exurban areas.** This shift may dilute Democratic support in urban areas while boosting Republican numbers in counties where these new residents have moved, **especially if these areas traditionally lean Republican, impacting our overall model accuracy.**
 

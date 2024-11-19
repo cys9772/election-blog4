@@ -462,9 +462,36 @@ ggplot(counties_2024, aes(fill = factor(winner))) +
 
 Overall, we observe that **Republicans secured a majority of states across the central and southern U.S.,** while Democrats won in several states along the **coasts and a few areas of the Midwest.** This reflects a familiar pattern of urban-coastal Democratic support contrasted with Republican dominance in more rural and central regions. In a more granular county-level diagnostic, we observe that **Republican support is spread widely across rural areas,** while Democratic victories are concentrated in **urban centers and some specific regions.**
 
-The popular vote reflected similar overall results, with the final count **being roughly 51% for Trump and 49% for Harris.** Clearly, our aggressive 52.88% prediction for Harris was off, and so the question is – **what can we learn from it?**
+The popular vote reflected similar overall results, with the final count **being roughly 51% for Trump and 49% for Harris.**
 
-One hypothesis points in the direction of **population shifts and inflation.** Let's take a closer look!
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Define the predicted and actual vote shares
+predicted_vote_share <- 52.88
+actual_vote_share <- 49.00
+
+vote_data <- data.frame(
+  Candidate = c("Harris"),
+  Vote_Share = c(predicted_vote_share, actual_vote_share),
+  Type = c("Predicted", "Actual")
+)
+
+library(ggplot2)
+
+# Create the bar plot
+ggplot(vote_data, aes(x = Candidate, y = Vote_Share, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Predicted vs. Actual Vote Share for Harris in 2024",
+       y = "Vote Share (%)") +
+  scale_fill_manual(values = c("Predicted" = "blue", "Actual" = "firebrick")) +
+  theme_minimal()
+
+```
+
+This indicates an **overestimation of Democratic support** by nearly *4 percentage points*, with the most pronounced inaccuracies in battleground states such as Pennsylvania and Georgia. While the model performed well in **predicting outcomes in traditionally partisan states**, there was a **consistent overestimation** in some of the critical swing states.
+
+More importantly, the question is – **what can we learn from it?** One hypothesis points in the direction of **population shifts and inflation.** 
+
+Let's take a closer look!
 
 ## Population Shifts?
 
