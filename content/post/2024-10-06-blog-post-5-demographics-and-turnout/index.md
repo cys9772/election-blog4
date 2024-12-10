@@ -36,10 +36,6 @@ Therefore, let's start with a logistic regression that predicts the **likelihood
 ## Call:
 ## glm(formula = pres_vote ~ ., family = "binomial", data = anes_train)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.1308  -1.0203  -0.4915   1.0329   2.7925  
-## 
 ## Coefficients: (1 not defined because of singularities)
 ##                 Estimate Std. Error z value Pr(>|z|)    
 ## (Intercept)    4.3583814  0.4366803   9.981  < 2e-16 ***
